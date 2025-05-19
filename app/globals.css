@@ -8,8 +8,6 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +20,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #878485;
+  background-image: url("https://www.transparenttextures.com/patterns/60-lines.png");
+  background-repeat: repeat;
+  font-family: var(--font-inter);
+  /* font-family: var(--font-poppins); */
 }

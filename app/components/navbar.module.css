@@ -1,0 +1,8 @@
+.hr {
+  transform-origin: center;
+  transition: width 0.3s ease;
+}
+
+.navbar {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
