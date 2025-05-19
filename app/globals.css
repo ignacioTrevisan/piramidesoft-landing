@@ -20,8 +20,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  background-color: #878485;
-  background-image: url("https://www.transparenttextures.com/patterns/60-lines.png");
+  background-color: #f2f2f2;
+  background-image: url("https://www.transparenttextures.com/patterns/scribble-light.png");
   background-repeat: repeat;
   font-family: var(--font-inter);
   /* font-family: var(--font-poppins); */
