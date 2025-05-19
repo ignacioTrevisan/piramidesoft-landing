@@ -28,9 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased overflow-x-hidden`}>
         <Navbar />
-        <div className="px-4 md:px-10 py-6 md:py-10 mt-16 md:mt-20">{children}</div>
+        <div className="px-4 md:px-10 py-6 md:py-10 mt-16 md:mt-20 max-w-[100vw] overflow-x-hidden">
+          {children}
+        </div>
       </body>
     </html>
   );

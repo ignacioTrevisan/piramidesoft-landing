@@ -1,0 +1,36 @@
+.process-timeline {
+  overflow-x: hidden;
+  position: relative;
+}
+
+.timeline-dot {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.timeline-dot.active {
+  background-color: #2563EB;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+}
+
+.process-step {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.process-step.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-container {
+  height: 100vh;
+  position: relative;
+}
+
+/* Añade un desplazamiento suave para toda la página */
+html {
+  scroll-behavior: smooth;
+}
