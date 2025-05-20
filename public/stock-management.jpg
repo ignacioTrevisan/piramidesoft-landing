@@ -1,0 +1,8 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="300" height="300" x="250" y="150" fill="#2563EB" opacity="0.2"/>
+  <text x="400" y="300" font-family="Arial" font-size="24" text-anchor="middle" fill="#2563EB">Stock Management</text>
+  <path d="M 300 350 L 330 350 L 330 380 L 360 380 L 360 410 L 300 410 Z" fill="#2563EB"/>
+  <rect width="60" height="30" x="370" y="380" fill="#2563EB"/>
+  <circle cx="450" cy="230" r="40" fill="#2563EB" opacity="0.4"/>
+</svg>

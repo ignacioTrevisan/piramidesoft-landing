@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./navbar.module.css";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 interface elementos_navbar {
   titulo: string;
@@ -85,15 +86,17 @@ export const Navbar_elements = () => {
           className="relative" 
           key={e.titulo}
         >
-          <div
-            className="cursor-pointer"
-            onMouseEnter={() => setElementHovered(e.titulo)}
-            onMouseLeave={() => setElementHovered("")}
-          >
-            <span className="text-gray-800 text-lg font-medium transition-colors duration-300 hover:text-[#2563EB]">
-              {e.titulo}
-            </span>
-          </div>
+          <Link href={e.url}>
+            <div
+              className="cursor-pointer"
+              onMouseEnter={() => setElementHovered(e.titulo)}
+              onMouseLeave={() => setElementHovered("")}
+            >
+              <span className="text-gray-800 text-lg font-medium transition-colors duration-300 hover:text-[#2563EB]">
+                {e.titulo}
+              </span>
+            </div>
+          </Link>
           <div className="absolute w-full h-[2px] bottom-[-4px]">
             <div
               className={`bg-[#2563EB] ${

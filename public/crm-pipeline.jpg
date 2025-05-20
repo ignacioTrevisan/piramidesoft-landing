@@ -1,0 +1,111 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Pipeline de Ventas</text>
+  
+  <!-- User info and filters -->
+  <text x="640" y="85" font-family="Arial" font-size="14" fill="#4b5563">María Gómez ▼</text>
+  
+  <!-- Filters -->
+  <rect width="660" height="50" x="70" y="120" rx="5" fill="#f3f4f6"/>
+  
+  <text x="90" y="150" font-family="Arial" font-size="12" fill="#4b5563">Filtrar por:</text>
+  
+  <rect width="120" height="30" x="180" y="130" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="240" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Etapa ▼</text>
+  
+  <rect width="120" height="30" x="310" y="130" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="370" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Vendedor ▼</text>
+  
+  <rect width="120" height="30" x="440" y="130" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="500" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Monto ▼</text>
+  
+  <rect width="120" height="30" x="570" y="130" rx="5" fill="#2563EB"/>
+  <text x="630" y="150" font-family="Arial" font-size="12" text-anchor="middle" fill="white">+ Oportunidad</text>
+  
+  <!-- Pipeline columns -->
+  <rect width="140" height="360" x="70" y="180" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="140" height="40" x="70" y="180" rx="5 5 0 0" fill="#f3f4f6"/>
+  <text x="140" y="205" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#374151">Contacto Inicial</text>
+  <rect width="120" height="25" x="80" y="190" rx="12" fill="#2563EB" opacity="0.2"/>
+  <text x="100" y="205" font-family="Arial" font-size="11" fill="#2563EB">23</text>
+  
+  <rect width="140" height="360" x="220" y="180" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="140" height="40" x="220" y="180" rx="5 5 0 0" fill="#f3f4f6"/>
+  <text x="290" y="205" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#374151">Reunión Agendada</text>
+  <rect width="120" height="25" x="230" y="190" rx="12" fill="#2563EB" opacity="0.2"/>
+  <text x="250" y="205" font-family="Arial" font-size="11" fill="#2563EB">28</text>
+  
+  <rect width="140" height="360" x="370" y="180" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="140" height="40" x="370" y="180" rx="5 5 0 0" fill="#f3f4f6"/>
+  <text x="440" y="205" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#374151">Propuesta Enviada</text>
+  <rect width="120" height="25" x="380" y="190" rx="12" fill="#2563EB" opacity="0.2"/>
+  <text x="400" y="205" font-family="Arial" font-size="11" fill="#2563EB">19</text>
+  
+  <rect width="140" height="360" x="520" y="180" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="140" height="40" x="520" y="180" rx="5 5 0 0" fill="#f3f4f6"/>
+  <text x="590" y="205" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#374151">Negociación Final</text>
+  <rect width="120" height="25" x="530" y="190" rx="12" fill="#2563EB" opacity="0.2"/>
+  <text x="550" y="205" font-family="Arial" font-size="11" fill="#2563EB">14</text>
+  
+  <!-- Cards - Column 1 -->
+  <rect width="120" height="100" x="80" y="230" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="250" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Comercial Mitre SRL</text>
+  <text x="90" y="270" font-family="Arial" font-size="11" fill="#4b5563">Sistema Inventario</text>
+  <text x="90" y="290" font-family="Arial" font-size="11" fill="#4b5563">C. Ruiz</text>
+  <text x="90" y="310" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$35,000</text>
+  
+  <rect width="120" height="100" x="80" y="340" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="360" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Ferretería López</text>
+  <text x="90" y="380" font-family="Arial" font-size="11" fill="#4b5563">POS Completo</text>
+  <text x="90" y="400" font-family="Arial" font-size="11" fill="#4b5563">M. Gómez</text>
+  <text x="90" y="420" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$12,500</text>
+  
+  <!-- Cards - Column 2 -->
+  <rect width="120" height="100" x="230" y="230" rx="5" fill="#f3f4f6"/>
+  <text x="240" y="250" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Textiles Del Sur</text>
+  <text x="240" y="270" font-family="Arial" font-size="11" fill="#4b5563">Facturación AFIP</text>
+  <text x="240" y="290" font-family="Arial" font-size="11" fill="#4b5563">A. López</text>
+  <text x="240" y="310" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$8,750</text>
+  
+  <rect width="120" height="100" x="230" y="340" rx="5" fill="#f3f4f6"/>
+  <text x="240" y="360" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Almacén General</text>
+  <text x="240" y="380" font-family="Arial" font-size="11" fill="#4b5563">Sistema Completo</text>
+  <text x="240" y="400" font-family="Arial" font-size="11" fill="#4b5563">M. Gómez</text>
+  <text x="240" y="420" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$26,800</text>
+  
+  <rect width="120" height="100" x="230" y="450" rx="5" fill="#f3f4f6"/>
+  <text x="240" y="470" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Calzados Martínez</text>
+  <text x="240" y="490" font-family="Arial" font-size="11" fill="#4b5563">App Vendedores</text>
+  <text x="240" y="510" font-family="Arial" font-size="11" fill="#4b5563">P. Suárez</text>
+  <text x="240" y="530" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$15,400</text>
+  
+  <!-- Cards - Column 3 -->
+  <rect width="120" height="100" x="380" y="230" rx="5" fill="#f3f4f6"/>
+  <text x="390" y="250" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Comercial Rodriguez</text>
+  <text x="390" y="270" font-family="Arial" font-size="11" fill="#4b5563">E-commerce</text>
+  <text x="390" y="290" font-family="Arial" font-size="11" fill="#4b5563">M. Gómez</text>
+  <text x="390" y="310" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$45,000</text>
+  
+  <rect width="120" height="100" x="380" y="340" rx="5" fill="#f3f4f6"/>
+  <text x="390" y="360" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Librería Central</text>
+  <text x="390" y="380" font-family="Arial" font-size="11" fill="#4b5563">Sistema POS</text>
+  <text x="390" y="400" font-family="Arial" font-size="11" fill="#4b5563">L. Torres</text>
+  <text x="390" y="420" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$9,800</text>
+  
+  <!-- Cards - Column 4 -->
+  <rect width="120" height="100" x="530" y="230" rx="5" fill="#f3f4f6"/>
+  <text x="540" y="250" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Dist. Mendoza SRL</text>
+  <text x="540" y="270" font-family="Arial" font-size="11" fill="#4b5563">Solución Completa</text>
+  <text x="540" y="290" font-family="Arial" font-size="11" fill="#4b5563">C. Ruiz</text>
+  <text x="540" y="310" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$65,000</text>
+  
+  <rect width="120" height="100" x="530" y="340" rx="5" fill="#f3f4f6"/>
+  <text x="540" y="360" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Farmacia Moderna</text>
+  <text x="540" y="380" font-family="Arial" font-size="11" fill="#4b5563">Sistema Inventario</text>
+  <text x="540" y="400" font-family="Arial" font-size="11" fill="#4b5563">M. Gómez</text>
+  <text x="540" y="420" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$23,500</text>
+</svg>

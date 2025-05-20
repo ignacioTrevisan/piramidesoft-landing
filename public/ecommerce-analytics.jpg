@@ -1,0 +1,114 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Análisis de Ventas</text>
+  
+  <!-- Date range selector -->
+  <rect width="220" height="35" x="530" y="125" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="560" y="147" font-family="Arial" font-size="12" fill="#4b5563">Últimos 30 días: 21/04 - 20/05</text>
+  <text x="740" y="147" font-family="Arial" font-size="12" fill="#2563EB">▼</text>
+  
+  <!-- Sales overview -->
+  <rect width="320" height="220" x="70" y="175" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="200" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Ventas Mensuales</text>
+  
+  <!-- Bar chart for monthly sales -->
+  <rect width="40" height="60" x="90" y="295" fill="#2563EB" opacity="0.9"/>
+  <text x="110" y="320" font-family="Arial" font-size="10" text-anchor="middle" fill="#ffffff">Ene</text>
+  
+  <rect width="40" height="90" x="140" y="265" fill="#2563EB" opacity="0.8"/>
+  <text x="160" y="290" font-family="Arial" font-size="10" text-anchor="middle" fill="#ffffff">Feb</text>
+  
+  <rect width="40" height="70" x="190" y="285" fill="#2563EB" opacity="0.7"/>
+  <text x="210" y="310" font-family="Arial" font-size="10" text-anchor="middle" fill="#ffffff">Mar</text>
+  
+  <rect width="40" height="120" x="240" y="235" fill="#2563EB" opacity="0.6"/>
+  <text x="260" y="260" font-family="Arial" font-size="10" text-anchor="middle" fill="#ffffff">Abr</text>
+  
+  <rect width="40" height="150" x="290" y="205" fill="#2563EB"/>
+  <text x="310" y="230" font-family="Arial" font-size="10" text-anchor="middle" fill="#ffffff">May</text>
+  
+  <line x1="70" y1="355" x2="390" y2="355" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Traffic sources -->
+  <rect width="320" height="220" x="410" y="175" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="430" y="200" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Fuentes de Tráfico</text>
+  
+  <!-- Pie chart for traffic sources -->
+  <circle cx="570" cy="275" r="80" fill="transparent" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Pie slices -->
+  <path d="M 570 275 L 570 195 A 80 80 0 0 1 639 232 Z" fill="#2563EB"/>
+  <path d="M 570 275 L 639 232 A 80 80 0 0 1 639 318 Z" fill="#2563EB" opacity="0.8"/>
+  <path d="M 570 275 L 639 318 A 80 80 0 0 1 570 355 Z" fill="#2563EB" opacity="0.6"/>
+  <path d="M 570 275 L 570 355 A 80 80 0 0 1 501 318 Z" fill="#2563EB" opacity="0.4"/>
+  <path d="M 570 275 L 501 318 A 80 80 0 0 1 501 232 Z" fill="#2563EB" opacity="0.2"/>
+  <path d="M 570 275 L 501 232 A 80 80 0 0 1 570 195 Z" fill="#2563EB" opacity="0.1"/>
+  
+  <!-- Legend -->
+  <rect width="10" height="10" x="430" y="360" fill="#2563EB"/>
+  <text x="450" y="368" font-family="Arial" font-size="10" fill="#4b5563">Búsqueda orgánica (45%)</text>
+  
+  <rect width="10" height="10" x="430" y="380" fill="#2563EB" opacity="0.8"/>
+  <text x="450" y="388" font-family="Arial" font-size="10" fill="#4b5563">Redes sociales (25%)</text>
+  
+  <rect width="10" height="10" x="430" y="400" fill="#2563EB" opacity="0.6"/>
+  <text x="450" y="408" font-family="Arial" font-size="10" fill="#4b5563">Directo (15%)</text>
+  
+  <rect width="10" height="10" x="600" y="360" fill="#2563EB" opacity="0.4"/>
+  <text x="620" y="368" font-family="Arial" font-size="10" fill="#4b5563">Referidos (8%)</text>
+  
+  <rect width="10" height="10" x="600" y="380" fill="#2563EB" opacity="0.2"/>
+  <text x="620" y="388" font-family="Arial" font-size="10" fill="#4b5563">Email (5%)</text>
+  
+  <rect width="10" height="10" x="600" y="400" fill="#2563EB" opacity="0.1"/>
+  <text x="620" y="408" font-family="Arial" font-size="10" fill="#4b5563">Otros (2%)</text>
+  
+  <!-- Product performance -->
+  <rect width="660" height="220" x="70" y="405" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="430" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Rendimiento de Productos</text>
+  
+  <!-- Table header -->
+  <rect width="640" height="30" x="80" y="445" fill="#f9fafb" rx="5"/>
+  <text x="100" y="465" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Producto</text>
+  <text x="300" y="465" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Categoría</text>
+  <text x="430" y="465" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Vendidos</text>
+  <text x="520" y="465" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Ingresos</text>
+  <text x="620" y="465" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Conversión</text>
+  
+  <line x1="80" y1="475" x2="720" y2="475" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 1 -->
+  <text x="100" y="500" font-family="Arial" font-size="12" fill="#4b5563">Camiseta Premium</text>
+  <text x="300" y="500" font-family="Arial" font-size="12" fill="#4b5563">Ropa</text>
+  <text x="430" y="500" font-family="Arial" font-size="12" fill="#4b5563">245</text>
+  <text x="520" y="500" font-family="Arial" font-size="12" fill="#4b5563">$857,500</text>
+  <text x="620" y="500" font-family="Arial" font-size="12" fill="#4b5563">8.2%</text>
+  
+  <line x1="80" y1="510" x2="720" y2="510" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 2 -->
+  <text x="100" y="535" font-family="Arial" font-size="12" fill="#4b5563">Zapatillas Running</text>
+  <text x="300" y="535" font-family="Arial" font-size="12" fill="#4b5563">Calzado</text>
+  <text x="430" y="535" font-family="Arial" font-size="12" fill="#4b5563">187</text>
+  <text x="520" y="535" font-family="Arial" font-size="12" fill="#4b5563">$2,337,500</text>
+  <text x="620" y="535" font-family="Arial" font-size="12" fill="#4b5563">12.5%</text>
+  
+  <line x1="80" y1="545" x2="720" y2="545" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 3 -->
+  <text x="100" y="570" font-family="Arial" font-size="12" fill="#4b5563">Reloj Deportivo</text>
+  <text x="300" y="570" font-family="Arial" font-size="12" fill="#4b5563">Accesorios</text>
+  <text x="430" y="570" font-family="Arial" font-size="12" fill="#4b5563">103</text>
+  <text x="520" y="570" font-family="Arial" font-size="12" fill="#4b5563">$901,250</text>
+  <text x="620" y="570" font-family="Arial" font-size="12" fill="#4b5563">9.1%</text>
+  
+  <line x1="80" y1="580" x2="720" y2="580" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Export button -->
+  <rect width="120" height="35" x="610" y="125" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="670" y="147" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Exportar PDF</text>
+</svg>

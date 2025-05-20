@@ -1,0 +1,121 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Dashboard CRM</text>
+  
+  <!-- User info -->
+  <text x="640" y="85" font-family="Arial" font-size="14" fill="#4b5563">María Gómez ▼</text>
+  
+  <!-- Date filter -->
+  <rect width="220" height="35" x="530" y="125" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="560" y="147" font-family="Arial" font-size="12" fill="#4b5563">Últimos 30 días: 21/04 - 20/05</text>
+  <text x="740" y="147" font-family="Arial" font-size="12" fill="#2563EB">▼</text>
+  
+  <!-- KPI Cards -->
+  <rect width="160" height="100" x="70" y="125" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="150" font-family="Arial" font-size="12" fill="#4b5563">Nuevos Clientes</text>
+  <text x="90" y="180" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">27</text>
+  <text x="90" y="205" font-family="Arial" font-size="12" fill="#10b981">↑ 12% vs mes anterior</text>
+  
+  <rect width="160" height="100" x="240" y="125" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="260" y="150" font-family="Arial" font-size="12" fill="#4b5563">Oportunidades</text>
+  <text x="260" y="180" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">84</text>
+  <text x="260" y="205" font-family="Arial" font-size="12" fill="#10b981">↑ 8% vs mes anterior</text>
+  
+  <rect width="160" height="100" x="410" y="125" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="430" y="150" font-family="Arial" font-size="12" fill="#4b5563">Ventas Cerradas</text>
+  <text x="430" y="180" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">42</text>
+  <text x="430" y="205" font-family="Arial" font-size="12" fill="#10b981">↑ 15% vs mes anterior</text>
+  
+  <!-- Sales Pipeline -->
+  <rect width="320" height="230" x="70" y="235" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="260" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Pipeline de Ventas</text>
+  
+  <!-- Bar chart for sales pipeline -->
+  <rect width="50" height="120" x="100" y="280" fill="#2563EB" opacity="0.9"/>
+  <text x="125" y="410" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Contacto</text>
+  <text x="125" y="425" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Inicial</text>
+  <text x="125" y="270" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">23</text>
+  
+  <rect width="50" height="150" x="160" y="250" fill="#2563EB" opacity="0.8"/>
+  <text x="185" y="410" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Reunión</text>
+  <text x="185" y="425" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Agendada</text>
+  <text x="185" y="240" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">28</text>
+  
+  <rect width="50" height="100" x="220" y="300" fill="#2563EB" opacity="0.7"/>
+  <text x="245" y="410" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Propuesta</text>
+  <text x="245" y="425" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Enviada</text>
+  <text x="245" y="290" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">19</text>
+  
+  <rect width="50" height="75" x="280" y="325" fill="#2563EB" opacity="0.6"/>
+  <text x="305" y="410" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Negociación</text>
+  <text x="305" y="425" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">Final</text>
+  <text x="305" y="315" font-family="Arial" font-size="10" text-anchor="middle" fill="#4b5563">14</text>
+  
+  <!-- Conversion Rate -->
+  <rect width="200" height="100" x="400" y="235" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="420" y="260" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Tasa de Conversión</text>
+  <text x="500" y="290" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#2563EB">28.3%</text>
+  <text x="500" y="315" font-family="Arial" font-size="12" text-anchor="middle" fill="#10b981">↑ 3.2% vs mes anterior</text>
+  
+  <!-- Average Deal Size -->
+  <rect width="200" height="100" x="400" y="345" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="420" y="370" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Tamaño Prom. Negocio</text>
+  <text x="500" y="400" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#2563EB">$12,450</text>
+  <text x="500" y="425" font-family="Arial" font-size="12" text-anchor="middle" fill="#10b981">↑ 5.8% vs mes anterior</text>
+  
+  <!-- Activity Schedule -->
+  <rect width="530" height="160" x="70" y="475" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="500" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Actividades Programadas Para Hoy</text>
+  
+  <!-- Activity 1 -->
+  <rect width="510" height="30" x="80" y="515" rx="5" fill="#f3f4f6"/>
+  <text x="100" y="535" font-family="Arial" font-size="12" fill="#4b5563">09:30</text>
+  <text x="150" y="535" font-family="Arial" font-size="12" fill="#4b5563">Llamada</text>
+  <text x="220" y="535" font-family="Arial" font-size="12" fill="#4b5563">Juan Martínez - Seguimiento propuesta</text>
+  <rect width="70" height="20" x="500" y="520" rx="10" fill="#10b981" opacity="0.2"/>
+  <text x="535" y="533" font-family="Arial" font-size="10" text-anchor="middle" fill="#10b981">Alta</text>
+  
+  <!-- Activity 2 -->
+  <rect width="510" height="30" x="80" y="555" rx="5" fill="#f3f4f6"/>
+  <text x="100" y="575" font-family="Arial" font-size="12" fill="#4b5563">11:00</text>
+  <text x="150" y="575" font-family="Arial" font-size="12" fill="#4b5563">Reunión</text>
+  <text x="220" y="575" font-family="Arial" font-size="12" fill="#4b5563">Comercial Rodriguez - Presentación producto</text>
+  <rect width="70" height="20" x="500" y="560" rx="10" fill="#f59e0b" opacity="0.2"/>
+  <text x="535" y="573" font-family="Arial" font-size="10" text-anchor="middle" fill="#f59e0b">Media</text>
+  
+  <!-- Activity 3 -->
+  <rect width="510" height="30" x="80" y="595" rx="5" fill="#f3f4f6"/>
+  <text x="100" y="615" font-family="Arial" font-size="12" fill="#4b5563">15:30</text>
+  <text x="150" y="615" font-family="Arial" font-size="12" fill="#4b5563">Email</text>
+  <text x="220" y="615" font-family="Arial" font-size="12" fill="#4b5563">Distribuidora Mendoza - Enviar cotización</text>
+  <rect width="70" height="20" x="500" y="600" rx="10" fill="#10b981" opacity="0.2"/>
+  <text x="535" y="613" font-family="Arial" font-size="10" text-anchor="middle" fill="#10b981">Alta</text>
+  
+  <!-- Top Agents -->
+  <rect width="150" height="200" x="610" y="235" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="630" y="260" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Top Vendedores</text>
+  
+  <!-- Agent 1 -->
+  <text x="630" y="285" font-family="Arial" font-size="12" fill="#4b5563">1. María Gómez</text>
+  <rect width="80" height="8" x="630" y="295" rx="4" fill="#2563EB"/>
+  
+  <!-- Agent 2 -->
+  <text x="630" y="320" font-family="Arial" font-size="12" fill="#4b5563">2. Carlos Ruiz</text>
+  <rect width="70" height="8" x="630" y="330" rx="4" fill="#2563EB" opacity="0.9"/>
+  
+  <!-- Agent 3 -->
+  <text x="630" y="355" font-family="Arial" font-size="12" fill="#4b5563">3. Ana López</text>
+  <rect width="55" height="8" x="630" y="365" rx="4" fill="#2563EB" opacity="0.8"/>
+  
+  <!-- Agent 4 -->
+  <text x="630" y="390" font-family="Arial" font-size="12" fill="#4b5563">4. Pedro Suárez</text>
+  <rect width="45" height="8" x="630" y="400" rx="4" fill="#2563EB" opacity="0.7"/>
+  
+  <!-- Agent 5 -->
+  <text x="630" y="425" font-family="Arial" font-size="12" fill="#4b5563">5. Laura Torres</text>
+  <rect width="30" height="8" x="630" y="435" rx="4" fill="#2563EB" opacity="0.6"/>
+</svg>

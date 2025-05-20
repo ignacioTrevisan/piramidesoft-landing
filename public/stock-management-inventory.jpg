@@ -1,0 +1,108 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Gestión de Inventario</text>
+  
+  <!-- Search bar -->
+  <rect width="300" height="35" x="400" y="62" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="420" y="85" font-family="Arial" font-size="14" fill="#9ca3af">Buscar productos...</text>
+  <circle cx="680" cy="80" r="12" fill="#2563EB"/>
+  <path d="M 676 80 L 684 80 M 680 76 L 680 84" stroke="white" stroke-width="2"/>
+  
+  <!-- Category filter bar -->
+  <rect width="660" height="40" x="70" y="120" rx="5" fill="#f3f4f6"/>
+  <text x="100" y="145" font-family="Arial" font-size="14" fill="#4b5563">Filtrar por:</text>
+  
+  <rect width="100" height="30" x="180" y="125" rx="15" fill="#2563EB"/>
+  <text x="230" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="white">Todos</text>
+  
+  <rect width="100" height="30" x="290" y="125" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="340" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Ropa</text>
+  
+  <rect width="100" height="30" x="400" y="125" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="450" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Calzado</text>
+  
+  <rect width="100" height="30" x="510" y="125" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="560" y="145" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Accesorios</text>
+  
+  <!-- Table header -->
+  <rect width="660" height="40" x="70" y="170" fill="#f9fafb"/>
+  <line x1="70" y1="170" x2="730" y2="170" stroke="#e5e7eb" stroke-width="1"/>
+  <line x1="70" y1="210" x2="730" y2="210" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <text x="90" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">ID</text>
+  <text x="170" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Producto</text>
+  <text x="360" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Categoría</text>
+  <text x="470" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Stock</text>
+  <text x="550" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Precio</text>
+  <text x="650" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Acciones</text>
+  
+  <!-- Table rows -->
+  <line x1="70" y1="250" x2="730" y2="250" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="235" font-family="Arial" font-size="12" fill="#4b5563">1001</text>
+  <text x="170" y="235" font-family="Arial" font-size="12" fill="#4b5563">Camisa Slim Fit Azul</text>
+  <text x="360" y="235" font-family="Arial" font-size="12" fill="#4b5563">Ropa</text>
+  <text x="470" y="235" font-family="Arial" font-size="12" fill="#4b5563">85</text>
+  <text x="550" y="235" font-family="Arial" font-size="12" fill="#4b5563">$5,999</text>
+  <rect width="20" height="20" x="650" y="225" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="20" height="20" x="680" y="225" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="290" x2="730" y2="290" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="275" font-family="Arial" font-size="12" fill="#4b5563">1002</text>
+  <text x="170" y="275" font-family="Arial" font-size="12" fill="#4b5563">Zapatillas Running</text>
+  <text x="360" y="275" font-family="Arial" font-size="12" fill="#4b5563">Calzado</text>
+  <text x="470" y="275" font-family="Arial" font-size="12" fill="#ef4444">3</text>
+  <text x="550" y="275" font-family="Arial" font-size="12" fill="#4b5563">$12,500</text>
+  <rect width="20" height="20" x="650" y="265" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="20" height="20" x="680" y="265" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="330" x2="730" y2="330" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="315" font-family="Arial" font-size="12" fill="#4b5563">1003</text>
+  <text x="170" y="315" font-family="Arial" font-size="12" fill="#4b5563">Reloj Deportivo</text>
+  <text x="360" y="315" font-family="Arial" font-size="12" fill="#4b5563">Accesorios</text>
+  <text x="470" y="315" font-family="Arial" font-size="12" fill="#4b5563">42</text>
+  <text x="550" y="315" font-family="Arial" font-size="12" fill="#4b5563">$8,750</text>
+  <rect width="20" height="20" x="650" y="305" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="20" height="20" x="680" y="305" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="370" x2="730" y2="370" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="355" font-family="Arial" font-size="12" fill="#4b5563">1004</text>
+  <text x="170" y="355" font-family="Arial" font-size="12" fill="#4b5563">Pantalón Cargo</text>
+  <text x="360" y="355" font-family="Arial" font-size="12" fill="#4b5563">Ropa</text>
+  <text x="470" y="355" font-family="Arial" font-size="12" fill="#4b5563">56</text>
+  <text x="550" y="355" font-family="Arial" font-size="12" fill="#4b5563">$7,200</text>
+  <rect width="20" height="20" x="650" y="345" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="20" height="20" x="680" y="345" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="410" x2="730" y2="410" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="395" font-family="Arial" font-size="12" fill="#4b5563">1005</text>
+  <text x="170" y="395" font-family="Arial" font-size="12" fill="#4b5563">Campera Impermeable</text>
+  <text x="360" y="395" font-family="Arial" font-size="12" fill="#4b5563">Ropa</text>
+  <text x="470" y="395" font-family="Arial" font-size="12" fill="#4b5563">28</text>
+  <text x="550" y="395" font-family="Arial" font-size="12" fill="#4b5563">$15,800</text>
+  <rect width="20" height="20" x="650" y="385" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="20" height="20" x="680" y="385" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <!-- Pagination -->
+  <rect width="660" height="50" x="70" y="440" fill="#f9fafb"/>
+  <text x="90" y="470" font-family="Arial" font-size="12" fill="#4b5563">Mostrando 1-5 de 125 productos</text>
+  
+  <rect width="30" height="30" x="550" y="450" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="565" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#2563EB">1</text>
+  
+  <rect width="30" height="30" x="590" y="450" rx="5" fill="#f3f4f6"/>
+  <text x="605" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">2</text>
+  
+  <rect width="30" height="30" x="630" y="450" rx="5" fill="#f3f4f6"/>
+  <text x="645" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">3</text>
+  
+  <rect width="30" height="30" x="670" y="450" rx="5" fill="#f3f4f6"/>
+  <text x="685" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">></text>
+  
+  <!-- Add product button -->
+  <rect width="180" height="40" x="310" y="500" rx="5" fill="#2563EB"/>
+  <text x="400" y="525" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="white">+ Agregar Producto</text>
+</svg>

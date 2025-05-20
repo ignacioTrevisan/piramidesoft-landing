@@ -1,0 +1,10 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <circle cx="400" cy="250" r="100" fill="#2563EB" opacity="0.2"/>
+  <text x="400" y="200" font-family="Arial" font-size="24" text-anchor="middle" fill="#2563EB">CRM System</text>
+  <circle cx="350" cy="300" r="30" fill="#2563EB" opacity="0.4"/>
+  <circle cx="400" cy="300" r="30" fill="#2563EB" opacity="0.5"/>
+  <circle cx="450" cy="300" r="30" fill="#2563EB" opacity="0.6"/>
+  <rect width="300" height="40" x="250" y="380" rx="5" fill="#2563EB" opacity="0.3"/>
+  <rect width="250" height="40" x="250" y="430" rx="5" fill="#2563EB" opacity="0.2"/>
+</svg>

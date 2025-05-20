@@ -1,0 +1,12 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="200" height="350" x="300" y="125" rx="20" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
+  <text x="400" y="180" font-family="Arial" font-size="24" text-anchor="middle" fill="#2563EB">Mobile Sales App</text>
+  <rect width="150" height="200" x="325" y="220" rx="5" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <circle cx="400" cy="450" r="15" fill="#2563EB" opacity="0.5" stroke="#2563EB" stroke-width="1"/>
+  <rect width="120" height="20" x="340" y="240" rx="3" fill="#2563EB" opacity="0.2"/>
+  <rect width="120" height="20" x="340" y="270" rx="3" fill="#2563EB" opacity="0.2"/>
+  <rect width="120" height="20" x="340" y="300" rx="3" fill="#2563EB" opacity="0.2"/>
+  <rect width="120" height="20" x="340" y="330" rx="3" fill="#2563EB" opacity="0.2"/>
+  <rect width="120" height="20" x="340" y="360" rx="3" fill="#2563EB" opacity="0.2"/>
+</svg>

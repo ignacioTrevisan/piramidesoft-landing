@@ -1,0 +1,134 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Panel Administrativo</text>
+  
+  <!-- User info -->
+  <text x="640" y="85" font-family="Arial" font-size="14" fill="#4b5563">Admin ▼</text>
+  
+  <!-- Sidebar -->
+  <rect width="200" height="430" x="50" y="110" rx="5" fill="#f3f4f6"/>
+  
+  <rect width="180" height="40" x="60" y="130" rx="5" fill="#2563EB"/>
+  <text x="90" y="155" font-family="Arial" font-size="13" fill="white">Dashboard</text>
+  
+  <rect width="180" height="40" x="60" y="180" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="205" font-family="Arial" font-size="13" fill="#4b5563">Productos</text>
+  
+  <rect width="180" height="40" x="60" y="230" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="255" font-family="Arial" font-size="13" fill="#4b5563">Categorías</text>
+  
+  <rect width="180" height="40" x="60" y="280" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="305" font-family="Arial" font-size="13" fill="#4b5563">Pedidos</text>
+  
+  <rect width="180" height="40" x="60" y="330" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="355" font-family="Arial" font-size="13" fill="#4b5563">Clientes</text>
+  
+  <rect width="180" height="40" x="60" y="380" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="405" font-family="Arial" font-size="13" fill="#4b5563">Promociones</text>
+  
+  <rect width="180" height="40" x="60" y="430" rx="5" fill="#f3f4f6"/>
+  <text x="90" y="455" font-family="Arial" font-size="13" fill="#4b5563">Configuración</text>
+  
+  <!-- Main content -->
+  <rect width="490" height="430" x="260" y="110" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- KPI Cards -->
+  <rect width="150" height="100" x="280" y="130" rx="5" fill="#f3f4f6"/>
+  <text x="300" y="160" font-family="Arial" font-size="12" fill="#4b5563">Ventas Hoy</text>
+  <text x="300" y="190" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">$25,480</text>
+  <text x="300" y="210" font-family="Arial" font-size="12" fill="#10b981">↑ 8% vs ayer</text>
+  
+  <rect width="150" height="100" x="450" y="130" rx="5" fill="#f3f4f6"/>
+  <text x="470" y="160" font-family="Arial" font-size="12" fill="#4b5563">Pedidos Nuevos</text>
+  <text x="470" y="190" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">12</text>
+  <text x="470" y="210" font-family="Arial" font-size="12" fill="#10b981">↑ 20% vs ayer</text>
+  
+  <rect width="150" height="100" x="620" y="130" rx="5" fill="#f3f4f6"/>
+  <text x="640" y="160" font-family="Arial" font-size="12" fill="#4b5563">Visitas</text>
+  <text x="640" y="190" font-family="Arial" font-size="24" font-weight="bold" fill="#2563EB">358</text>
+  <text x="640" y="210" font-family="Arial" font-size="12" fill="#10b981">↑ 5% vs ayer</text>
+  
+  <!-- Pedidos recientes -->
+  <text x="280" y="260" font-family="Arial" font-size="16" font-weight="bold" fill="#374151">Pedidos Recientes</text>
+  
+  <!-- Table header -->
+  <rect width="450" height="30" x="280" y="280" fill="#f9fafb" rx="5"/>
+  <text x="300" y="300" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">ID</text>
+  <text x="360" y="300" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Cliente</text>
+  <text x="480" y="300" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Total</text>
+  <text x="560" y="300" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Estado</text>
+  <text x="680" y="300" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Acción</text>
+  
+  <line x1="280" y1="310" x2="730" y2="310" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 1 -->
+  <text x="300" y="335" font-family="Arial" font-size="12" fill="#4b5563">#1245</text>
+  <text x="360" y="335" font-family="Arial" font-size="12" fill="#4b5563">Juan Pérez</text>
+  <text x="480" y="335" font-family="Arial" font-size="12" fill="#4b5563">$12,500</text>
+  <rect width="70" height="20" x="560" y="325" rx="10" fill="#10b981" opacity="0.2"/>
+  <text x="595" y="338" font-family="Arial" font-size="10" text-anchor="middle" fill="#10b981">Pagado</text>
+  <rect width="60" height="20" x="680" y="325" rx="3" fill="#2563EB" opacity="0.1"/>
+  <text x="710" y="338" font-family="Arial" font-size="10" text-anchor="middle" fill="#2563EB">Ver</text>
+  
+  <line x1="280" y1="350" x2="730" y2="350" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 2 -->
+  <text x="300" y="375" font-family="Arial" font-size="12" fill="#4b5563">#1244</text>
+  <text x="360" y="375" font-family="Arial" font-size="12" fill="#4b5563">María García</text>
+  <text x="480" y="375" font-family="Arial" font-size="12" fill="#4b5563">$8,750</text>
+  <rect width="70" height="20" x="560" y="365" rx="10" fill="#f59e0b" opacity="0.2"/>
+  <text x="595" y="378" font-family="Arial" font-size="10" text-anchor="middle" fill="#f59e0b">Pendiente</text>
+  <rect width="60" height="20" x="680" y="365" rx="3" fill="#2563EB" opacity="0.1"/>
+  <text x="710" y="378" font-family="Arial" font-size="10" text-anchor="middle" fill="#2563EB">Ver</text>
+  
+  <line x1="280" y1="390" x2="730" y2="390" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 3 -->
+  <text x="300" y="415" font-family="Arial" font-size="12" fill="#4b5563">#1243</text>
+  <text x="360" y="415" font-family="Arial" font-size="12" fill="#4b5563">Carlos López</text>
+  <text x="480" y="415" font-family="Arial" font-size="12" fill="#4b5563">$24,300</text>
+  <rect width="70" height="20" x="560" y="405" rx="10" fill="#10b981" opacity="0.2"/>
+  <text x="595" y="418" font-family="Arial" font-size="10" text-anchor="middle" fill="#10b981">Pagado</text>
+  <rect width="60" height="20" x="680" y="405" rx="3" fill="#2563EB" opacity="0.1"/>
+  <text x="710" y="418" font-family="Arial" font-size="10" text-anchor="middle" fill="#2563EB">Ver</text>
+  
+  <line x1="280" y1="430" x2="730" y2="430" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 4 -->
+  <text x="300" y="455" font-family="Arial" font-size="12" fill="#4b5563">#1242</text>
+  <text x="360" y="455" font-family="Arial" font-size="12" fill="#4b5563">Ana Martínez</text>
+  <text x="480" y="455" font-family="Arial" font-size="12" fill="#4b5563">$5,999</text>
+  <rect width="70" height="20" x="560" y="445" rx="10" fill="#ef4444" opacity="0.2"/>
+  <text x="595" y="458" font-family="Arial" font-size="10" text-anchor="middle" fill="#ef4444">Cancelado</text>
+  <rect width="60" height="20" x="680" y="445" rx="3" fill="#2563EB" opacity="0.1"/>
+  <text x="710" y="458" font-family="Arial" font-size="10" text-anchor="middle" fill="#2563EB">Ver</text>
+  
+  <line x1="280" y1="470" x2="730" y2="470" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 5 -->
+  <text x="300" y="495" font-family="Arial" font-size="12" fill="#4b5563">#1241</text>
+  <text x="360" y="495" font-family="Arial" font-size="12" fill="#4b5563">Pedro Gómez</text>
+  <text x="480" y="495" font-family="Arial" font-size="12" fill="#4b5563">$18,500</text>
+  <rect width="70" height="20" x="560" y="485" rx="10" fill="#10b981" opacity="0.2"/>
+  <text x="595" y="498" font-family="Arial" font-size="10" text-anchor="middle" fill="#10b981">Pagado</text>
+  <rect width="60" height="20" x="680" y="485" rx="3" fill="#2563EB" opacity="0.1"/>
+  <text x="710" y="498" font-family="Arial" font-size="10" text-anchor="middle" fill="#2563EB">Ver</text>
+  
+  <line x1="280" y1="510" x2="730" y2="510" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Pagination -->
+  <text x="280" y="535" font-family="Arial" font-size="12" fill="#4b5563">Mostrando 1-5 de 28 pedidos</text>
+  
+  <rect width="30" height="30" x="640" y="520" rx="5" fill="#2563EB"/>
+  <text x="655" y="540" font-family="Arial" font-size="14" text-anchor="middle" fill="white">1</text>
+  
+  <rect width="30" height="30" x="680" y="520" rx="5" fill="#f3f4f6"/>
+  <text x="695" y="540" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">2</text>
+  
+  <rect width="30" height="30" x="720" y="520" rx="5" fill="#f3f4f6"/>
+  <text x="735" y="540" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">></text>
+</svg>

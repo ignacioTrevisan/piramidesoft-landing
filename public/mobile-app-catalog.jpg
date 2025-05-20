@@ -1,0 +1,98 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  
+  <!-- Smartphone frame -->
+  <rect width="300" height="560" x="250" y="20" rx="30" fill="#374151"/>
+  <rect width="280" height="520" x="260" y="40" rx="20" fill="#f3f4f6"/>
+  
+  <!-- Mobile app header -->
+  <rect width="280" height="60" x="260" y="40" rx="20" fill="#2563EB"/>
+  <text x="290" y="75" font-family="Arial" font-size="16" font-weight="bold" fill="white">Catálogo de Productos</text>
+  
+  <!-- Back button -->
+  <circle cx="280" cy="70" r="15" fill="white" opacity="0.2"/>
+  <text x="280" y="75" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">←</text>
+  
+  <!-- Search bar -->
+  <rect width="240" height="40" x="280" y="110" rx="20" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="320" y="135" font-family="Arial" font-size="12" fill="#9ca3af">Buscar productos...</text>
+  <circle cx="300" cy="130" r="10" fill="#2563EB" opacity="0.1"/>
+  <text x="300" y="134" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">🔍</text>
+  
+  <!-- Categories -->
+  <text x="290" y="175" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Categorías</text>
+  
+  <rect width="80" height="30" x="290" y="185" rx="15" fill="#2563EB"/>
+  <text x="330" y="204" font-family="Arial" font-size="11" text-anchor="middle" fill="white">Todos</text>
+  
+  <rect width="80" height="30" x="380" y="185" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="420" y="204" font-family="Arial" font-size="11" text-anchor="middle" fill="#2563EB">Ropa</text>
+  
+  <rect width="80" height="30" x="290" y="225" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="330" y="244" font-family="Arial" font-size="11" text-anchor="middle" fill="#2563EB">Calzado</text>
+  
+  <rect width="80" height="30" x="380" y="225" rx="15" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="420" y="244" font-family="Arial" font-size="11" text-anchor="middle" fill="#2563EB">Accesorios</text>
+  
+  <!-- Products -->
+  <text x="290" y="275" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Productos</text>
+  
+  <!-- Product 1 -->
+  <rect width="240" height="80" x="280" y="285" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="60" height="60" x="290" y="295" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="360" y="310" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Camiseta Premium</text>
+  <text x="360" y="330" font-family="Arial" font-size="11" fill="#4b5563">Stock: 120</text>
+  <text x="360" y="347" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$3,500</text>
+  
+  <!-- Product 2 -->
+  <rect width="240" height="80" x="280" y="375" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="60" height="60" x="290" y="385" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="360" y="400" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Zapatillas Running</text>
+  <text x="360" y="420" font-family="Arial" font-size="11" fill="#ef4444">Stock: 3</text>
+  <text x="360" y="437" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$12,500</text>
+  
+  <!-- Product 3 -->
+  <rect width="240" height="80" x="280" y="465" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="60" height="60" x="290" y="475" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="360" y="490" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Reloj Deportivo</text>
+  <text x="360" y="510" font-family="Arial" font-size="11" fill="#4b5563">Stock: 42</text>
+  <text x="360" y="527" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$8,750</text>
+  
+  <!-- Bottom navigation -->
+  <rect width="280" height="50" x="260" y="510" rx="0 0 20 20" fill="white"/>
+  <line x1="260" y1="510" x2="540" y2="510" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Navigation icons -->
+  <circle cx="300" cy="535" r="15" fill="#2563EB"/>
+  <text x="300" y="540" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="white">📱</text>
+  
+  <circle cx="350" cy="535" r="15" fill="#f3f4f6"/>
+  <text x="350" y="540" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#4b5563">📋</text>
+  
+  <circle cx="400" cy="535" r="15" fill="#f3f4f6"/>
+  <text x="400" y="540" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#4b5563">🗺️</text>
+  
+  <circle cx="450" cy="535" r="15" fill="#f3f4f6"/>
+  <text x="450" y="540" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#4b5563">👤</text>
+  
+  <!-- App features description -->
+  <rect width="200" height="240" x="50" y="180" rx="10" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <text x="70" y="210" font-family="Arial" font-size="16" font-weight="bold" fill="#2563EB">Características:</text>
+  
+  <text x="70" y="245" font-family="Arial" font-size="14" fill="#4b5563">• Catálogo completo</text>
+  <text x="70" y="270" font-family="Arial" font-size="14" fill="#4b5563">• Información de stock</text>
+  <text x="70" y="295" font-family="Arial" font-size="14" fill="#4b5563">• Búsqueda rápida</text>
+  <text x="70" y="320" font-family="Arial" font-size="14" fill="#4b5563">• Filtros por categoría</text>
+  <text x="70" y="345" font-family="Arial" font-size="14" fill="#4b5563">• Funciona sin internet</text>
+  <text x="70" y="370" font-family="Arial" font-size="14" fill="#4b5563">• Actualización automática</text>
+  
+  <rect width="200" height="240" x="550" y="180" rx="10" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <text x="570" y="210" font-family="Arial" font-size="16" font-weight="bold" fill="#2563EB">Beneficios:</text>
+  
+  <text x="570" y="245" font-family="Arial" font-size="14" fill="#4b5563">• Mayor productividad</text>
+  <text x="570" y="270" font-family="Arial" font-size="14" fill="#4b5563">• Información actualizada</text>
+  <text x="570" y="295" font-family="Arial" font-size="14" fill="#4b5563">• Reducción de errores</text>
+  <text x="570" y="320" font-family="Arial" font-size="14" fill="#4b5563">• Mejor servicio al cliente</text>
+  <text x="570" y="345" font-family="Arial" font-size="14" fill="#4b5563">• Control de la fuerza de</text>
+  <text x="570" y="370" font-family="Arial" font-size="14" fill="#4b5563">  ventas en tiempo real</text>
+</svg>

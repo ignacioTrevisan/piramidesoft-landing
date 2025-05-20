@@ -5,6 +5,7 @@ import styles from "./navbar.module.css";
 import { Navbar_elements } from "./navbar_elements";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -21,12 +22,13 @@ const MobileNavbarElements = () => {
   return (
     <div className="flex flex-col gap-4">
       {elementos.map((e) => (
-        <div
-          key={e.titulo}
-          className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600"
-        >
-          {e.titulo}
-        </div>
+        <Link key={e.titulo} href={e.url}>
+          <div
+            className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600"
+          >
+            {e.titulo}
+          </div>
+        </Link>
       ))}
     </div>
   );
@@ -122,16 +124,18 @@ export const Navbar = () => {
       ref={navbarRef}
       className={`w-full fixed flex items-center justify-between md:justify-around top-0 py-4 px-6 md:px-10 ${styles.navbar} navbar-glass border-b border-gray-100 z-50`}
     >
-      <div ref={logoRef} className="cursor-pointer relative group">
-        <Image
-          src={"/logo_sin_fondo.png"}
-          height={60}
-          width={60}
-          alt="logo de piramide soft"
-          className="transition-all duration-300 group-hover:scale-110"
-        />
-        <div className="absolute -inset-2 rounded-full blur-sm bg-gray-100 opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
-      </div>
+      <Link href="/">
+        <div ref={logoRef} className="cursor-pointer relative group">
+          <Image
+            src={"/logo_sin_fondo.png"}
+            height={60}
+            width={60}
+            alt="logo de piramide soft"
+            className="transition-all duration-300 group-hover:scale-110"
+          />
+          <div className="absolute -inset-2 rounded-full blur-sm bg-gray-100 opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+        </div>
+      </Link>
       <div className="hidden md:block">
         <Navbar_elements />
       </div>

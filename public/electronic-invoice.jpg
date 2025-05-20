@@ -1,0 +1,11 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="300" height="400" x="250" y="100" fill="#2563EB" opacity="0.1"/>
+  <text x="400" y="150" font-family="Arial" font-size="24" text-anchor="middle" fill="#2563EB">Electronic Invoice</text>
+  <rect width="200" height="250" x="300" y="180" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <line x1="320" y1="220" x2="480" y2="220" stroke="#2563EB" stroke-width="2"/>
+  <line x1="320" y1="250" x2="480" y2="250" stroke="#2563EB" stroke-width="2"/>
+  <line x1="320" y1="280" x2="480" y2="280" stroke="#2563EB" stroke-width="2"/>
+  <line x1="320" y1="310" x2="400" y2="310" stroke="#2563EB" stroke-width="2"/>
+  <text x="400" y="450" font-family="Arial" font-size="18" text-anchor="middle" fill="#2563EB">AFIP</text>
+</svg>

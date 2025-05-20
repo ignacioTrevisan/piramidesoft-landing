@@ -1,0 +1,13 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <text x="400" y="150" font-family="Arial" font-size="28" text-anchor="middle" fill="#2563EB">Soluciones a Medida</text>
+  <rect width="500" height="250" x="150" y="200" rx="10" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
+  <path d="M200,300 Q300,200 400,300 T600,300" stroke="#2563EB" stroke-width="3" fill="none"/>
+  <circle cx="200" cy="300" r="10" fill="#2563EB"/>
+  <circle cx="400" cy="300" r="10" fill="#2563EB"/>
+  <circle cx="600" cy="300" r="10" fill="#2563EB"/>
+  <rect width="60" height="60" x="250" y="350" fill="#2563EB" opacity="0.3"/>
+  <rect width="60" height="60" x="370" y="350" fill="#2563EB" opacity="0.5"/>
+  <rect width="60" height="60" x="490" y="350" fill="#2563EB" opacity="0.7"/>
+  <text x="400" y="450" font-family="Arial" font-size="22" text-anchor="middle" fill="#2563EB">Personalización Total</text>
+</svg>

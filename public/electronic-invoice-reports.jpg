@@ -1,0 +1,124 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Reportes Fiscales</text>
+  
+  <!-- Report selection tabs -->
+  <rect width="660" height="40" x="70" y="120" rx="5" fill="#f3f4f6"/>
+  
+  <rect width="140" height="40" x="70" y="120" rx="5" fill="#2563EB"/>
+  <text x="140" y="145" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Libro de IVA</text>
+  
+  <rect width="140" height="40" x="210" y="120" rx="5" fill="#f3f4f6"/>
+  <text x="280" y="145" font-family="Arial" font-size="13" text-anchor="middle" fill="#4b5563">Libro de Ventas</text>
+  
+  <rect width="140" height="40" x="350" y="120" rx="5" fill="#f3f4f6"/>
+  <text x="420" y="145" font-family="Arial" font-size="13" text-anchor="middle" fill="#4b5563">Retenciones</text>
+  
+  <rect width="140" height="40" x="490" y="120" rx="5" fill="#f3f4f6"/>
+  <text x="560" y="145" font-family="Arial" font-size="13" text-anchor="middle" fill="#4b5563">Posición IVA</text>
+  
+  <!-- Date filter -->
+  <rect width="660" height="50" x="70" y="170" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="200" font-family="Arial" font-size="13" fill="#4b5563">Período:</text>
+  
+  <rect width="130" height="30" x="160" y="180" rx="5" fill="#f3f4f6"/>
+  <text x="180" y="200" font-family="Arial" font-size="12" fill="#4b5563">Mayo 2025</text>
+  <text x="280" y="200" font-family="Arial" font-size="12" fill="#2563EB">▼</text>
+  
+  <rect width="130" height="30" x="350" y="180" rx="5" fill="#f3f4f6"/>
+  <text x="410" y="200" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Actualizar</text>
+  
+  <rect width="130" height="30" x="600" y="180" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="665" y="200" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Exportar AFIP</text>
+  
+  <!-- Tax summary -->
+  <rect width="660" height="100" x="70" y="230" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="90" y="255" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Resumen de IVA - Mayo 2025</text>
+  
+  <rect width="200" height="60" x="90" y="260" rx="5" fill="#f3f4f6"/>
+  <text x="190" y="285" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">IVA Débito Fiscal</text>
+  <text x="190" y="305" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#2563EB">$98,732.50</text>
+  
+  <rect width="200" height="60" x="300" y="260" rx="5" fill="#f3f4f6"/>
+  <text x="400" y="285" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">IVA Crédito Fiscal</text>
+  <text x="400" y="305" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#2563EB">$45,321.75</text>
+  
+  <rect width="200" height="60" x="510" y="260" rx="5" fill="#f3f4f6"/>
+  <text x="610" y="285" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Saldo a Pagar</text>
+  <text x="610" y="305" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#ef4444">$53,410.75</text>
+  
+  <!-- Transactions table -->
+  <rect width="660" height="250" x="70" y="340" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Table header -->
+  <rect width="660" height="40" x="70" y="340" fill="#f9fafb" rx="5 5 0 0"/>
+  <text x="90" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Fecha</text>
+  <text x="150" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Tipo</text>
+  <text x="210" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Número</text>
+  <text x="300" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">CUIT Cliente</text>
+  <text x="410" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Razón Social</text>
+  <text x="540" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Neto</text>
+  <text x="600" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">IVA</text>
+  <text x="655" y="365" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Total</text>
+  
+  <line x1="70" y1="380" x2="730" y2="380" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 1 -->
+  <text x="90" y="405" font-family="Arial" font-size="12" fill="#4b5563">15/05/2025</text>
+  <text x="150" y="405" font-family="Arial" font-size="12" fill="#4b5563">FA</text>
+  <text x="210" y="405" font-family="Arial" font-size="12" fill="#4b5563">0001-00000123</text>
+  <text x="300" y="405" font-family="Arial" font-size="12" fill="#4b5563">20-12345678-9</text>
+  <text x="410" y="405" font-family="Arial" font-size="12" fill="#4b5563">Comercial R.</text>
+  <text x="540" y="405" font-family="Arial" font-size="12" fill="#4b5563">$47,500.00</text>
+  <text x="600" y="405" font-family="Arial" font-size="12" fill="#4b5563">$9,975.00</text>
+  <text x="655" y="405" font-family="Arial" font-size="12" fill="#4b5563">$57,475.00</text>
+  
+  <line x1="70" y1="420" x2="730" y2="420" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 2 -->
+  <text x="90" y="445" font-family="Arial" font-size="12" fill="#4b5563">14/05/2025</text>
+  <text x="150" y="445" font-family="Arial" font-size="12" fill="#4b5563">FB</text>
+  <text x="210" y="445" font-family="Arial" font-size="12" fill="#4b5563">0001-00000122</text>
+  <text x="300" y="445" font-family="Arial" font-size="12" fill="#4b5563">20-98765432-1</text>
+  <text x="410" y="445" font-family="Arial" font-size="12" fill="#4b5563">García, Juan</text>
+  <text x="540" y="445" font-family="Arial" font-size="12" fill="#4b5563">$10,330.58</text>
+  <text x="600" y="445" font-family="Arial" font-size="12" fill="#4b5563">$2,169.42</text>
+  <text x="655" y="445" font-family="Arial" font-size="12" fill="#4b5563">$12,500.00</text>
+  
+  <line x1="70" y1="460" x2="730" y2="460" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 3 -->
+  <text x="90" y="485" font-family="Arial" font-size="12" fill="#4b5563">14/05/2025</text>
+  <text x="150" y="485" font-family="Arial" font-size="12" fill="#4b5563">FA</text>
+  <text x="210" y="485" font-family="Arial" font-size="12" fill="#4b5563">0001-00000121</text>
+  <text x="300" y="485" font-family="Arial" font-size="12" fill="#4b5563">30-71234567-8</text>
+  <text x="410" y="485" font-family="Arial" font-size="12" fill="#4b5563">Distribuidora M.</text>
+  <text x="540" y="485" font-family="Arial" font-size="12" fill="#4b5563">$177,933.88</text>
+  <text x="600" y="485" font-family="Arial" font-size="12" fill="#4b5563">$37,366.12</text>
+  <text x="655" y="485" font-family="Arial" font-size="12" fill="#4b5563">$215,300.00</text>
+  
+  <line x1="70" y1="500" x2="730" y2="500" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 4 -->
+  <text x="90" y="525" font-family="Arial" font-size="12" fill="#4b5563">13/05/2025</text>
+  <text x="150" y="525" font-family="Arial" font-size="12" fill="#4b5563">NCA</text>
+  <text x="210" y="525" font-family="Arial" font-size="12" fill="#4b5563">0001-00000120</text>
+  <text x="300" y="525" font-family="Arial" font-size="12" fill="#4b5563">30-71234567-8</text>
+  <text x="410" y="525" font-family="Arial" font-size="12" fill="#4b5563">Distribuidora M.</text>
+  <text x="540" y="525" font-family="Arial" font-size="12" fill="#ef4444">-$26,859.50</text>
+  <text x="600" y="525" font-family="Arial" font-size="12" fill="#ef4444">-$5,640.50</text>
+  <text x="655" y="525" font-family="Arial" font-size="12" fill="#ef4444">-$32,500.00</text>
+  
+  <line x1="70" y1="540" x2="730" y2="540" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Pagination -->
+  <rect width="660" height="40" x="70" y="550" fill="#f9fafb" rx="0 0 5 5"/>
+  <text x="90" y="575" font-family="Arial" font-size="12" fill="#4b5563">Mostrando 1-4 de 52 registros</text>
+  
+  <rect width="100" height="30" x="630" y="555" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="685" y="575" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Ver todos</text>
+</svg>

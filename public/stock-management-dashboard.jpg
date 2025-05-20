@@ -1,0 +1,61 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="400" x="50" y="100" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header with KPIs -->
+  <rect width="660" height="80" x="70" y="120" rx="5" fill="#2563EB" opacity="0.1"/>
+  
+  <!-- KPI Boxes -->
+  <rect width="150" height="60" x="90" y="130" rx="5" fill="#ffffff" stroke="#2563EB" stroke-width="1"/>
+  <text x="165" y="155" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Total Stock</text>
+  <text x="165" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#2563EB">12,584</text>
+  
+  <rect width="150" height="60" x="260" y="130" rx="5" fill="#ffffff" stroke="#2563EB" stroke-width="1"/>
+  <text x="335" y="155" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Bajo Mínimo</text>
+  <text x="335" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#2563EB">28</text>
+  
+  <rect width="150" height="60" x="430" y="130" rx="5" fill="#ffffff" stroke="#2563EB" stroke-width="1"/>
+  <text x="505" y="155" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Ventas Mes</text>
+  <text x="505" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#2563EB">$1.2M</text>
+  
+  <rect width="150" height="60" x="600" y="130" rx="5" fill="#ffffff" stroke="#2563EB" stroke-width="1"/>
+  <text x="675" y="155" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Rotación</text>
+  <text x="675" y="175" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#2563EB">4.2</text>
+  
+  <!-- Charts -->
+  <rect width="320" height="220" x="70" y="220" rx="5" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="230" y="245" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#374151">Ventas por Categoría</text>
+  <!-- Simplified bar chart -->
+  <rect width="40" height="60" x="100" y="320" fill="#2563EB" opacity="0.8"/>
+  <rect width="40" height="100" x="160" y="280" fill="#2563EB" opacity="0.6"/>
+  <rect width="40" height="40" x="220" y="340" fill="#2563EB" opacity="0.4"/>
+  <rect width="40" height="80" x="280" y="300" fill="#2563EB" opacity="0.7"/>
+  
+  <rect width="320" height="220" x="410" y="220" rx="5" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="570" y="245" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#374151">Stock por Depósito</text>
+  <!-- Simplified pie chart -->
+  <circle cx="570" cy="320" r="80" fill="transparent" stroke="#e5e7eb" stroke-width="1"/>
+  <path d="M 570 320 L 570 240 A 80 80 0 0 1 632.8 287.2 Z" fill="#2563EB" opacity="0.8"/>
+  <path d="M 570 320 L 632.8 287.2 A 80 80 0 0 1 610 370 Z" fill="#2563EB" opacity="0.6"/>
+  <path d="M 570 320 L 610 370 A 80 80 0 0 1 490 360 Z" fill="#2563EB" opacity="0.4"/>
+  <path d="M 570 320 L 490 360 A 80 80 0 0 1 570 240 Z" fill="#2563EB" opacity="0.5"/>
+  
+  <!-- Recent Activity -->
+  <rect width="660" height="150" x="70" y="460" rx="5" fill="#ffffff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="400" y="485" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#374151">Actividad Reciente</text>
+  
+  <line x1="70" y1="500" x2="730" y2="500" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="100" y="525" font-family="Arial" font-size="12" fill="#4b5563">10:25</text>
+  <text x="200" y="525" font-family="Arial" font-size="12" fill="#4b5563">Ingreso Stock</text>
+  <text x="350" y="525" font-family="Arial" font-size="12" fill="#4b5563">Camisas Slim Fit - 85 unidades</text>
+  
+  <line x1="70" y1="540" x2="730" y2="540" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="100" y="565" font-family="Arial" font-size="12" fill="#4b5563">09:42</text>
+  <text x="200" y="565" font-family="Arial" font-size="12" fill="#4b5563">Alerta Stock Mínimo</text>
+  <text x="350" y="565" font-family="Arial" font-size="12" fill="#ef4444">Zapatillas Running - 3 unidades</text>
+  
+  <line x1="70" y1="580" x2="730" y2="580" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="100" y="595" font-family="Arial" font-size="12" fill="#4b5563">09:15</text>
+  <text x="200" y="595" font-family="Arial" font-size="12" fill="#4b5563">Pedido Generado</text>
+  <text x="350" y="595" font-family="Arial" font-size="12" fill="#4b5563">Orden #5423 - Mayorista Textil SRL</text>
+</svg>

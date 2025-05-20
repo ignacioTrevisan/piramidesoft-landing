@@ -1,0 +1,143 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f0f4f8"/>
+  <rect width="700" height="500" x="50" y="50" rx="10" fill="#ffffff" stroke="#2563EB" stroke-width="2"/>
+  
+  <!-- Header -->
+  <rect width="700" height="60" x="50" y="50" rx="10" fill="#2563EB" opacity="0.1"/>
+  <text x="80" y="85" font-family="Arial" font-size="18" font-weight="bold" fill="#2563EB">Gestión de Contactos</text>
+  
+  <!-- User info -->
+  <text x="640" y="85" font-family="Arial" font-size="14" fill="#4b5563">María Gómez ▼</text>
+  
+  <!-- Search and filters -->
+  <rect width="300" height="35" x="70" y="125" rx="5" fill="white" stroke="#2563EB" stroke-width="1"/>
+  <text x="90" y="148" font-family="Arial" font-size="14" fill="#9ca3af">Buscar contactos...</text>
+  <circle cx="350" cy="142" r="12" fill="#2563EB"/>
+  <path d="M 346 142 L 354 142 M 350 138 L 350 146" stroke="white" stroke-width="2"/>
+  
+  <rect width="120" height="35" x="390" y="125" rx="5" fill="#f3f4f6"/>
+  <text x="450" y="148" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Segmento ▼</text>
+  
+  <rect width="120" height="35" x="520" y="125" rx="5" fill="#f3f4f6"/>
+  <text x="580" y="148" font-family="Arial" font-size="12" text-anchor="middle" fill="#4b5563">Estado ▼</text>
+  
+  <rect width="120" height="35" x="650" y="125" rx="5" fill="#2563EB"/>
+  <text x="710" y="148" font-family="Arial" font-size="12" text-anchor="middle" fill="white">+ Contacto</text>
+  
+  <!-- Contacts table -->
+  <rect width="660" height="360" x="70" y="170" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Table header -->
+  <rect width="660" height="40" x="70" y="170" fill="#f9fafb" rx="5 5 0 0"/>
+  <text x="90" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Nombre</text>
+  <text x="230" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Empresa</text>
+  <text x="370" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Cargo</text>
+  <text x="470" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Email</text>
+  <text x="600" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Teléfono</text>
+  <text x="700" y="195" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Acciones</text>
+  
+  <line x1="70" y1="210" x2="730" y2="210" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 1 -->
+  <circle cx="85" cy="235" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="240" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">JM</text>
+  <text x="110" y="240" font-family="Arial" font-size="12" fill="#4b5563">Juan Martínez</text>
+  <text x="230" y="240" font-family="Arial" font-size="12" fill="#4b5563">Comercial Mitre SRL</text>
+  <text x="370" y="240" font-family="Arial" font-size="12" fill="#4b5563">Gerente Compras</text>
+  <text x="470" y="240" font-family="Arial" font-size="12" fill="#4b5563">jmartinez@mitre.com.ar</text>
+  <text x="600" y="240" font-family="Arial" font-size="12" fill="#4b5563">11-5555-1234</text>
+  <rect width="25" height="20" x="680" y="230" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="230" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="255" x2="730" y2="255" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 2 -->
+  <circle cx="85" cy="280" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="285" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">AR</text>
+  <text x="110" y="285" font-family="Arial" font-size="12" fill="#4b5563">Ana Rodríguez</text>
+  <text x="230" y="285" font-family="Arial" font-size="12" fill="#4b5563">Textiles Del Sur</text>
+  <text x="370" y="285" font-family="Arial" font-size="12" fill="#4b5563">Directora</text>
+  <text x="470" y="285" font-family="Arial" font-size="12" fill="#4b5563">arodriguez@textiles.com</text>
+  <text x="600" y="285" font-family="Arial" font-size="12" fill="#4b5563">11-4444-5678</text>
+  <rect width="25" height="20" x="680" y="275" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="275" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="300" x2="730" y2="300" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 3 -->
+  <circle cx="85" cy="325" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="330" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">PL</text>
+  <text x="110" y="325" font-family="Arial" font-size="12" fill="#4b5563">Pedro López</text>
+  <text x="230" y="325" font-family="Arial" font-size="12" fill="#4b5563">Distribuidora Mendoza</text>
+  <text x="370" y="325" font-family="Arial" font-size="12" fill="#4b5563">Gerente Sistemas</text>
+  <text x="470" y="325" font-family="Arial" font-size="12" fill="#4b5563">plopez@mendoza.com.ar</text>
+  <text x="600" y="325" font-family="Arial" font-size="12" fill="#4b5563">261-333-4444</text>
+  <rect width="25" height="20" x="680" y="320" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="320" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="345" x2="730" y2="345" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 4 -->
+  <circle cx="85" cy="370" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="375" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">MF</text>
+  <text x="110" y="370" font-family="Arial" font-size="12" fill="#4b5563">María Fernández</text>
+  <text x="230" y="370" font-family="Arial" font-size="12" fill="#4b5563">Farmacia Moderna</text>
+  <text x="370" y="370" font-family="Arial" font-size="12" fill="#4b5563">Propietaria</text>
+  <text x="470" y="370" font-family="Arial" font-size="12" fill="#4b5563">mfernandez@gmail.com</text>
+  <text x="600" y="370" font-family="Arial" font-size="12" fill="#4b5563">351-222-3333</text>
+  <rect width="25" height="20" x="680" y="365" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="365" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="390" x2="730" y2="390" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 5 -->
+  <circle cx="85" cy="415" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="420" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">CG</text>
+  <text x="110" y="415" font-family="Arial" font-size="12" fill="#4b5563">Carlos González</text>
+  <text x="230" y="415" font-family="Arial" font-size="12" fill="#4b5563">Calzados Martínez</text>
+  <text x="370" y="415" font-family="Arial" font-size="12" fill="#4b5563">Dueño</text>
+  <text x="470" y="415" font-family="Arial" font-size="12" fill="#4b5563">cgonzalez@calzados.com</text>
+  <text x="600" y="415" font-family="Arial" font-size="12" fill="#4b5563">341-777-8888</text>
+  <rect width="25" height="20" x="680" y="410" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="410" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="435" x2="730" y2="435" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Row 6 -->
+  <circle cx="85" cy="460" r="15" fill="#2563EB" opacity="0.1"/>
+  <text x="85" y="465" font-family="Arial" font-size="12" font-weight="bold" text-anchor="middle" fill="#2563EB">LT</text>
+  <text x="110" y="460" font-family="Arial" font-size="12" fill="#4b5563">Laura Torres</text>
+  <text x="230" y="460" font-family="Arial" font-size="12" fill="#4b5563">Librería Central</text>
+  <text x="370" y="460" font-family="Arial" font-size="12" fill="#4b5563">Administradora</text>
+  <text x="470" y="460" font-family="Arial" font-size="12" fill="#4b5563">ltorres@libreria.com.ar</text>
+  <text x="600" y="460" font-family="Arial" font-size="12" fill="#4b5563">11-6666-7777</text>
+  <rect width="25" height="20" x="680" y="455" rx="3" fill="#2563EB" opacity="0.1"/>
+  <rect width="25" height="20" x="710" y="455" rx="3" fill="#2563EB" opacity="0.1"/>
+  
+  <line x1="70" y1="480" x2="730" y2="480" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Pagination -->
+  <rect width="660" height="40" x="70" y="490" fill="#f9fafb" rx="0 0 5 5"/>
+  <text x="90" y="515" font-family="Arial" font-size="12" fill="#4b5563">Mostrando 1-6 de 47 contactos</text>
+  
+  <rect width="30" height="30" x="600" y="495" rx="5" fill="#2563EB"/>
+  <text x="615" y="515" font-family="Arial" font-size="14" text-anchor="middle" fill="white">1</text>
+  
+  <rect width="30" height="30" x="640" y="495" rx="5" fill="#f3f4f6"/>
+  <text x="655" y="515" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">2</text>
+  
+  <rect width="30" height="30" x="680" y="495" rx="5" fill="#f3f4f6"/>
+  <text x="695" y="515" font-family="Arial" font-size="14" text-anchor="middle" fill="#4b5563">></text>
+  
+  <!-- Contact actions -->
+  <rect width="660" height="50" x="70" y="540" rx="5" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <rect width="120" height="30" x="90" y="550" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="150" y="570" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Exportar CSV</text>
+  
+  <rect width="120" height="30" x="220" y="550" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="280" y="570" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Importar</text>
+  
+  <rect width="120" height="30" x="350" y="550" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="410" y="570" font-family="Arial" font-size="12" text-anchor="middle" fill="#2563EB">Etiquetas</text>
+</svg>

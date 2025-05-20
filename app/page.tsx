@@ -112,7 +112,6 @@ export default function Home() {
       </div>
       <SobreNosotros />
       <Steps />
-      <div className="h-[100vh] w-full bg-gray-800">hg</div>
     </>
   );
 }
