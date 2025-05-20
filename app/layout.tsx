@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import "./globals.css";
 import { Navbar } from "./components/navbar";
@@ -8,13 +8,6 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -28,11 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.variable} antialiased overflow-x-hidden`}>
+      <body className={`${inter.variable} antialiased overflow-x-hidden `}>
         <Navbar />
-        <div className="px-4 md:px-10 py-6 md:py-10 mt-16 md:mt-20 max-w-[100vw] overflow-x-hidden">
-          {children}
-        </div>
+        <div className="">{children}</div>
       </body>
     </html>
   );

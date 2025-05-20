@@ -17,11 +17,11 @@ const MobileNavbarElements = () => {
     { titulo: "Blogs", url: "/blog" },
     { titulo: "Productos", url: "/products" },
   ];
-  
+
   return (
     <div className="flex flex-col gap-4">
       {elementos.map((e) => (
-        <div 
+        <div
           key={e.titulo}
           className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600"
         >
@@ -37,73 +37,86 @@ export const Navbar = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  
+
   useEffect(() => {
     if (!navbarRef.current || !logoRef.current || !buttonRef.current) return;
-    
+
     // Initial animation
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-    
+
     tl.fromTo(
       navbarRef.current,
       { y: -50, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.6 }
     )
-    .fromTo(
-      logoRef.current,
-      { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.4 },
-      "-=0.3"
-    )
-    .fromTo(
-      buttonRef.current,
-      { x: 10, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.4 },
-      "-=0.3"
-    );
-    
+      .fromTo(
+        logoRef.current,
+        { scale: 0.8, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.4 },
+        "-=0.3"
+      )
+      .fromTo(
+        buttonRef.current,
+        { x: 10, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4 },
+        "-=0.3"
+      );
+
+    // Fix for the first error: Wrap the ternary expression in a function
     // Scroll animation
-    const showAnim = gsap.from(navbarRef.current, {
-      yPercent: -100,
-      paused: true,
-      duration: 0.2,
-    }).progress(1);
-    
+    const showAnim = gsap
+      .from(navbarRef.current, {
+        yPercent: -100,
+        paused: true,
+        duration: 0.2,
+      })
+      .progress(1);
+
     ScrollTrigger.create({
       start: "top top",
       end: "max",
       onUpdate: (self) => {
-        self.direction === -1 ? showAnim.play() : showAnim.reverse();
+        if (self.direction === -1) {
+          showAnim.play();
+        } else {
+          showAnim.reverse();
+        }
       },
     });
-    
+
     // Button hover animation
-    buttonRef.current.addEventListener("mouseenter", () => {
+    const handleMouseEnter = () => {
       gsap.to(buttonRef.current, {
-      scale: 1.03,
-      backgroundColor: "#1E40AF", // Azul más oscuro para hover
-      duration: 0.2,
+        scale: 1.03,
+        backgroundColor: "#1E40AF", // Azul más oscuro para hover
+        duration: 0.2,
       });
-    });
-    
-    buttonRef.current.addEventListener("mouseleave", () => {
+    };
+
+    const handleMouseLeave = () => {
       gsap.to(buttonRef.current, {
-      scale: 1,
-      backgroundColor: "#2563EB", // Azul principal
-      duration: 0.2,
+        scale: 1,
+        backgroundColor: "#2563EB", // Azul principal
+        duration: 0.2,
       });
-    });
-    
+    };
+
+    // Store the current ref value for cleanup (addresses the second warning)
+    const currentButtonRef = buttonRef.current;
+
+    currentButtonRef.addEventListener("mouseenter", handleMouseEnter);
+    currentButtonRef.addEventListener("mouseleave", handleMouseLeave);
+
     return () => {
-      // Cleanup
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      if (buttonRef.current) {
-        buttonRef.current.removeEventListener("mouseenter", () => {});
-        buttonRef.current.removeEventListener("mouseleave", () => {});
+      // Cleanup with the saved ref
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      if (currentButtonRef) {
+        currentButtonRef.removeEventListener("mouseenter", handleMouseEnter);
+        currentButtonRef.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
   }, []);
-  
+
   return (
     <div
       ref={navbarRef}
@@ -123,9 +136,23 @@ export const Navbar = () => {
         <Navbar_elements />
       </div>
       <div className="block md:hidden">
-        <button className="p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+        <button
+          className="p-2"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
           </svg>
         </button>
         {mobileMenuOpen && (
@@ -137,7 +164,7 @@ export const Navbar = () => {
           </div>
         )}
       </div>
-      <button 
+      <button
         ref={buttonRef}
         className="hidden md:block bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-2.5 px-6 w-auto rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium"
       >
