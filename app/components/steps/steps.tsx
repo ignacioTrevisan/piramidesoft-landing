@@ -12,6 +12,8 @@ interface Step {
 export const Steps: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]); // Array de referencias para títulos
+  const numberRefs = useRef<(HTMLParagraphElement | null)[]>([]); // Array de referencias para números
   const startCardRef = useRef<HTMLDivElement>(null);
   const [activeStep, setActiveStep] = useState<number>(0);
   const [isBarVisible, setIsBarVisible] = useState<boolean>(false);
@@ -161,7 +163,7 @@ export const Steps: React.FC = () => {
     }
 
     // Agregamos el efecto de fade-in a cada tarjeta de paso
-    stepRefs.current.forEach((stepRef) => {
+    stepRefs.current.forEach((stepRef, index) => {
       if (!stepRef) return;
 
       stepRef.classList.add(
@@ -175,7 +177,7 @@ export const Steps: React.FC = () => {
     // Usamos IntersectionObserver solo para animar la aparición de cada tarjeta cuando está en pantalla
     const observers: IntersectionObserver[] = [];
 
-    stepRefs.current.forEach((stepRef) => {
+    stepRefs.current.forEach((stepRef, index) => {
       if (!stepRef) return;
 
       const observer = new IntersectionObserver(
@@ -185,11 +187,39 @@ export const Steps: React.FC = () => {
           if (entry.isIntersecting) {
             stepRef.classList.add("opacity-100", "translate-y-0");
             stepRef.classList.remove("opacity-0", "translate-y-20");
+
+            // Aplicamos el color azul al título y número de este paso específico
+            if (titleRefs.current[index]) {
+              titleRefs.current[index]!.style.color = "#2563EB";
+            }
+            if (numberRefs.current[index]) {
+              numberRefs.current[index]!.style.color = "#2563EB";
+            }
+
+            // Eliminamos el filtro grayscale de la imagen cuando está enfocada
+            const image = document.getElementById(`step-image-${index}`);
+            if (image) {
+              image.classList.remove("grayscale");
+            }
           } else {
             const stepRect = stepRef.getBoundingClientRect();
             if (stepRect.top > window.innerHeight) {
               stepRef.classList.add("opacity-0", "translate-y-20");
               stepRef.classList.remove("opacity-100", "translate-y-0");
+
+              // Revertimos el color cuando el paso ya no está en la vista
+              if (titleRefs.current[index]) {
+                titleRefs.current[index]!.style.color = "";
+              }
+              if (numberRefs.current[index]) {
+                numberRefs.current[index]!.style.color = "";
+              }
+
+              // Volvemos a aplicar el filtro grayscale cuando la tarjeta ya no está enfocada
+              const image = document.getElementById(`step-image-${index}`);
+              if (image) {
+                image.classList.add("grayscale");
+              }
             }
           }
         },
@@ -224,18 +254,6 @@ export const Steps: React.FC = () => {
       className="w-full bg-[#f2f2f2] font-sans relative pb-24"
       ref={containerRef}
     >
-      {/* Sidebar with "Everything Kinda Starts Here" */}
-      <div className="fixed left-6 top-1/4 h-64 hidden lg:block">
-        <div className="border-l border-gray-200 h-full relative">
-          <div className="absolute -left-2 top-0 h-16 w-16 flex items-start">
-            <div className="text-gray-400 transform -rotate-90 origin-top-left translate-y-8 -translate-x-8 whitespace-nowrap">
-              Everything Kinda Start Here
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Progress Header */}
       <div
         className={`sticky top-0 z-10 bg-[#f2f2f2] pt-8 pb-4 transition-opacity duration-500 ${
           isBarVisible ? "opacity-100" : "opacity-0"
@@ -319,10 +337,22 @@ export const Steps: React.FC = () => {
                   }`}
                 >
                   <div className="mb-6">
-                    <h2 className="text-3xl font-bold text-[#2563EB]">
+                    <h2
+                      className="text-3xl font-bold transition-all duration-900"
+                      ref={(el) => {
+                        titleRefs.current[index] = el;
+                      }}
+                    >
                       {step.title}
                     </h2>
-                    <p className="text-lg text-[#2563EB]">{step.number}</p>
+                    <p
+                      className="text-lg transition-all duration-900"
+                      ref={(el) => {
+                        numberRefs.current[index] = el;
+                      }}
+                    >
+                      {step.number}
+                    </p>
                   </div>
                   <p className="text-gray-600">{step.description}</p>
                 </div>
@@ -339,7 +369,11 @@ export const Steps: React.FC = () => {
                       width={400}
                       height={300}
                       alt={step.title}
-                      className="w-full rounded-md object-fill  h-64 md:h-80"
+                      className="w-full rounded-md object-fill h-64 md:h-80 filter grayscale transition-all duration-900"
+                      ref={(el) => {
+                        // Si tuviéramos una imagen con una ref, la guardaríamos aquí
+                      }}
+                      id={`step-image-${index}`}
                     />
                   </div>
                 </div>
@@ -348,8 +382,6 @@ export const Steps: React.FC = () => {
           ))}
         </div>
       </div>
-
-      {/* Logo at bottom right */}
     </div>
   );
 };

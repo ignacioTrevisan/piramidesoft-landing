@@ -43,6 +43,6 @@ body {
 
 /* Ocultar scrollbar para IE, Edge y Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none; /* Firefox */
 }
