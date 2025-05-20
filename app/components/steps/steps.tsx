@@ -163,7 +163,7 @@ export const Steps: React.FC = () => {
     }
 
     // Agregamos el efecto de fade-in a cada tarjeta de paso
-    stepRefs.current.forEach((stepRef, index) => {
+    stepRefs.current.forEach((stepRef) => {
       if (!stepRef) return;
 
       stepRef.classList.add(
@@ -370,7 +370,7 @@ export const Steps: React.FC = () => {
                       height={300}
                       alt={step.title}
                       className="w-full rounded-md object-fill h-64 md:h-80 filter grayscale transition-all duration-900"
-                      ref={(el) => {
+                      ref={() => {
                         // Si tuviéramos una imagen con una ref, la guardaríamos aquí
                       }}
                       id={`step-image-${index}`}
