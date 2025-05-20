@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 interface Step {
@@ -23,7 +24,7 @@ export const Steps: React.FC = () => {
       number: "01",
       description:
         "Todo comienza con una charla. Nos contás tu idea, problema o necesidad, y nosotros nos encargamos de entender cómo la tecnología puede ayudarte. No hace falta que traigas algo definido: estamos para ayudarte a bajar las ideas a tierra, incluso si todavía son muy generales. Acá comienza el proceso de convertir una necesidad en una solución digital concreta.",
-      image: "https://placehold.co/400x300/orange/white",
+      image: "/steps/setp1_2.png",
     },
     {
       position: "Paso 2",
@@ -31,7 +32,7 @@ export const Steps: React.FC = () => {
       number: "02",
       description:
         "Evaluamos si podemos ofrecerte una solución ya desarrollada o si conviene construir algo a medida. Te presentamos las opciones disponibles según tu presupuesto, tiempos y objetivos. En todos los casos, detallamos el paso a paso del proceso, qué funcionalidades vas a tener y cómo vamos a avanzar para que no haya sorpresas.",
-      image: "https://placehold.co/400x300/gray/white",
+      image: "/steps/step2.png",
     },
     {
       position: "Paso 3",
@@ -39,7 +40,7 @@ export const Steps: React.FC = () => {
       number: "03",
       description:
         "Si el camino elegido es el desarrollo personalizado, nuestro equipo comienza a trabajar en tu sistema desde cero, utilizando herramientas modernas y buenas prácticas. Si optás por una solución ya existente, la adaptamos a tu negocio para que se sienta hecha para vos. En ambos casos, recibís avances y podés participar del proceso.",
-      image: "https://placehold.co/400x300/lightgray/white",
+      image: "/steps/step3.png",
     },
     {
       position: "Paso 4",
@@ -47,7 +48,7 @@ export const Steps: React.FC = () => {
       number: "04",
       description:
         "Una vez que todo está listo, nos encargamos de implementar el sistema en tu negocio. Podemos instalarlo en tus dispositivos o subirlo a la nube, según lo que necesites. Hacemos pruebas, verificamos que todo funcione bien y, si es necesario, capacitamos a tu equipo. Queremos que empieces a usar tu sistema sin complicaciones.",
-      image: "https://placehold.co/400x300/white/gray",
+      image: "/steps/step4.png",
     },
     {
       position: "Paso 5",
@@ -55,7 +56,7 @@ export const Steps: React.FC = () => {
       number: "05",
       description:
         "Después de la entrega, seguimos acompañándote. Brindamos soporte técnico para ayudarte con dudas, ajustes o mejoras que quieras hacer más adelante. Nuestro objetivo es que tu software evolucione con vos, y que sientas que tenés un equipo detrás para resolver lo que haga falta.",
-      image: "https://placehold.co/400x300/red/white",
+      image: "/steps/step5.png",
     },
   ];
 
@@ -219,7 +220,10 @@ export const Steps: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full  font-sans relative pb-24" ref={containerRef}>
+    <div
+      className="w-full bg-[#f2f2f2] font-sans relative pb-24"
+      ref={containerRef}
+    >
       {/* Sidebar with "Everything Kinda Starts Here" */}
       <div className="fixed left-6 top-1/4 h-64 hidden lg:block">
         <div className="border-l border-gray-200 h-full relative">
@@ -228,15 +232,12 @@ export const Steps: React.FC = () => {
               Everything Kinda Start Here
             </div>
           </div>
-          <div className="absolute -left-8 bottom-0 text-gray-400 text-sm">
-            SINCE 2010
-          </div>
         </div>
       </div>
 
       {/* Navigation Progress Header */}
       <div
-        className={`sticky top-0 z-10 bg-white pt-8 pb-4 transition-opacity duration-500 ${
+        className={`sticky top-0 z-10 bg-[#f2f2f2] pt-8 pb-4 transition-opacity duration-500 ${
           isBarVisible ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -313,7 +314,7 @@ export const Steps: React.FC = () => {
               >
                 {/* Text Content */}
                 <div
-                  className={`col-span-12 md:col-span-5 ${
+                  className={`col-span-12 md:col-span-8 ${
                     index % 2 === 0 ? "md:pr-8" : "md:pl-8 md:order-2"
                   }`}
                 >
@@ -328,15 +329,17 @@ export const Steps: React.FC = () => {
 
                 {/* Image */}
                 <div
-                  className={`col-span-12 md:col-span-7 ${
+                  className={`col-span-12 md:col-span-4 ${
                     index % 2 === 1 ? "md:order-1" : ""
                   }`}
                 >
                   <div className="relative">
-                    <img
+                    <Image
                       src={step.image}
+                      width={400}
+                      height={300}
                       alt={step.title}
-                      className="w-full rounded-md object-cover shadow-lg h-64 md:h-80"
+                      className="w-full rounded-md object-fill  h-64 md:h-80"
                     />
                   </div>
                 </div>
