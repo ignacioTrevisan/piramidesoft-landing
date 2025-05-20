@@ -16,7 +16,8 @@ export const SobreNosotros = () => {
   const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !titleRef.current || !cardsContainerRef.current) return;
+    if (!sectionRef.current || !titleRef.current || !cardsContainerRef.current)
+      return;
 
     // Animate the title
     gsap.fromTo(
@@ -57,7 +58,7 @@ export const SobreNosotros = () => {
       { width: 0, opacity: 0.5 },
       {
         width: "100%",
-        opacity: 1, 
+        opacity: 1,
         duration: 0.8,
         ease: "power2.out",
         scrollTrigger: {
@@ -70,12 +71,12 @@ export const SobreNosotros = () => {
 
     // Get all card elements
     const cards = gsap.utils.toArray(".nosotros-card");
-    
+
     // Stagger animation for cards
     gsap.fromTo(
       cards,
-      { 
-        y: 30, 
+      {
+        y: 30,
         opacity: 0,
       },
       {
@@ -94,7 +95,7 @@ export const SobreNosotros = () => {
 
     return () => {
       // Clean up ScrollTrigger instances
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
@@ -126,26 +127,31 @@ export const SobreNosotros = () => {
     {
       name: "Ignacio Gabriel Trevisan",
       text: "Tecnico en computacion. Tecnico superior en desarrollo de software",
-      image: "/Nacho.jpeg",
+      image:
+        "https://res.cloudinary.com/nachotrevisan/image/upload/v1747752241/nacho_tid42o.jpg",
       Roles: ["Desarrollo/programacion(Desktop, WEb y Movil)"],
     },
   ];
 
   return (
-    <div id="sobre-nosotros" ref={sectionRef} className="flex flex-col w-full h-auto px-4 md:px-8 py-12 overflow-x-hidden">
+    <div
+      id="sobre-nosotros"
+      ref={sectionRef}
+      className="flex flex-col w-full h-auto px-4 md:px-8 py-12 overflow-x-hidden"
+    >
       <div className="flex justify-between space-x-8 mb-10">
         <hr className="divider-left w-full border-[#2563EB] border-1" />
         <hr className="divider-right w-full border-[#2563EB] border-1" />
       </div>
-      <h1 
-        ref={titleRef} 
+      <h1
+        ref={titleRef}
         className="text-4xl md:text-5xl lg:text-6xl text-center mb-10 text-[#2563EB] font-bold px-4 relative z-10"
       >
         Nuestro <span className="text-gray-800">Equipo</span>
         <div className="absolute -z-10 inset-0 blur-md bg-gray-100 opacity-50 transform scale-150"></div>
       </h1>
-      <div 
-        ref={cardsContainerRef} 
+      <div
+        ref={cardsContainerRef}
         className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12"
       >
         {nosotros.map((n) => (
