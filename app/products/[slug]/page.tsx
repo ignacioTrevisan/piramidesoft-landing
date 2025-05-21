@@ -1,5 +1,4 @@
-"use client";
-import { useState, useRef, useEffect } from "react";
+import { ImagesSelected } from "./imagesSelected";
 
 // Definición de tipos
 interface ModuloItem {
@@ -20,7 +19,6 @@ interface ProductoProps {
 // Componente principal
 const ProductoDetalle = () => {
   // Estado para la imagen seleccionada
-  const [imagenSeleccionada, setImagenSeleccionada] = useState(0);
 
   // Datos de ejemplo del producto
   const producto: ProductoProps = {
@@ -93,9 +91,6 @@ const ProductoDetalle = () => {
   };
 
   // Cambiar imagen en la galería
-  const cambiarImagen = (index: number) => {
-    setImagenSeleccionada(index);
-  };
 
   return (
     <div className="w-full py-8 px-4 max-w-full mt-20">
@@ -103,34 +98,10 @@ const ProductoDetalle = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* Galería de Imágenes */}
           <div className="md:order-1 order-2">
-            <div className="relative h-80 md:h-96 overflow-hidden rounded-xl mb-4 border border-gray-200 shadow-md">
-              <img
-                src={producto.imagenes[imagenSeleccionada]}
-                alt={`${producto.titulo} - imagen ${imagenSeleccionada + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-              />
-            </div>
-
-            {/* Miniaturas */}
-            <div className="flex justify-center space-x-4">
-              {producto.imagenes.map((imagen, index) => (
-                <div
-                  key={index}
-                  className={`relative h-20 w-20 overflow-hidden rounded-lg cursor-pointer border-2 transition-all ${
-                    index === imagenSeleccionada
-                      ? "border-blue-600"
-                      : "border-gray-200"
-                  }`}
-                  onClick={() => cambiarImagen(index)}
-                >
-                  <img
-                    src={imagen}
-                    alt={`Miniatura ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            <ImagesSelected
+              imagenes={producto.imagenes}
+              titulo={producto.titulo}
+            />
           </div>
 
           {/* Detalles del Producto */}
