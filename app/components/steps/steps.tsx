@@ -27,7 +27,7 @@ export const Steps: React.FC = () => {
       number: "01",
       description:
         "Todo comienza con una charla. Nos contás tu idea, problema o necesidad, y nosotros nos encargamos de entender cómo la tecnología puede ayudarte. No hace falta que traigas algo definido: estamos para ayudarte a bajar las ideas a tierra, incluso si todavía son muy generales. Acá comienza el proceso de convertir una necesidad en una solución digital concreta.",
-      image: "/steps/setp1_2.png",
+      image: "/steps/step1_3d.png",
     },
     {
       position: "Paso 2",
@@ -35,7 +35,7 @@ export const Steps: React.FC = () => {
       number: "02",
       description:
         "Evaluamos si podemos ofrecerte una solución ya desarrollada o si conviene construir algo a medida. Te presentamos las opciones disponibles según tu presupuesto, tiempos y objetivos. En todos los casos, detallamos el paso a paso del proceso, qué funcionalidades vas a tener y cómo vamos a avanzar para que no haya sorpresas.",
-      image: "/steps/step2.png",
+      image: "/steps/step2_2_3d.png",
     },
     {
       position: "Paso 3",
@@ -43,7 +43,7 @@ export const Steps: React.FC = () => {
       number: "03",
       description:
         "Si el camino elegido es el desarrollo personalizado, nuestro equipo comienza a trabajar en tu sistema desde cero, utilizando herramientas modernas y buenas prácticas. Si optás por una solución ya existente, la adaptamos a tu negocio para que se sienta hecha para vos. En ambos casos, recibís avances y podés participar del proceso.",
-      image: "/steps/step3.png",
+      image: "/steps/step3_3d.png",
     },
     {
       position: "Paso 4",
@@ -51,7 +51,7 @@ export const Steps: React.FC = () => {
       number: "04",
       description:
         "Una vez que todo está listo, nos encargamos de implementar el sistema en tu negocio. Podemos instalarlo en tus dispositivos o subirlo a la nube, según lo que necesites. Hacemos pruebas, verificamos que todo funcione bien y, si es necesario, capacitamos a tu equipo. Queremos que empieces a usar tu sistema sin complicaciones.",
-      image: "/steps/step4.png",
+      image: "/steps/nuevas/step4.png",
     },
     {
       position: "Paso 5",
@@ -59,7 +59,7 @@ export const Steps: React.FC = () => {
       number: "05",
       description:
         "Después de la entrega, seguimos acompañándote. Brindamos soporte técnico para ayudarte con dudas, ajustes o mejoras que quieras hacer más adelante. Nuestro objetivo es que tu software evolucione con vos, y que sientas que tenés un equipo detrás para resolver lo que haga falta.",
-      image: "/steps/step5.png",
+      image: "/steps/nuevas/step5.png",
     },
   ];
 
@@ -360,17 +360,17 @@ export const Steps: React.FC = () => {
 
                 {/* Image */}
                 <div
-                  className={`col-span-12 md:col-span-4 ${
-                    index % 2 === 1 ? "md:order-1" : ""
-                  }`}
+                  className={`col-span-12 ${
+                    index >= 13 ? "md:col-span-3" : "md:col-span-4"
+                  } ${index % 2 === 1 ? "md:order-1" : ""}`}
                 >
                   <div className="relative">
                     <Image
                       src={step.image}
-                      width={400}
+                      width={300}
                       height={300}
                       alt={step.title}
-                      className="w-full rounded-md object-fill h-64 md:h-80 filter grayscale transition-all duration-900"
+                      className="w-full rounded-md object-fill h-full md:h-80 filter grayscale transition-all duration-900"
                       ref={() => {
                         // Si tuviéramos una imagen con una ref, la guardaríamos aquí
                       }}
