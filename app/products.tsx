@@ -18,7 +18,13 @@ interface ProductCardProps {
   category: string;
 }
 
-const ProductCard = ({ title, description, image, features, category }: ProductCardProps) => {
+const ProductCard = ({
+  title,
+  description,
+  image,
+  features,
+  category,
+}: ProductCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -97,7 +103,13 @@ export function Products() {
 
   useEffect(() => {
     // Animate title and subtitle on page load
-    if (!titleRef.current || !subtitleRef.current || !descriptionRef.current || !customSolutionRef.current) return;
+    if (
+      !titleRef.current ||
+      !subtitleRef.current ||
+      !descriptionRef.current ||
+      !customSolutionRef.current
+    )
+      return;
 
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
@@ -142,7 +154,8 @@ export function Products() {
   const products: ProductCardProps[] = [
     {
       title: "Sistema de Gestión de Stock",
-      description: "Control completo de inventario con reportes detallados y alertas automáticas.",
+      description:
+        "Control completo de inventario con reportes detallados y alertas automáticas.",
       image: "/stock-management.jpg",
       features: [
         "Control de stock multi-sucursal",
@@ -154,7 +167,8 @@ export function Products() {
     },
     {
       title: "Sistema de Punto de Venta",
-      description: "Agiliza tus ventas con un sistema rápido e intuitivo para comercios minoristas.",
+      description:
+        "Agiliza tus ventas con un sistema rápido e intuitivo para comercios minoristas.",
       image: "/pos-system.jpg",
       features: [
         "Interfaz táctil intuitiva",
@@ -166,7 +180,8 @@ export function Products() {
     },
     {
       title: "Facturación Electrónica",
-      description: "Solución completa para emisión y gestión de comprobantes electrónicos AFIP.",
+      description:
+        "Solución completa para emisión y gestión de comprobantes electrónicos AFIP.",
       image: "/electronic-invoice.jpg",
       features: [
         "Integración con AFIP",
@@ -178,7 +193,8 @@ export function Products() {
     },
     {
       title: "CRM para PyMEs",
-      description: "Gestiona tus clientes y potencia tus ventas con nuestro sistema de CRM adaptado.",
+      description:
+        "Gestiona tus clientes y potencia tus ventas con nuestro sistema de CRM adaptado.",
       image: "/crm-system.jpg",
       features: [
         "Seguimiento de clientes",
@@ -190,7 +206,8 @@ export function Products() {
     },
     {
       title: "E-commerce Integrado",
-      description: "Plataforma completa de comercio electrónico integrada con tu sistema de gestión.",
+      description:
+        "Plataforma completa de comercio electrónico integrada con tu sistema de gestión.",
       image: "/ecommerce-platform.jpg",
       features: [
         "Diseño responsive",
@@ -202,7 +219,8 @@ export function Products() {
     },
     {
       title: "App Móvil para Vendedores",
-      description: "Aplicación móvil para que tus vendedores gestionen pedidos desde cualquier lugar.",
+      description:
+        "Aplicación móvil para que tus vendedores gestionen pedidos desde cualquier lugar.",
       image: "/mobile-sales-app.jpg",
       features: [
         "Catálogo digital",
@@ -236,9 +254,10 @@ export function Products() {
             className="max-w-3xl mx-auto text-gray-600 text-lg"
           >
             <p>
-              Ofrecemos productos pre-desarrollados para clientes específicos que pueden 
-              adaptarse a tu negocio, permitiéndote ahorrar costos y tiempo de implementación. 
-              Cada producto puede personalizarse para ajustarse perfectamente a tus necesidades.
+              Ofrecemos productos pre-desarrollados para clientes específicos
+              que pueden adaptarse a tu negocio, permitiéndote ahorrar costos y
+              tiempo de implementación. Cada producto puede personalizarse para
+              ajustarse perfectamente a tus necesidades.
             </p>
           </div>
         </div>
@@ -261,17 +280,18 @@ export function Products() {
                 ¿Necesitas una solución a medida?
               </h2>
               <p className="text-gray-600 mb-6">
-                Además de nuestros productos pre-desarrollados, seguimos ofreciendo el 
-                desarrollo de soluciones completamente personalizadas. Nuestro equipo 
-                diseñará y construirá el sistema que se adapte perfectamente a los 
-                requerimientos específicos de tu negocio.
+                Además de nuestros productos pre-desarrollados, seguimos
+                ofreciendo el desarrollo de soluciones completamente
+                personalizadas. Nuestro equipo diseñará y construirá el sistema
+                que se adapte perfectamente a los requerimientos específicos de
+                tu negocio.
               </p>
               <div className="bg-gray-50 border-l-4 border-[#2563EB] p-4 mb-6">
                 <p className="text-gray-700">
-                  <span className="font-medium">Importante:</span> Nuestros productos 
-                  pre-desarrollados te permiten ahorrar costos y acelerar la implementación, 
-                  mientras que una solución a medida ofrece personalización completa para 
-                  necesidades específicas.
+                  <span className="font-medium">Importante:</span> Nuestros
+                  productos pre-desarrollados te permiten ahorrar costos y
+                  acelerar la implementación, mientras que una solución a medida
+                  ofrece personalización completa para necesidades específicas.
                 </p>
               </div>
               <button className="bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium">

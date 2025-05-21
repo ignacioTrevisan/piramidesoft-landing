@@ -103,7 +103,7 @@ export const SobreNosotros = () => {
     {
       name: "Danilo Ariel Vadino",
       text: "Magister en Sistemas de Informacion. Licenciado en Sistemas de informacion. Analista de Sistemas. Analista programador",
-      image: "/Danilo.jpeg",
+      image: "/Danilo_1.jpeg",
       Roles: [
         "Director",
         "Auditor/Perito",
@@ -115,13 +115,13 @@ export const SobreNosotros = () => {
     {
       name: "Gonzalo Rene Jaquet",
       text: "Licenciado en sistemas informáticos. Analista de sistemas informaticos",
-      image: "/Gonzalo.jpeg",
+      image: "/Gonzalo_1.jpeg",
       Roles: ["Desarrollo/programacion(Desktop, WEb y Movil)"],
     },
     {
       name: "Ariel Enrique Vadino",
       text: "Estudiante de Sistemas",
-      image: "/Ariel.jpeg",
+      image: "/Ariel_1.jpeg",
       Roles: ["Servicio Técnico PC", "Redes"],
     },
     {
