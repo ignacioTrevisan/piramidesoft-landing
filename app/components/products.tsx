@@ -1,9 +1,22 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
+
+// Función para asegurar que todos los productos sean visibles
+const ensureElementsVisible = () => {
+  // Seleccionar todos los elementos de tarjeta de productos y hacerlos visibles
+  if (typeof document !== "undefined") {
+    const productCards = document.querySelectorAll(".card-hover");
+    productCards.forEach((card) => {
+      (card as HTMLElement).style.opacity = "1";
+      (card as HTMLElement).style.transform = "translateY(0)";
+    });
+  }
+};
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -26,11 +39,27 @@ const ProductCard = ({
   category,
 }: ProductCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  // Generar un slug único para cada producto basado en su título
+  const productSlug = title.toLowerCase().replace(/\s+/g, "-");
+  const [isCardMounted, setIsCardMounted] = useState(false);
 
   useEffect(() => {
-    if (!cardRef.current) return;
+    setIsCardMounted(true);
+  }, []);
 
-    gsap.fromTo(
+  useEffect(() => {
+    if (!cardRef.current || !isCardMounted) return;
+
+    // Limpiar cualquier animación previa
+    gsap.set(cardRef.current, { clearProps: "all" });
+
+    // Asegurarse de que ScrollTrigger está registrado
+    if (typeof window !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // Crear la animación con un pequeño retraso para asegurar que todos los elementos estén en el DOM
+    const animation = gsap.fromTo(
       cardRef.current,
       {
         y: 50,
@@ -40,6 +69,7 @@ const ProductCard = ({
         y: 0,
         opacity: 1,
         duration: 0.7,
+        delay: 0.1,
         scrollTrigger: {
           trigger: cardRef.current,
           start: "top bottom-=100",
@@ -47,51 +77,84 @@ const ProductCard = ({
         },
       }
     );
-  }, []);
+
+    // Forzar un refresh de ScrollTrigger
+    ScrollTrigger.refresh();
+
+    // Como respaldo, asegurar que las tarjetas sean visibles después de 500ms
+    const timer = setTimeout(() => {
+      if (cardRef.current) {
+        cardRef.current.style.opacity = "1";
+        cardRef.current.style.transform = "translateY(0)";
+      }
+      // También intentar hacer visibles todas las tarjetas
+      ensureElementsVisible();
+    }, 500);
+
+    // Limpiar ScrollTrigger al desmontar
+    return () => {
+      animation.kill();
+      clearTimeout(timer);
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.vars.trigger === cardRef.current) {
+          st.kill();
+        }
+      });
+    };
+  }, [isCardMounted]);
 
   return (
-    <div
-      ref={cardRef}
-      className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100"
+    <Link
+      href={`/products/${encodeURIComponent(productSlug)}`}
+      legacyBehavior={false}
     >
-      <div className="relative h-48 md:h-56 overflow-hidden">
-        <Image
-          src={image}
-          alt={title}
-          layout="fill"
-          objectFit="cover"
-          className="transition-transform duration-500 hover:scale-110"
-        />
-        <div className="absolute top-3 right-3 bg-[#2563EB] text-white px-3 py-1 rounded-full text-xs font-medium">
-          {category}
+      <div
+        ref={cardRef}
+        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100"
+        style={{
+          opacity: 1,
+          transform: "translateY(0)",
+        }} /* Garantizar visibilidad inicial */
+      >
+        <div className="relative h-48 md:h-56 overflow-hidden">
+          <Image
+            src={image}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+            className="transition-transform duration-500 hover:scale-110"
+          />
+          <div className="absolute top-3 right-3 bg-[#2563EB] text-white px-3 py-1 rounded-full text-xs font-medium">
+            {category}
+          </div>
+        </div>
+        <div className="p-5">
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
+          <p className="text-gray-600 mb-4">{description}</p>
+          <div className="space-y-2">
+            {features.map((feature, index) => (
+              <div key={index} className="flex items-start">
+                <svg
+                  className="w-5 h-5 text-[#2563EB] mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+                <span className="ml-2 text-gray-700">{feature}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="p-5">
-        <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4">{description}</p>
-        <div className="space-y-2">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-start">
-              <svg
-                className="w-5 h-5 text-[#2563EB] mt-0.5 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                ></path>
-              </svg>
-              <span className="ml-2 text-gray-700">{feature}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </Link>
   );
 };
 
@@ -100,8 +163,52 @@ export function Products() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const customSolutionRef = useRef<HTMLDivElement>(null);
+  const productsGridRef = useRef<HTMLDivElement>(null);
+
+  // Asegurar que las animaciones se ejecuten cuando el componente se monta
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    // Marcar que estamos en el cliente para asegurar que las animaciones se inicien
+    setIsClient(true);
+  }, []);
+
+  // Efecto adicional para garantizar que los productos sean visibles
+  useEffect(() => {
+    if (!isClient) return;
+
+    // Asegurar que todos los productos sean visibles después de cargar la página
+    const visibilityTimer = setTimeout(() => {
+      ensureElementsVisible();
+    }, 1000); // Esperar a que todas las animaciones tengan tiempo de iniciarse
+
+    return () => clearTimeout(visibilityTimer);
+  }, [isClient]);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    // Limpiar animaciones anteriores (importante para evitar problemas con Link)
+    const cleanup = () => {
+      if (titleRef.current) gsap.set(titleRef.current, { clearProps: "all" });
+      if (subtitleRef.current)
+        gsap.set(subtitleRef.current, { clearProps: "all" });
+      if (descriptionRef.current)
+        gsap.set(descriptionRef.current, { clearProps: "all" });
+      if (customSolutionRef.current)
+        gsap.set(customSolutionRef.current, { clearProps: "all" });
+
+      // Limpiar cualquier ScrollTrigger creado previamente
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+
+    // Registrar ScrollTrigger de nuevo para asegurar que esté disponible
+    if (typeof window !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    cleanup(); // Limpiar animaciones anteriores al montar
+
     // Animate title and subtitle on page load
     if (
       !titleRef.current ||
@@ -149,7 +256,13 @@ export function Products() {
         },
       }
     );
-  }, []);
+
+    // Forzar una actualización de ScrollTrigger
+    ScrollTrigger.refresh();
+
+    // Limpiar animaciones al desmontar
+    return cleanup;
+  }, [isClient]);
 
   const products: ProductCardProps[] = [
     {
@@ -263,7 +376,10 @@ export function Products() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          ref={productsGridRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+        >
           {products.map((product, index) => (
             <ProductCard key={index} {...product} />
           ))}

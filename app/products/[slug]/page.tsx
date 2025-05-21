@@ -16,10 +16,17 @@ interface ProductoProps {
   video?: string;
 }
 
+interface Props {
+  params: Promise<{
+    slug: string;
+  }>;
+}
 // Componente principal
-const ProductoDetalle = () => {
+export default async function ProductoDetalle({ params }: Props) {
   // Estado para la imagen seleccionada
+  const slug = (await params).slug;
 
+  // En una aplicación real, aquí cargarías los datos del producto basado en el slug
   // Datos de ejemplo del producto
   const producto: ProductoProps = {
     titulo: "Sistema Integrado de Gestión Comercial",
@@ -107,7 +114,7 @@ const ProductoDetalle = () => {
           {/* Detalles del Producto */}
           <div className="md:order-2 order-1">
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-              {producto.titulo}
+              {producto.titulo} -{slug}
             </h1>
 
             <p className="text-gray-600 mb-6 text-lg">{producto.descripcion}</p>
@@ -221,6 +228,4 @@ const ProductoDetalle = () => {
       </div>
     </div>
   );
-};
-
-export default ProductoDetalle;
+}
