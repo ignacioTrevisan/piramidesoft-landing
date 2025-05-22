@@ -1,14 +1,13 @@
 "use client";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 const ProductsPreview = () => {
   const fatherContainer = useRef(null);
-
-  // Creamos refs para las 6 cartas
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   // Array con la información de las cartas
   const cardsData = [
@@ -56,40 +55,59 @@ const ProductsPreview = () => {
     },
   ];
 
-  // Registramos el plugin ScrollTrigger
-  if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-  }
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (fatherContainer.current) {
-      // Animamos todas las cartas
-      cardRefs.current.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          {
+    if (!mounted) return;
+
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Limpiar animaciones previas
+    ScrollTrigger.killAll();
+
+    // Timeout para asegurar que el DOM esté listo
+    const timer = setTimeout(() => {
+      if (fatherContainer.current) {
+        // Filtrar cartas válidas
+        const validCards = cardRefs.current.filter((card) => card !== null);
+
+        if (validCards.length > 0) {
+          // Establecer estado inicial
+          gsap.set(validCards, {
             opacity: 0,
             y: 30,
             scale: 0.95,
-          },
-          {
+          });
+
+          // Crear animación
+          gsap.to(validCards, {
             opacity: 1,
             y: 0,
             scale: 1,
             duration: 0.6,
-            delay: 0.1 * index, // Agregamos un pequeño retraso entre cada carta
+            stagger: 0.1,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: fatherContainer.current,
               start: "top 70%",
-              end: "top 30%",
-              scrub: 1,
-              invalidateOnRefresh: true,
+              toggleActions: "play none none reverse",
             },
-          }
-        );
-      });
-    }
-  }, []);
+          });
+
+          // Refresh ScrollTrigger
+          ScrollTrigger.refresh();
+        }
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      ScrollTrigger.killAll();
+    };
+  }, [mounted]);
 
   return (
     <div
@@ -114,20 +132,21 @@ const ProductsPreview = () => {
               <div className="h-32 bg-[#f2f2f2] relative rounded-md mb-4 flex items-center justify-center">
                 <img
                   src={card.imagen}
-                  className="w-full h-full"
+                  className="w-full h-full object-cover rounded-md"
                   alt={`${card.title} imagen`}
+                  loading="lazy"
                 />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-gray-800">
                 {card.title}
               </h3>
               <p className="text-gray-600 mb-6">{card.description}</p>
-              <button
-                onClick={() => window.location.replace("/products")}
-                className="w-full bg-[#2563EB] hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors"
+              <Link
+                href={"/products"}
+                className="inline-block w-full text-center bg-[#2563EB] hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors"
               >
                 Conoce más
-              </button>
+              </Link>
             </div>
           ))}
         </div>
@@ -136,12 +155,12 @@ const ProductsPreview = () => {
           <p className="text-gray-600 mb-4">
             Explora nuestra gama completa de productos
           </p>
-          <button
-            onClick={() => window.location.replace("/products")}
-            className="bg-transparent border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white font-bold py-3 px-8 rounded-lg transition-all"
+          <Link
+            href={"/products"}
+            className="inline-block bg-transparent border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white font-bold py-3 px-6 rounded-lg transition-all"
           >
             Ver todos los productos
-          </button>
+          </Link>
         </div>
       </div>
     </div>

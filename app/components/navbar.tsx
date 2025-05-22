@@ -23,9 +23,7 @@ const MobileNavbarElements = () => {
     <div className="flex flex-col gap-4">
       {elementos.map((e) => (
         <Link key={e.titulo} href={e.url}>
-          <div
-            className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600"
-          >
+          <div className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600">
             {e.titulo}
           </div>
         </Link>
@@ -39,13 +37,15 @@ export const Navbar = () => {
   const navbarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+  const ticking = useRef(false);
 
   useEffect(() => {
     if (!navbarRef.current || !logoRef.current || !buttonRef.current) return;
 
     // Initial animation
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
-
     tl.fromTo(
       navbarRef.current,
       { y: -50, opacity: 0 },
@@ -64,33 +64,45 @@ export const Navbar = () => {
         "-=0.3"
       );
 
-    // Fix for the first error: Wrap the ternary expression in a function
-    // Scroll animation
-    const showAnim = gsap
-      .from(navbarRef.current, {
-        yPercent: -100,
-        paused: true,
-        duration: 0.2,
-      })
-      .progress(1);
+    // Función para manejar el scroll - SIMPLIFICADA
+    const handleScroll = () => {
+      if (!ticking.current) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
 
-    ScrollTrigger.create({
-      start: "top top",
-      end: "max",
-      onUpdate: (self) => {
-        if (self.direction === -1) {
-          showAnim.play();
-        } else {
-          showAnim.reverse();
-        }
-      },
-    });
+          // Si estamos cerca del top, siempre mostrar
+          if (currentScrollY < 100) {
+            setIsVisible(true);
+          } else {
+            // Solo cambiar estado si hay una diferencia significativa
+            const scrollDiff = currentScrollY - lastScrollYRef.current;
+
+            if (scrollDiff > 50) {
+              // Bajando más de 50px - ocultar
+              setIsVisible(false);
+              lastScrollYRef.current = currentScrollY;
+            } else if (scrollDiff < -50) {
+              // Subiendo más de 50px - mostrar
+              setIsVisible(true);
+              lastScrollYRef.current = currentScrollY;
+            }
+          }
+
+          ticking.current = false;
+        });
+
+        ticking.current = true;
+      }
+    };
+
+    // Agregar listener de scroll
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     // Button hover animation
     const handleMouseEnter = () => {
       gsap.to(buttonRef.current, {
         scale: 1.03,
-        backgroundColor: "#1E40AF", // Azul más oscuro para hover
+        backgroundColor: "#1E40AF",
         duration: 0.2,
       });
     };
@@ -98,26 +110,34 @@ export const Navbar = () => {
     const handleMouseLeave = () => {
       gsap.to(buttonRef.current, {
         scale: 1,
-        backgroundColor: "#2563EB", // Azul principal
+        backgroundColor: "#2563EB",
         duration: 0.2,
       });
     };
 
-    // Store the current ref value for cleanup (addresses the second warning)
     const currentButtonRef = buttonRef.current;
-
     currentButtonRef.addEventListener("mouseenter", handleMouseEnter);
     currentButtonRef.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      // Cleanup with the saved ref
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      window.removeEventListener("scroll", handleScroll);
       if (currentButtonRef) {
         currentButtonRef.removeEventListener("mouseenter", handleMouseEnter);
         currentButtonRef.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
-  }, []);
+  }, []); // Dependencias vacías para evitar conflictos
+
+  // Efecto para animar la navbar basado en isVisible
+  useEffect(() => {
+    if (!navbarRef.current) return;
+
+    gsap.to(navbarRef.current, {
+      y: isVisible ? 0 : -100,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }, [isVisible]);
 
   return (
     <div
@@ -136,9 +156,11 @@ export const Navbar = () => {
           <div className="absolute -inset-2 rounded-full blur-sm bg-gray-100 opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
         </div>
       </Link>
+
       <div className="hidden md:block">
         <Navbar_elements />
       </div>
+
       <div className="block md:hidden">
         <button
           className="p-2"
@@ -168,6 +190,7 @@ export const Navbar = () => {
           </div>
         )}
       </div>
+
       <button
         ref={buttonRef}
         className="hidden md:block bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-2.5 px-6 w-auto rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium"

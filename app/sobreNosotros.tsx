@@ -1,46 +1,62 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { NosotrosCard } from "./components/nosotrosCard";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Ensure ScrollTrigger is registered
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export const SobreNosotros = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const dividerLeftRef = useRef<HTMLHRElement>(null);
+  const dividerRightRef = useRef<HTMLHRElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!sectionRef.current || !titleRef.current || !cardsContainerRef.current)
-      return;
+    setMounted(true);
+  }, []);
 
-    // Animate the title
-    gsap.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 20 },
-      {
+  useEffect(() => {
+    if (!mounted) return;
+
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Limpiar animaciones previas
+    ScrollTrigger.killAll();
+
+    const timer = setTimeout(() => {
+      if (
+        !sectionRef.current ||
+        !titleRef.current ||
+        !cardsContainerRef.current
+      )
+        return;
+
+      // Establecer estados iniciales
+      gsap.set(titleRef.current, { opacity: 0, y: 20 });
+      gsap.set([dividerLeftRef.current, dividerRightRef.current], {
+        width: 0,
+        opacity: 0.5,
+      });
+
+      // Animar título
+      gsap.to(titleRef.current, {
         opacity: 1,
         y: 0,
         duration: 0.5,
         delay: 0.3,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: titleRef.current,
           start: "top bottom-=100",
-          toggleActions: "play none none none",
+          toggleActions: "play none none reverse",
         },
-      }
-    );
+      });
 
-    // Animate the dividers
-    gsap.fromTo(
-      ".divider-left",
-      { width: 0, opacity: 0.5 },
-      {
+      // Animar dividers
+      gsap.to([dividerLeftRef.current, dividerRightRef.current], {
         width: "100%",
         opacity: 1,
         duration: 0.8,
@@ -48,56 +64,36 @@ export const SobreNosotros = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top bottom-=50",
-          toggleActions: "play none none none",
+          toggleActions: "play none none reverse",
         },
-      }
-    );
+      });
 
-    gsap.fromTo(
-      ".divider-right",
-      { width: 0, opacity: 0.5 },
-      {
-        width: "100%",
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom-=50",
-          toggleActions: "play none none none",
-        },
+      // Animar cartas
+      const cards = gsap.utils.toArray(".nosotros-card");
+      if (cards.length > 0) {
+        gsap.set(cards, { y: 30, opacity: 0 });
+        gsap.to(cards, {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cardsContainerRef.current,
+            start: "top bottom-=50",
+            toggleActions: "play none none reverse",
+          },
+        });
       }
-    );
 
-    // Get all card elements
-    const cards = gsap.utils.toArray(".nosotros-card");
-
-    // Stagger animation for cards
-    gsap.fromTo(
-      cards,
-      {
-        y: 30,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        stagger: 0.15,
-        duration: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: cardsContainerRef.current,
-          start: "top bottom-=50",
-          toggleActions: "play none none none",
-        },
-      }
-    );
+      ScrollTrigger.refresh();
+    }, 100);
 
     return () => {
-      // Clean up ScrollTrigger instances
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      clearTimeout(timer);
+      ScrollTrigger.killAll();
     };
-  }, []);
+  }, [mounted]);
 
   const nosotros = [
     {
@@ -140,8 +136,14 @@ export const SobreNosotros = () => {
       className="flex flex-col w-full h-auto px-4 md:px-8 py-12 overflow-x-hidden"
     >
       <div className="flex justify-between space-x-8 mb-10">
-        <hr className="divider-left w-full border-[#2563EB] border-1" />
-        <hr className="divider-right w-full border-[#2563EB] border-1" />
+        <hr
+          ref={dividerLeftRef}
+          className="divider-left w-full border-[#2563EB] border-1"
+        />
+        <hr
+          ref={dividerRightRef}
+          className="divider-right w-full border-[#2563EB] border-1"
+        />
       </div>
       <h1
         ref={titleRef}
@@ -155,7 +157,9 @@ export const SobreNosotros = () => {
         className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12"
       >
         {nosotros.map((n) => (
-          <NosotrosCard {...n} key={n.name} />
+          <div key={n.name} className="nosotros-card">
+            <NosotrosCard {...n} />
+          </div>
         ))}
       </div>
     </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {
@@ -165,8 +166,11 @@ export function Products() {
   const customSolutionRef = useRef<HTMLDivElement>(null);
   const productsGridRef = useRef<HTMLDivElement>(null);
 
+  const router = useRouter();
+
   // Asegurar que las animaciones se ejecuten cuando el componente se monta
   const [isClient, setIsClient] = useState(false);
+  const [animationsCreated, setAnimationsCreated] = useState(false);
 
   useEffect(() => {
     // Marcar que estamos en el cliente para asegurar que las animaciones se inicien
@@ -186,10 +190,14 @@ export function Products() {
   }, [isClient]);
 
   useEffect(() => {
-    if (!isClient) return;
+    if (!isClient || animationsCreated) return;
 
-    // Limpiar animaciones anteriores (importante para evitar problemas con Link)
+    // Función para limpiar todas las animaciones
     const cleanup = () => {
+      // Limpiar todas las instancias de ScrollTrigger
+      ScrollTrigger.killAll();
+
+      // Limpiar propiedades GSAP de todos los elementos
       if (titleRef.current) gsap.set(titleRef.current, { clearProps: "all" });
       if (subtitleRef.current)
         gsap.set(subtitleRef.current, { clearProps: "all" });
@@ -197,72 +205,137 @@ export function Products() {
         gsap.set(descriptionRef.current, { clearProps: "all" });
       if (customSolutionRef.current)
         gsap.set(customSolutionRef.current, { clearProps: "all" });
-
-      // Limpiar cualquier ScrollTrigger creado previamente
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
 
-    // Registrar ScrollTrigger de nuevo para asegurar que esté disponible
-    if (typeof window !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger);
-    }
+    // Limpiar animaciones anteriores
+    cleanup();
 
-    cleanup(); // Limpiar animaciones anteriores al montar
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
 
-    // Animate title and subtitle on page load
+    // Verificar que todos los elementos existen
     if (
       !titleRef.current ||
       !subtitleRef.current ||
       !descriptionRef.current ||
       !customSolutionRef.current
-    )
+    ) {
       return;
+    }
 
-    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+    // Crear las animaciones con un timeout para asegurar que el DOM esté listo
+    const createAnimations = () => {
+      try {
+        // Timeline para animaciones iniciales
+        const tl = gsap.timeline({
+          defaults: { ease: "power2.out" },
+          onComplete: () => {
+            console.log("Initial animations completed");
+          },
+        });
 
-    tl.fromTo(
-      titleRef.current,
-      { y: -30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7 }
-    )
-      .fromTo(
-        subtitleRef.current,
-        { y: -20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        "-=0.4"
-      )
-      .fromTo(
-        descriptionRef.current,
-        { y: -10, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        "-=0.4"
-      );
+        tl.fromTo(
+          titleRef.current,
+          { y: -30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 }
+        )
+          .fromTo(
+            subtitleRef.current,
+            { y: -20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7 },
+            "-=0.4"
+          )
+          .fromTo(
+            descriptionRef.current,
+            { y: -10, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7 },
+            "-=0.4"
+          );
 
-    // Animate custom solution section when scrolled into view
-    gsap.fromTo(
-      customSolutionRef.current,
-      {
-        y: 50,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        scrollTrigger: {
-          trigger: customSolutionRef.current,
-          start: "top bottom-=100",
-          toggleActions: "play none none reverse",
-        },
+        // Animación del custom solution con ScrollTrigger
+        const customSolutionAnimation = gsap.fromTo(
+          customSolutionRef.current,
+          {
+            y: 50,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            scrollTrigger: {
+              trigger: customSolutionRef.current,
+              start: "top bottom-=100",
+              end: "bottom top",
+              toggleActions: "play none none reverse",
+              markers: false, // Cambiar a true para debug
+              onToggle: (self) => {
+                console.log(
+                  "Custom solution ScrollTrigger toggled:",
+                  self.isActive
+                );
+              },
+              onRefresh: () => {
+                console.log("Custom solution ScrollTrigger refreshed");
+              },
+            },
+          }
+        );
+
+        // Marcar que las animaciones fueron creadas
+        setAnimationsCreated(true);
+
+        // Forzar refresh de ScrollTrigger después de un breve delay
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+          console.log("ScrollTrigger refreshed");
+        }, 100);
+
+        // Retornar función de limpieza
+        return () => {
+          tl.kill();
+          customSolutionAnimation.kill();
+          cleanup();
+        };
+      } catch (error) {
+        console.error("Error creating animations:", error);
+        return cleanup;
       }
-    );
+    };
 
-    // Forzar una actualización de ScrollTrigger
-    ScrollTrigger.refresh();
+    // Crear animaciones después de un pequeño delay para asegurar que el DOM esté listo
+    const animationTimer = setTimeout(createAnimations, 50);
 
-    // Limpiar animaciones al desmontar
-    return cleanup;
-  }, [isClient]);
+    // Función de limpieza
+    return () => {
+      clearTimeout(animationTimer);
+      cleanup();
+    };
+  }, [isClient, animationsCreated]);
+
+  // Efecto para manejar cambios de ruta
+  useEffect(() => {
+    const handleRouteChange = () => {
+      console.log("Route change detected, resetting animations");
+      setAnimationsCreated(false);
+      ScrollTrigger.refresh();
+    };
+
+    // Reset animaciones cuando la ruta cambia
+    handleRouteChange();
+  }, [router]);
+
+  // Efecto para refresh de ScrollTrigger cuando el componente se monta completamente
+  useEffect(() => {
+    if (!isClient) return;
+
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      console.log("Final ScrollTrigger refresh");
+    }, 500);
+
+    return () => clearTimeout(refreshTimer);
+  }, [isClient, animationsCreated]);
 
   const products: ProductCardProps[] = [
     {
@@ -389,6 +462,10 @@ export function Products() {
         <div
           ref={customSolutionRef}
           className="bg-white rounded-xl p-6 md:p-10 shadow-md border border-gray-100"
+          style={{
+            opacity: 0,
+            transform: "translateY(50px)",
+          }}
         >
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-2/3 mb-6 md:mb-0 md:pr-10">
