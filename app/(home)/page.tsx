@@ -1,7 +1,8 @@
-import { SobreNosotros } from "./sobreNosotros";
-import { Steps } from "./components/steps/steps";
 import HeroSection from "./components/hero/HeroSection";
+import Steps from "./components/steps/steps";
 import ProductsPreview from "./productsPreview";
+
+import { SobreNosotros } from "./sobreNosotros";
 
 export default function Home() {
   return (
