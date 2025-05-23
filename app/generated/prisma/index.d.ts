@@ -1586,10 +1586,12 @@ export namespace Prisma {
 
   export type StatsCountOutputType = {
     userViews: number
+    cantidadDeConsultas: number
   }
 
   export type StatsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userViews?: boolean | StatsCountOutputTypeCountUserViewsArgs
+    cantidadDeConsultas?: boolean | StatsCountOutputTypeCountCantidadDeConsultasArgs
   }
 
   // Custom InputTypes
@@ -1608,6 +1610,13 @@ export namespace Prisma {
    */
   export type StatsCountOutputTypeCountUserViewsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserViewWhereInput
+  }
+
+  /**
+   * StatsCountOutputType without action
+   */
+  export type StatsCountOutputTypeCountCantidadDeConsultasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsultasWhereInput
   }
 
 
@@ -5924,6 +5933,7 @@ export namespace Prisma {
     email: string | null
     numero: string | null
     createdAt: Date | null
+    statsMes: string | null
   }
 
   export type ConsultasMaxAggregateOutputType = {
@@ -5932,6 +5942,7 @@ export namespace Prisma {
     email: string | null
     numero: string | null
     createdAt: Date | null
+    statsMes: string | null
   }
 
   export type ConsultasCountAggregateOutputType = {
@@ -5940,6 +5951,7 @@ export namespace Prisma {
     email: number
     numero: number
     createdAt: number
+    statsMes: number
     _all: number
   }
 
@@ -5950,6 +5962,7 @@ export namespace Prisma {
     email?: true
     numero?: true
     createdAt?: true
+    statsMes?: true
   }
 
   export type ConsultasMaxAggregateInputType = {
@@ -5958,6 +5971,7 @@ export namespace Prisma {
     email?: true
     numero?: true
     createdAt?: true
+    statsMes?: true
   }
 
   export type ConsultasCountAggregateInputType = {
@@ -5966,6 +5980,7 @@ export namespace Prisma {
     email?: true
     numero?: true
     createdAt?: true
+    statsMes?: true
     _all?: true
   }
 
@@ -6047,6 +6062,7 @@ export namespace Prisma {
     email: string
     numero: string
     createdAt: Date
+    statsMes: string
     _count: ConsultasCountAggregateOutputType | null
     _min: ConsultasMinAggregateOutputType | null
     _max: ConsultasMaxAggregateOutputType | null
@@ -6072,6 +6088,8 @@ export namespace Prisma {
     email?: boolean
     numero?: boolean
     createdAt?: boolean
+    statsMes?: boolean
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6080,6 +6098,8 @@ export namespace Prisma {
     email?: boolean
     numero?: boolean
     createdAt?: boolean
+    statsMes?: boolean
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6088,6 +6108,8 @@ export namespace Prisma {
     email?: boolean
     numero?: boolean
     createdAt?: boolean
+    statsMes?: boolean
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectScalar = {
@@ -6096,19 +6118,32 @@ export namespace Prisma {
     email?: boolean
     numero?: boolean
     createdAt?: boolean
+    statsMes?: boolean
   }
 
-  export type ConsultasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descripcion" | "email" | "numero" | "createdAt", ExtArgs["result"]["consultas"]>
+  export type ConsultasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descripcion" | "email" | "numero" | "createdAt" | "statsMes", ExtArgs["result"]["consultas"]>
+  export type ConsultasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
+  }
+  export type ConsultasIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
+  }
+  export type ConsultasIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    stats?: boolean | StatsDefaultArgs<ExtArgs>
+  }
 
   export type $ConsultasPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Consultas"
-    objects: {}
+    objects: {
+      stats: Prisma.$StatsPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       descripcion: string
       email: string
       numero: string
       createdAt: Date
+      statsMes: string
     }, ExtArgs["result"]["consultas"]>
     composites: {}
   }
@@ -6503,6 +6538,7 @@ export namespace Prisma {
    */
   export interface Prisma__ConsultasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    stats<T extends StatsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StatsDefaultArgs<ExtArgs>>): Prisma__StatsClient<$Result.GetResult<Prisma.$StatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6537,6 +6573,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Consultas", 'String'>
     readonly numero: FieldRef<"Consultas", 'String'>
     readonly createdAt: FieldRef<"Consultas", 'DateTime'>
+    readonly statsMes: FieldRef<"Consultas", 'String'>
   }
     
 
@@ -6553,6 +6590,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
     /**
      * Filter, which Consultas to fetch.
      */
@@ -6572,6 +6613,10 @@ export namespace Prisma {
      */
     omit?: ConsultasOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    /**
      * Filter, which Consultas to fetch.
      */
     where: ConsultasWhereUniqueInput
@@ -6589,6 +6634,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
     /**
      * Filter, which Consultas to fetch.
      */
@@ -6638,6 +6687,10 @@ export namespace Prisma {
      */
     omit?: ConsultasOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    /**
      * Filter, which Consultas to fetch.
      */
     where?: ConsultasWhereInput
@@ -6686,6 +6739,10 @@ export namespace Prisma {
      */
     omit?: ConsultasOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    /**
      * Filter, which Consultas to fetch.
      */
     where?: ConsultasWhereInput
@@ -6729,6 +6786,10 @@ export namespace Prisma {
      */
     omit?: ConsultasOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    /**
      * The data needed to create a Consultas.
      */
     data: XOR<ConsultasCreateInput, ConsultasUncheckedCreateInput>
@@ -6762,6 +6823,10 @@ export namespace Prisma {
      */
     data: ConsultasCreateManyInput | ConsultasCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6776,6 +6841,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
     /**
      * The data needed to update a Consultas.
      */
@@ -6828,6 +6897,10 @@ export namespace Prisma {
      * Limit how many Consultas to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6842,6 +6915,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
     /**
      * The filter to search for the Consultas to update in case it exists.
      */
@@ -6868,6 +6945,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
     /**
      * Filter which Consultas to delete.
      */
@@ -6900,6 +6981,10 @@ export namespace Prisma {
      * Omit specific fields from the Consultas
      */
     omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
   }
 
 
@@ -8124,6 +8209,7 @@ export namespace Prisma {
     cantidadDeProductos?: boolean
     cantidadDeBlogs?: boolean
     userViews?: boolean | Stats$userViewsArgs<ExtArgs>
+    cantidadDeConsultas?: boolean | Stats$cantidadDeConsultasArgs<ExtArgs>
     _count?: boolean | StatsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stats"]>
 
@@ -8148,6 +8234,7 @@ export namespace Prisma {
   export type StatsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"mes" | "cantidadDeProductos" | "cantidadDeBlogs", ExtArgs["result"]["stats"]>
   export type StatsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userViews?: boolean | Stats$userViewsArgs<ExtArgs>
+    cantidadDeConsultas?: boolean | Stats$cantidadDeConsultasArgs<ExtArgs>
     _count?: boolean | StatsCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StatsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -8157,6 +8244,7 @@ export namespace Prisma {
     name: "Stats"
     objects: {
       userViews: Prisma.$UserViewPayload<ExtArgs>[]
+      cantidadDeConsultas: Prisma.$ConsultasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       mes: string
@@ -8557,6 +8645,7 @@ export namespace Prisma {
   export interface Prisma__StatsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     userViews<T extends Stats$userViewsArgs<ExtArgs> = {}>(args?: Subset<T, Stats$userViewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cantidadDeConsultas<T extends Stats$cantidadDeConsultasArgs<ExtArgs> = {}>(args?: Subset<T, Stats$cantidadDeConsultasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8998,6 +9087,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserViewScalarFieldEnum | UserViewScalarFieldEnum[]
+  }
+
+  /**
+   * Stats.cantidadDeConsultas
+   */
+  export type Stats$cantidadDeConsultasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultas
+     */
+    select?: ConsultasSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultas
+     */
+    omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    where?: ConsultasWhereInput
+    orderBy?: ConsultasOrderByWithRelationInput | ConsultasOrderByWithRelationInput[]
+    cursor?: ConsultasWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsultasScalarFieldEnum | ConsultasScalarFieldEnum[]
   }
 
   /**
@@ -10118,7 +10231,8 @@ export namespace Prisma {
     descripcion: 'descripcion',
     email: 'email',
     numero: 'numero',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    statsMes: 'statsMes'
   };
 
   export type ConsultasScalarFieldEnum = (typeof ConsultasScalarFieldEnum)[keyof typeof ConsultasScalarFieldEnum]
@@ -10530,6 +10644,8 @@ export namespace Prisma {
     email?: StringFilter<"Consultas"> | string
     numero?: StringFilter<"Consultas"> | string
     createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    statsMes?: StringFilter<"Consultas"> | string
+    stats?: XOR<StatsScalarRelationFilter, StatsWhereInput>
   }
 
   export type ConsultasOrderByWithRelationInput = {
@@ -10538,6 +10654,8 @@ export namespace Prisma {
     email?: SortOrder
     numero?: SortOrder
     createdAt?: SortOrder
+    statsMes?: SortOrder
+    stats?: StatsOrderByWithRelationInput
   }
 
   export type ConsultasWhereUniqueInput = Prisma.AtLeast<{
@@ -10549,6 +10667,8 @@ export namespace Prisma {
     email?: StringFilter<"Consultas"> | string
     numero?: StringFilter<"Consultas"> | string
     createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    statsMes?: StringFilter<"Consultas"> | string
+    stats?: XOR<StatsScalarRelationFilter, StatsWhereInput>
   }, "id">
 
   export type ConsultasOrderByWithAggregationInput = {
@@ -10557,6 +10677,7 @@ export namespace Prisma {
     email?: SortOrder
     numero?: SortOrder
     createdAt?: SortOrder
+    statsMes?: SortOrder
     _count?: ConsultasCountOrderByAggregateInput
     _max?: ConsultasMaxOrderByAggregateInput
     _min?: ConsultasMinOrderByAggregateInput
@@ -10571,6 +10692,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Consultas"> | string
     numero?: StringWithAggregatesFilter<"Consultas"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Consultas"> | Date | string
+    statsMes?: StringWithAggregatesFilter<"Consultas"> | string
   }
 
   export type BlogWhereInput = {
@@ -10648,6 +10770,7 @@ export namespace Prisma {
     cantidadDeProductos?: IntFilter<"Stats"> | number
     cantidadDeBlogs?: IntFilter<"Stats"> | number
     userViews?: UserViewListRelationFilter
+    cantidadDeConsultas?: ConsultasListRelationFilter
   }
 
   export type StatsOrderByWithRelationInput = {
@@ -10655,6 +10778,7 @@ export namespace Prisma {
     cantidadDeProductos?: SortOrder
     cantidadDeBlogs?: SortOrder
     userViews?: UserViewOrderByRelationAggregateInput
+    cantidadDeConsultas?: ConsultasOrderByRelationAggregateInput
   }
 
   export type StatsWhereUniqueInput = Prisma.AtLeast<{
@@ -10665,6 +10789,7 @@ export namespace Prisma {
     cantidadDeProductos?: IntFilter<"Stats"> | number
     cantidadDeBlogs?: IntFilter<"Stats"> | number
     userViews?: UserViewListRelationFilter
+    cantidadDeConsultas?: ConsultasListRelationFilter
   }, "mes" | "mes">
 
   export type StatsOrderByWithAggregationInput = {
@@ -10996,6 +11121,7 @@ export namespace Prisma {
     email: string
     numero: string
     createdAt?: Date | string
+    stats: StatsCreateNestedOneWithoutCantidadDeConsultasInput
   }
 
   export type ConsultasUncheckedCreateInput = {
@@ -11004,6 +11130,7 @@ export namespace Prisma {
     email: string
     numero: string
     createdAt?: Date | string
+    statsMes: string
   }
 
   export type ConsultasUpdateInput = {
@@ -11012,6 +11139,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stats?: StatsUpdateOneRequiredWithoutCantidadDeConsultasNestedInput
   }
 
   export type ConsultasUncheckedUpdateInput = {
@@ -11020,6 +11148,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statsMes?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConsultasCreateManyInput = {
@@ -11028,6 +11157,7 @@ export namespace Prisma {
     email: string
     numero: string
     createdAt?: Date | string
+    statsMes: string
   }
 
   export type ConsultasUpdateManyMutationInput = {
@@ -11044,6 +11174,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statsMes?: StringFieldUpdateOperationsInput | string
   }
 
   export type BlogCreateInput = {
@@ -11128,6 +11259,7 @@ export namespace Prisma {
     cantidadDeProductos: number
     cantidadDeBlogs: number
     userViews?: UserViewCreateNestedManyWithoutStatsInput
+    cantidadDeConsultas?: ConsultasCreateNestedManyWithoutStatsInput
   }
 
   export type StatsUncheckedCreateInput = {
@@ -11135,6 +11267,7 @@ export namespace Prisma {
     cantidadDeProductos: number
     cantidadDeBlogs: number
     userViews?: UserViewUncheckedCreateNestedManyWithoutStatsInput
+    cantidadDeConsultas?: ConsultasUncheckedCreateNestedManyWithoutStatsInput
   }
 
   export type StatsUpdateInput = {
@@ -11142,6 +11275,7 @@ export namespace Prisma {
     cantidadDeProductos?: IntFieldUpdateOperationsInput | number
     cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
     userViews?: UserViewUpdateManyWithoutStatsNestedInput
+    cantidadDeConsultas?: ConsultasUpdateManyWithoutStatsNestedInput
   }
 
   export type StatsUncheckedUpdateInput = {
@@ -11149,6 +11283,7 @@ export namespace Prisma {
     cantidadDeProductos?: IntFieldUpdateOperationsInput | number
     cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
     userViews?: UserViewUncheckedUpdateManyWithoutStatsNestedInput
+    cantidadDeConsultas?: ConsultasUncheckedUpdateManyWithoutStatsNestedInput
   }
 
   export type StatsCreateManyInput = {
@@ -11542,12 +11677,18 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type StatsScalarRelationFilter = {
+    is?: StatsWhereInput
+    isNot?: StatsWhereInput
+  }
+
   export type ConsultasCountOrderByAggregateInput = {
     id?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
     createdAt?: SortOrder
+    statsMes?: SortOrder
   }
 
   export type ConsultasMaxOrderByAggregateInput = {
@@ -11556,6 +11697,7 @@ export namespace Prisma {
     email?: SortOrder
     numero?: SortOrder
     createdAt?: SortOrder
+    statsMes?: SortOrder
   }
 
   export type ConsultasMinOrderByAggregateInput = {
@@ -11564,6 +11706,7 @@ export namespace Prisma {
     email?: SortOrder
     numero?: SortOrder
     createdAt?: SortOrder
+    statsMes?: SortOrder
   }
 
   export type BlogCountOrderByAggregateInput = {
@@ -11616,7 +11759,17 @@ export namespace Prisma {
     none?: UserViewWhereInput
   }
 
+  export type ConsultasListRelationFilter = {
+    every?: ConsultasWhereInput
+    some?: ConsultasWhereInput
+    none?: ConsultasWhereInput
+  }
+
   export type UserViewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConsultasOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11662,11 +11815,6 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type StatsScalarRelationFilter = {
-    is?: StatsWhereInput
-    isNot?: StatsWhereInput
   }
 
   export type UserViewCountOrderByAggregateInput = {
@@ -11853,6 +12001,20 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type StatsCreateNestedOneWithoutCantidadDeConsultasInput = {
+    create?: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
+    connectOrCreate?: StatsCreateOrConnectWithoutCantidadDeConsultasInput
+    connect?: StatsWhereUniqueInput
+  }
+
+  export type StatsUpdateOneRequiredWithoutCantidadDeConsultasNestedInput = {
+    create?: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
+    connectOrCreate?: StatsCreateOrConnectWithoutCantidadDeConsultasInput
+    upsert?: StatsUpsertWithoutCantidadDeConsultasInput
+    connect?: StatsWhereUniqueInput
+    update?: XOR<XOR<StatsUpdateToOneWithWhereWithoutCantidadDeConsultasInput, StatsUpdateWithoutCantidadDeConsultasInput>, StatsUncheckedUpdateWithoutCantidadDeConsultasInput>
+  }
+
   export type UserViewCreateNestedManyWithoutStatsInput = {
     create?: XOR<UserViewCreateWithoutStatsInput, UserViewUncheckedCreateWithoutStatsInput> | UserViewCreateWithoutStatsInput[] | UserViewUncheckedCreateWithoutStatsInput[]
     connectOrCreate?: UserViewCreateOrConnectWithoutStatsInput | UserViewCreateOrConnectWithoutStatsInput[]
@@ -11860,11 +12022,25 @@ export namespace Prisma {
     connect?: UserViewWhereUniqueInput | UserViewWhereUniqueInput[]
   }
 
+  export type ConsultasCreateNestedManyWithoutStatsInput = {
+    create?: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput> | ConsultasCreateWithoutStatsInput[] | ConsultasUncheckedCreateWithoutStatsInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutStatsInput | ConsultasCreateOrConnectWithoutStatsInput[]
+    createMany?: ConsultasCreateManyStatsInputEnvelope
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+  }
+
   export type UserViewUncheckedCreateNestedManyWithoutStatsInput = {
     create?: XOR<UserViewCreateWithoutStatsInput, UserViewUncheckedCreateWithoutStatsInput> | UserViewCreateWithoutStatsInput[] | UserViewUncheckedCreateWithoutStatsInput[]
     connectOrCreate?: UserViewCreateOrConnectWithoutStatsInput | UserViewCreateOrConnectWithoutStatsInput[]
     createMany?: UserViewCreateManyStatsInputEnvelope
     connect?: UserViewWhereUniqueInput | UserViewWhereUniqueInput[]
+  }
+
+  export type ConsultasUncheckedCreateNestedManyWithoutStatsInput = {
+    create?: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput> | ConsultasCreateWithoutStatsInput[] | ConsultasUncheckedCreateWithoutStatsInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutStatsInput | ConsultasCreateOrConnectWithoutStatsInput[]
+    createMany?: ConsultasCreateManyStatsInputEnvelope
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -11889,6 +12065,20 @@ export namespace Prisma {
     deleteMany?: UserViewScalarWhereInput | UserViewScalarWhereInput[]
   }
 
+  export type ConsultasUpdateManyWithoutStatsNestedInput = {
+    create?: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput> | ConsultasCreateWithoutStatsInput[] | ConsultasUncheckedCreateWithoutStatsInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutStatsInput | ConsultasCreateOrConnectWithoutStatsInput[]
+    upsert?: ConsultasUpsertWithWhereUniqueWithoutStatsInput | ConsultasUpsertWithWhereUniqueWithoutStatsInput[]
+    createMany?: ConsultasCreateManyStatsInputEnvelope
+    set?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    disconnect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    delete?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    update?: ConsultasUpdateWithWhereUniqueWithoutStatsInput | ConsultasUpdateWithWhereUniqueWithoutStatsInput[]
+    updateMany?: ConsultasUpdateManyWithWhereWithoutStatsInput | ConsultasUpdateManyWithWhereWithoutStatsInput[]
+    deleteMany?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+  }
+
   export type UserViewUncheckedUpdateManyWithoutStatsNestedInput = {
     create?: XOR<UserViewCreateWithoutStatsInput, UserViewUncheckedCreateWithoutStatsInput> | UserViewCreateWithoutStatsInput[] | UserViewUncheckedCreateWithoutStatsInput[]
     connectOrCreate?: UserViewCreateOrConnectWithoutStatsInput | UserViewCreateOrConnectWithoutStatsInput[]
@@ -11901,6 +12091,20 @@ export namespace Prisma {
     update?: UserViewUpdateWithWhereUniqueWithoutStatsInput | UserViewUpdateWithWhereUniqueWithoutStatsInput[]
     updateMany?: UserViewUpdateManyWithWhereWithoutStatsInput | UserViewUpdateManyWithWhereWithoutStatsInput[]
     deleteMany?: UserViewScalarWhereInput | UserViewScalarWhereInput[]
+  }
+
+  export type ConsultasUncheckedUpdateManyWithoutStatsNestedInput = {
+    create?: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput> | ConsultasCreateWithoutStatsInput[] | ConsultasUncheckedCreateWithoutStatsInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutStatsInput | ConsultasCreateOrConnectWithoutStatsInput[]
+    upsert?: ConsultasUpsertWithWhereUniqueWithoutStatsInput | ConsultasUpsertWithWhereUniqueWithoutStatsInput[]
+    createMany?: ConsultasCreateManyStatsInputEnvelope
+    set?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    disconnect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    delete?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    update?: ConsultasUpdateWithWhereUniqueWithoutStatsInput | ConsultasUpdateWithWhereUniqueWithoutStatsInput[]
+    updateMany?: ConsultasUpdateManyWithWhereWithoutStatsInput | ConsultasUpdateManyWithWhereWithoutStatsInput[]
+    deleteMany?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
   }
 
   export type StatsCreateNestedOneWithoutUserViewsInput = {
@@ -12378,6 +12582,50 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Product"> | Date | string
   }
 
+  export type StatsCreateWithoutCantidadDeConsultasInput = {
+    mes: string
+    cantidadDeProductos: number
+    cantidadDeBlogs: number
+    userViews?: UserViewCreateNestedManyWithoutStatsInput
+  }
+
+  export type StatsUncheckedCreateWithoutCantidadDeConsultasInput = {
+    mes: string
+    cantidadDeProductos: number
+    cantidadDeBlogs: number
+    userViews?: UserViewUncheckedCreateNestedManyWithoutStatsInput
+  }
+
+  export type StatsCreateOrConnectWithoutCantidadDeConsultasInput = {
+    where: StatsWhereUniqueInput
+    create: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
+  }
+
+  export type StatsUpsertWithoutCantidadDeConsultasInput = {
+    update: XOR<StatsUpdateWithoutCantidadDeConsultasInput, StatsUncheckedUpdateWithoutCantidadDeConsultasInput>
+    create: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
+    where?: StatsWhereInput
+  }
+
+  export type StatsUpdateToOneWithWhereWithoutCantidadDeConsultasInput = {
+    where?: StatsWhereInput
+    data: XOR<StatsUpdateWithoutCantidadDeConsultasInput, StatsUncheckedUpdateWithoutCantidadDeConsultasInput>
+  }
+
+  export type StatsUpdateWithoutCantidadDeConsultasInput = {
+    mes?: StringFieldUpdateOperationsInput | string
+    cantidadDeProductos?: IntFieldUpdateOperationsInput | number
+    cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
+    userViews?: UserViewUpdateManyWithoutStatsNestedInput
+  }
+
+  export type StatsUncheckedUpdateWithoutCantidadDeConsultasInput = {
+    mes?: StringFieldUpdateOperationsInput | string
+    cantidadDeProductos?: IntFieldUpdateOperationsInput | number
+    cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
+    userViews?: UserViewUncheckedUpdateManyWithoutStatsNestedInput
+  }
+
   export type UserViewCreateWithoutStatsInput = {
     id?: string
     ip: string
@@ -12395,6 +12643,32 @@ export namespace Prisma {
 
   export type UserViewCreateManyStatsInputEnvelope = {
     data: UserViewCreateManyStatsInput | UserViewCreateManyStatsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ConsultasCreateWithoutStatsInput = {
+    id?: string
+    descripcion: string
+    email: string
+    numero: string
+    createdAt?: Date | string
+  }
+
+  export type ConsultasUncheckedCreateWithoutStatsInput = {
+    id?: string
+    descripcion: string
+    email: string
+    numero: string
+    createdAt?: Date | string
+  }
+
+  export type ConsultasCreateOrConnectWithoutStatsInput = {
+    where: ConsultasWhereUniqueInput
+    create: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput>
+  }
+
+  export type ConsultasCreateManyStatsInputEnvelope = {
+    data: ConsultasCreateManyStatsInput | ConsultasCreateManyStatsInput[]
     skipDuplicates?: boolean
   }
 
@@ -12423,16 +12697,46 @@ export namespace Prisma {
     statsMes?: StringFilter<"UserView"> | string
   }
 
+  export type ConsultasUpsertWithWhereUniqueWithoutStatsInput = {
+    where: ConsultasWhereUniqueInput
+    update: XOR<ConsultasUpdateWithoutStatsInput, ConsultasUncheckedUpdateWithoutStatsInput>
+    create: XOR<ConsultasCreateWithoutStatsInput, ConsultasUncheckedCreateWithoutStatsInput>
+  }
+
+  export type ConsultasUpdateWithWhereUniqueWithoutStatsInput = {
+    where: ConsultasWhereUniqueInput
+    data: XOR<ConsultasUpdateWithoutStatsInput, ConsultasUncheckedUpdateWithoutStatsInput>
+  }
+
+  export type ConsultasUpdateManyWithWhereWithoutStatsInput = {
+    where: ConsultasScalarWhereInput
+    data: XOR<ConsultasUpdateManyMutationInput, ConsultasUncheckedUpdateManyWithoutStatsInput>
+  }
+
+  export type ConsultasScalarWhereInput = {
+    AND?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+    OR?: ConsultasScalarWhereInput[]
+    NOT?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+    id?: StringFilter<"Consultas"> | string
+    descripcion?: StringFilter<"Consultas"> | string
+    email?: StringFilter<"Consultas"> | string
+    numero?: StringFilter<"Consultas"> | string
+    createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    statsMes?: StringFilter<"Consultas"> | string
+  }
+
   export type StatsCreateWithoutUserViewsInput = {
     mes: string
     cantidadDeProductos: number
     cantidadDeBlogs: number
+    cantidadDeConsultas?: ConsultasCreateNestedManyWithoutStatsInput
   }
 
   export type StatsUncheckedCreateWithoutUserViewsInput = {
     mes: string
     cantidadDeProductos: number
     cantidadDeBlogs: number
+    cantidadDeConsultas?: ConsultasUncheckedCreateNestedManyWithoutStatsInput
   }
 
   export type StatsCreateOrConnectWithoutUserViewsInput = {
@@ -12455,12 +12759,14 @@ export namespace Prisma {
     mes?: StringFieldUpdateOperationsInput | string
     cantidadDeProductos?: IntFieldUpdateOperationsInput | number
     cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
+    cantidadDeConsultas?: ConsultasUpdateManyWithoutStatsNestedInput
   }
 
   export type StatsUncheckedUpdateWithoutUserViewsInput = {
     mes?: StringFieldUpdateOperationsInput | string
     cantidadDeProductos?: IntFieldUpdateOperationsInput | number
     cantidadDeBlogs?: IntFieldUpdateOperationsInput | number
+    cantidadDeConsultas?: ConsultasUncheckedUpdateManyWithoutStatsNestedInput
   }
 
   export type ModuloCreateManyProductInput = {
@@ -12554,6 +12860,14 @@ export namespace Prisma {
     ip: string
   }
 
+  export type ConsultasCreateManyStatsInput = {
+    id?: string
+    descripcion: string
+    email: string
+    numero: string
+    createdAt?: Date | string
+  }
+
   export type UserViewUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     ip?: StringFieldUpdateOperationsInput | string
@@ -12567,6 +12881,30 @@ export namespace Prisma {
   export type UserViewUncheckedUpdateManyWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     ip?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultasUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultasUncheckedUpdateWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultasUncheckedUpdateManyWithoutStatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

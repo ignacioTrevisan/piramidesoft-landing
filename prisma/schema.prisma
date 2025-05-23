@@ -67,6 +67,8 @@ model Consultas {
   email       String
   numero      String
   createdAt   DateTime    @default(now())
+  statsMes    String
+  stats       Stats @relation(fields:[statsMes], references:[mes])
 }
 
 model Blog {
@@ -86,6 +88,7 @@ model Stats {
   userViews            UserView[]
   cantidadDeProductos  Int
   cantidadDeBlogs      Int
+  cantidadDeConsultas  Consultas[]
 }
 
 model UserView {

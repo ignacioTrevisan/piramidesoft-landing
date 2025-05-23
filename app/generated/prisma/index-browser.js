@@ -161,7 +161,8 @@ exports.Prisma.ConsultasScalarFieldEnum = {
   descripcion: 'descripcion',
   email: 'email',
   numero: 'numero',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  statsMes: 'statsMes'
 };
 
 exports.Prisma.BlogScalarFieldEnum = {
