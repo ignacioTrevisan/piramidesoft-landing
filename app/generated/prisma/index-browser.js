@@ -130,7 +130,10 @@ exports.Prisma.ProductScalarFieldEnum = {
   video: 'video',
   url_demo: 'url_demo',
   url_full: 'url_full',
-  tipoId: 'tipoId'
+  tipoId: 'tipoId',
+  visible: 'visible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ModuloScalarFieldEnum = {
@@ -157,7 +160,31 @@ exports.Prisma.ConsultasScalarFieldEnum = {
   id: 'id',
   descripcion: 'descripcion',
   email: 'email',
-  numero: 'numero'
+  numero: 'numero',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BlogScalarFieldEnum = {
+  id: 'id',
+  titulo: 'titulo',
+  contenido: 'contenido',
+  resumen: 'resumen',
+  imagen: 'imagen',
+  visible: 'visible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StatsScalarFieldEnum = {
+  mes: 'mes',
+  cantidadDeProductos: 'cantidadDeProductos',
+  cantidadDeBlogs: 'cantidadDeBlogs'
+};
+
+exports.Prisma.UserViewScalarFieldEnum = {
+  id: 'id',
+  ip: 'ip',
+  statsMes: 'statsMes'
 };
 
 exports.Prisma.SortOrder = {
@@ -184,7 +211,10 @@ exports.Prisma.ModelName = {
   Modulo: 'Modulo',
   Tipo: 'Tipo',
   User: 'User',
-  Consultas: 'Consultas'
+  Consultas: 'Consultas',
+  Blog: 'Blog',
+  Stats: 'Stats',
+  UserView: 'UserView'
 };
 
 /**

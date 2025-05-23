@@ -4,6 +4,7 @@ import { AdminLayoutClient } from "./components/AdminLayoutClient";
 import "../../(home)/globals.css";
 import "./styles/admin.css";
 import "./styles/admin-override.css";
+import "./styles/sidebar-mobile.css";
 
 export default function RootLayout({
   children,

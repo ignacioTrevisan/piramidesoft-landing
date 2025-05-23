@@ -28,9 +28,9 @@ export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({ children }
           <Sidebar />
           <main 
             ref={mainRef} 
-            className="main-content flex-1 md:ml-64 p-6"
+            className="admin-main-content flex-1 min-h-screen"
           >
-            <div className="container-admin max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto">
               {children}
             </div>
           </main>

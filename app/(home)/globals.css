@@ -23,6 +23,12 @@
   }
 }
 
+@font-face {
+  font-family: "futurablack-bt";
+  src: url("/fonts/futurablack-bt.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
 body {
   background: var(--background);
   color: var(--foreground);
@@ -34,6 +40,10 @@ body {
   /* font-family: var(--font-poppins); */
   overflow-x: hidden; /* Prevenir scroll horizontal */
   width: 100%;
+}
+
+.claseConFuenteFea {
+  font-family: "futurablack-bt", sans-serif;
 }
 
 /* Ocultar scrollbar para Chrome, Safari y Opera */

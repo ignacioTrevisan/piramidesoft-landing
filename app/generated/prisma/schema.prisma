@@ -27,6 +27,9 @@ model Product {
   url_full    String?
   tipoId      String
   tipo        Tipo     @relation(fields: [tipoId], references: [id])
+  visible     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Modulo {
@@ -57,8 +60,34 @@ model User {
 }
 
 model Consultas {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   descripcion String
   email       String
   numero      String
+  createdAt   DateTime @default(now())
+}
+
+model Blog {
+  id        String   @id @default(uuid())
+  titulo    String
+  contenido String
+  resumen   String
+  imagen    String
+  visible   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Stats {
+  mes                 String     @id @unique
+  userViews           UserView[]
+  cantidadDeProductos Int
+  cantidadDeBlogs     Int
+}
+
+model UserView {
+  id       String @id @default(uuid())
+  ip       String
+  statsMes String
+  stats    Stats  @relation(fields: [statsMes], references: [mes])
 }

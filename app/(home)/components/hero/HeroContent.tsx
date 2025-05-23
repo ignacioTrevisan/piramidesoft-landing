@@ -21,11 +21,11 @@ export default function HeroContent() {
     const loadAnimations = async () => {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
-      
+
       if (typeof window !== "undefined") {
         gsap.registerPlugin(ScrollTrigger);
       }
-      
+
       // Hero animations
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
       tl.fromTo(
@@ -45,7 +45,7 @@ export default function HeroContent() {
           { y: 0, opacity: 1, duration: 0.6 },
           "-=0.3"
         );
-      
+
       // Text highlight animation
       if (highlightRefs.current.length > 0) {
         highlightRefs.current.forEach((element, index) => {
@@ -64,9 +64,9 @@ export default function HeroContent() {
         });
       }
     };
-    
+
     loadAnimations();
-    
+
     return () => {
       // Clean up ScrollTrigger instances
       import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
@@ -76,12 +76,12 @@ export default function HeroContent() {
   }, []);
 
   return (
-    <div className="w-full md:w-1/2 gap-y-2 md:mb-0">
+    <div className="w-full md:w-1/2 gap-y-2 md:mb-0 ">
       <h1
         ref={titleRef}
-        className="lg:text-8xl sm:text-6xl text-3xl text-center font-bold md:text-left mb-4 text-[#2563EB]"
+        className="xl:text-8l lg:text-6xl md:text-5xl sm:text-5xl lg:mt-7 md:mt-9 text-3xl text-center md:text-left mb-4 text-[#2563EB] claseConFuenteFea"
       >
-        PiramideSoft
+        PIRAMIDE SOFT
       </h1>
       <h2
         ref={subtitleRef}
