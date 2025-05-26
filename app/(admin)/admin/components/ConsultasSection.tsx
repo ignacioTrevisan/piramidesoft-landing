@@ -1,33 +1,18 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-
-interface Consulta {
-  id: string;
-  descripcion: string;
-  email: string;
-  numero: string;
-  createdAt: string;
-  atendida?: boolean;
-  respuesta?: string;
-}
+import { getConsultas, updateConsultaStatus, getConsultaStats } from "@/app/action/consultas";
+import { Consulta, ConsultaStats } from "@/interfaces/consulta";
 
 interface ConsultaModalProps {
   isOpen: boolean;
   onClose: () => void;
   consulta: Consulta | null;
-  onResponder: (consultaId: string, respuesta: string) => void;
+  onStatusUpdate: (consultaId: string, status: 'PENDIENTE' | 'ATENDIDA') => void;
 }
 
-const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta, onResponder }) => {
+const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta, onStatusUpdate }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [respuesta, setRespuesta] = useState("");
-
-  useEffect(() => {
-    if (consulta) {
-      setRespuesta(consulta.respuesta || "");
-    }
-  }, [consulta]);
 
   useEffect(() => {
     if (isOpen && modalRef.current) {
@@ -39,11 +24,13 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
     }
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (consulta && respuesta.trim()) {
-      onResponder(consulta.id, respuesta);
-      onClose();
+  const handleStatusChange = async (status: 'PENDIENTE' | 'ATENDIDA') => {
+    if (consulta) {
+      const response = await updateConsultaStatus({ id: consulta.id, status });
+      if (response.ok) {
+        onStatusUpdate(consulta.id, status);
+        onClose();
+      }
     }
   };
 
@@ -56,27 +43,77 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
         className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
       >
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Responder Consulta
-          </h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold text-gray-800">
+              Detalle de Consulta
+            </h2>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div className="p-6 space-y-6">
-          {/* Información de la consulta */}
+          {/* Estado actual */}
+          <div className="flex items-center justify-between">
+            <span className={`px-4 py-2 rounded-full text-sm font-medium ${
+              consulta.status === 'ATENDIDA' 
+                ? "bg-green-100 text-green-800" 
+                : "bg-yellow-100 text-yellow-800"
+            }`}>
+              {consulta.status === 'ATENDIDA' ? 'Atendida' : 'Pendiente'}
+            </span>
+            
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handleStatusChange('PENDIENTE')}
+                disabled={consulta.status === 'PENDIENTE'}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  consulta.status === 'PENDIENTE'
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                }`}
+              >
+                Marcar como Pendiente
+              </button>
+              <button
+                onClick={() => handleStatusChange('ATENDIDA')}
+                disabled={consulta.status === 'ATENDIDA'}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  consulta.status === 'ATENDIDA'
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-green-100 text-green-800 hover:bg-green-200'
+                }`}
+              >
+                Marcar como Atendida
+              </button>
+            </div>
+          </div>
+
+          {/* Información del cliente */}
           <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-gray-800 mb-3">Información de la Consulta</h3>
-            <div className="space-y-2">
+            <h3 className="font-semibold text-gray-800 mb-3">Información del Cliente</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <span className="font-medium text-gray-600">Nombre:</span>
+                <p className="text-gray-800">{consulta.nombre}</p>
+              </div>
               <div>
                 <span className="font-medium text-gray-600">Email:</span>
-                <span className="ml-2 text-gray-800">{consulta.email}</span>
+                <p className="text-gray-800">{consulta.email}</p>
               </div>
               <div>
                 <span className="font-medium text-gray-600">Teléfono:</span>
-                <span className="ml-2 text-gray-800">{consulta.numero}</span>
+                <p className="text-gray-800">{consulta.numero}</p>
               </div>
               <div>
                 <span className="font-medium text-gray-600">Fecha:</span>
-                <span className="ml-2 text-gray-800">
+                <p className="text-gray-800">
                   {new Date(consulta.createdAt).toLocaleDateString('es-AR', {
                     year: 'numeric',
                     month: 'long',
@@ -84,49 +121,49 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
                     hour: '2-digit',
                     minute: '2-digit'
                   })}
-                </span>
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Descripción de la consulta */}
+          {/* Producto consultado */}
+          {consulta.product && (
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h3 className="font-semibold text-blue-800 mb-2">Producto Consultado</h3>
+              <p className="text-blue-700">{consulta.product.titulo}</p>
+            </div>
+          )}
+
+          {/* Consulta */}
           <div>
-            <h3 className="font-semibold text-gray-800 mb-2">Consulta:</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">Mensaje:</h3>
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-gray-700">{consulta.descripcion}</p>
+              <p className="text-gray-700 whitespace-pre-wrap">{consulta.descripcion}</p>
             </div>
           </div>
 
-          {/* Formulario de respuesta */}
-          <form onSubmit={handleSubmit}>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Respuesta
-            </label>
-            <textarea
-              value={respuesta}
-              onChange={(e) => setRespuesta(e.target.value)}
-              rows={6}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Escribe tu respuesta aquí..."
-              required
-            />
-
-            <div className="flex justify-end space-x-4 pt-6">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
-              >
-                Enviar Respuesta
-              </button>
-            </div>
-          </form>
+          {/* Acciones de contacto */}
+          <div className="flex space-x-3 pt-4 border-t border-gray-200">
+            <button
+              onClick={() => window.open(`mailto:${consulta.email}`, '_blank')}
+              className="flex-1 bg-blue-50 text-blue-600 px-4 py-3 rounded-lg hover:bg-blue-100 transition-colors flex items-center justify-center space-x-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>Enviar Email</span>
+            </button>
+            
+            <button
+              onClick={() => window.open(`tel:${consulta.numero}`, '_blank')}
+              className="flex-1 bg-green-50 text-green-600 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors flex items-center justify-center space-x-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span>Llamar</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -136,6 +173,7 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
 export const ConsultasSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [consultas, setConsultas] = useState<Consulta[]>([]);
+  const [stats, setStats] = useState<ConsultaStats>({ total: 0, pendientes: 0, atendidas: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedConsulta, setSelectedConsulta] = useState<Consulta | null>(null);
   const [loading, setLoading] = useState(true);
@@ -149,66 +187,34 @@ export const ConsultasSection = () => {
         { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
       );
     }
-
-    // Simular carga de consultas
-    setTimeout(() => {
-      setConsultas([
-        {
-          id: "1",
-          descripcion: "Hola, me interesa conocer más sobre el sistema de punto de venta. ¿Podrían enviarme información sobre precios y características?",
-          email: "cliente@empresa.com",
-          numero: "+54 9 3454 123456",
-          createdAt: "2024-01-15T10:30:00Z",
-          atendida: false
-        },
-        {
-          id: "2",
-          descripcion: "Necesito un sistema de facturación electrónica que se integre con AFIP. ¿Tienen algo disponible?",
-          email: "contabilidad@pyme.com",
-          numero: "+54 9 3454 987654",
-          createdAt: "2024-01-14T16:45:00Z",
-          atendida: true,
-          respuesta: "Hola, muchas gracias por tu consulta. Sí, tenemos un sistema completo de facturación electrónica que se integra perfectamente con AFIP..."
-        },
-        {
-          id: "3",
-          descripcion: "¿Ofrecen capacitaciones para el uso de sus sistemas? Somos una empresa de 20 empleados.",
-          email: "recursos@empresa.com",
-          numero: "+54 9 3454 111222",
-          createdAt: "2024-01-13T09:15:00Z",
-          atendida: false
-        },
-        {
-          id: "4",
-          descripcion: "Quiero saber si es posible personalizar el sistema de gestión de stock para nuestra industria específica.",
-          email: "gerencia@industrial.com",
-          numero: "+54 9 3454 333444",
-          createdAt: "2024-01-12T14:20:00Z",
-          atendida: true,
-          respuesta: "¡Por supuesto! Nuestros sistemas son altamente personalizables. Podemos adaptar el sistema de gestión de stock..."
-        }
-      ]);
-      setLoading(false);
-    }, 1000);
+    loadConsultas();
+    loadStats();
   }, []);
 
-  const handleResponderConsulta = (consultaId: string, respuesta: string) => {
-    setConsultas(prev => prev.map(c => 
-      c.id === consultaId 
-        ? { ...c, atendida: true, respuesta }
-        : c
-    ));
-    // Aquí podrías enviar un email real al cliente
-    console.log("Enviando respuesta por email a:", selectedConsulta?.email);
+  const loadConsultas = async () => {
+    setLoading(true);
+    const response = await getConsultas();
+    if (response.ok && response.data) {
+      setConsultas(response.data);
+    }
+    setLoading(false);
   };
 
-  const handleDeleteConsulta = (consultaId: string) => {
-    if (confirm("¿Estás seguro de que quieres eliminar esta consulta?")) {
-      setConsultas(prev => prev.filter(c => c.id !== consultaId));
+  const loadStats = async () => {
+    const response = await getConsultaStats();
+    if (response.ok && response.data) {
+      setStats(response.data);
     }
   };
 
-  const openResponseModal = (consulta: Consulta) => {
+  const handleStatusUpdate = (consultaId: string, status: 'PENDIENTE' | 'ATENDIDA') => {
+    setConsultas(prev => prev.map(c => 
+      c.id === consultaId ? { ...c, status } : c
+    ));
+    loadStats(); // Recargar estadísticas
+  };
+
+  const openModal = (consulta: Consulta) => {
     setSelectedConsulta(consulta);
     setIsModalOpen(true);
   };
@@ -226,82 +232,83 @@ export const ConsultasSection = () => {
   const filteredConsultas = consultas.filter(consulta => {
     switch (filter) {
       case 'pendientes':
-        return !consulta.atendida;
+        return consulta.status === 'PENDIENTE';
       case 'atendidas':
-        return consulta.atendida;
+        return consulta.status === 'ATENDIDA';
       default:
         return true;
     }
   });
 
-  const consultasPendientes = consultas.filter(c => !c.atendida).length;
-  const consultasAtendidas = consultas.filter(c => c.atendida).length;
-
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6" style={{ fontSize: '14px' }}>
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
         <div>
-          <h1 ref={titleRef} className="text-2xl font-bold text-gray-800 mb-2" style={{ fontSize: '24px' }}>
+          <h1 ref={titleRef} className="text-2xl font-bold text-gray-800 mb-2">
             Gestión de Consultas
           </h1>
-          <p className="text-gray-600" style={{ fontSize: '14px' }}>
+          <p className="text-gray-600">
             Administra las consultas recibidas de clientes potenciales
           </p>
         </div>
         
         {/* Stats */}
         <div className="flex space-x-4">
-          <div className="bg-orange-100 px-4 py-2 rounded-lg text-center">
-            <div className="text-2xl font-bold text-orange-600">{consultasPendientes}</div>
-            <div className="text-sm text-orange-800">Pendientes</div>
+          <div className="bg-blue-100 px-4 py-3 rounded-lg text-center min-w-[100px]">
+            <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+            <div className="text-sm text-blue-800">Total</div>
           </div>
-          <div className="bg-green-100 px-4 py-2 rounded-lg text-center">
-            <div className="text-2xl font-bold text-green-600">{consultasAtendidas}</div>
+          <div className="bg-yellow-100 px-4 py-3 rounded-lg text-center min-w-[100px]">
+            <div className="text-2xl font-bold text-yellow-600">{stats.pendientes}</div>
+            <div className="text-sm text-yellow-800">Pendientes</div>
+          </div>
+          <div className="bg-green-100 px-4 py-3 rounded-lg text-center min-w-[100px]">
+            <div className="text-2xl font-bold text-green-600">{stats.atendidas}</div>
             <div className="text-sm text-green-800">Atendidas</div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex space-x-2">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setFilter('todas')}
           className={`px-4 py-2 rounded-lg transition-colors ${
             filter === 'todas' 
-              ? 'bg-orange-600 text-white' 
+              ? 'bg-blue-600 text-white' 
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          Todas ({consultas.length})
+          Todas ({stats.total})
         </button>
         <button
           onClick={() => setFilter('pendientes')}
           className={`px-4 py-2 rounded-lg transition-colors ${
             filter === 'pendientes' 
-              ? 'bg-orange-600 text-white' 
+              ? 'bg-yellow-600 text-white' 
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          Pendientes ({consultasPendientes})
+          Pendientes ({stats.pendientes})
         </button>
         <button
           onClick={() => setFilter('atendidas')}
           className={`px-4 py-2 rounded-lg transition-colors ${
             filter === 'atendidas' 
-              ? 'bg-orange-600 text-white' 
+              ? 'bg-green-600 text-white' 
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          Atendidas ({consultasAtendidas})
+          Atendidas ({stats.atendidas})
         </button>
       </div>
 
@@ -313,22 +320,31 @@ export const ConsultasSection = () => {
             className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
           >
             <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4 mb-4">
                 <div className="flex-1">
-                  <div className="flex items-center space-x-3 mb-2">
+                  <div className="flex flex-wrap items-center gap-3 mb-3">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      consulta.atendida 
+                      consulta.status === 'ATENDIDA' 
                         ? "bg-green-100 text-green-800" 
-                        : "bg-orange-100 text-orange-800"
+                        : "bg-yellow-100 text-yellow-800"
                     }`}>
-                      {consulta.atendida ? "Atendida" : "Pendiente"}
+                      {consulta.status === 'ATENDIDA' ? "Atendida" : "Pendiente"}
                     </span>
                     <span className="text-sm text-gray-500">
                       {formatDate(consulta.createdAt)}
                     </span>
+                    {consulta.product && (
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                        📦 {consulta.product.titulo}
+                      </span>
+                    )}
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                      <span className="text-sm font-medium text-gray-600">Nombre:</span>
+                      <p className="text-gray-800 font-medium">{consulta.nombre}</p>
+                    </div>
                     <div>
                       <span className="text-sm font-medium text-gray-600">Email:</span>
                       <p className="text-gray-800">{consulta.email}</p>
@@ -343,43 +359,26 @@ export const ConsultasSection = () => {
 
               <div className="mb-4">
                 <span className="text-sm font-medium text-gray-600">Consulta:</span>
-                <p className="text-gray-800 mt-1 leading-relaxed">{consulta.descripcion}</p>
+                <p className="text-gray-800 mt-1 leading-relaxed line-clamp-3">
+                  {consulta.descripcion}
+                </p>
               </div>
 
-              {consulta.respuesta && (
-                <div className="mb-4 bg-green-50 p-4 rounded-lg">
-                  <span className="text-sm font-medium text-green-800">Respuesta enviada:</span>
-                  <p className="text-green-700 mt-1 leading-relaxed">{consulta.respuesta}</p>
-                </div>
-              )}
-
-              <div className="flex space-x-2 pt-4 border-t border-gray-100">
-                {!consulta.atendida ? (
-                  <button
-                    onClick={() => openResponseModal(consulta)}
-                    className="flex-1 bg-orange-50 text-orange-600 px-4 py-2 rounded-lg hover:bg-orange-100 transition-colors flex items-center justify-center space-x-1"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <span>Responder</span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => openResponseModal(consulta)}
-                    className="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center justify-center space-x-1"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span>Ver Respuesta</span>
-                  </button>
-                )}
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                <button
+                  onClick={() => openModal(consulta)}
+                  className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center space-x-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <span>Ver Detalle</span>
+                </button>
                 
                 <button
                   onClick={() => window.open(`mailto:${consulta.email}`, '_blank')}
-                  className="bg-gray-50 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center space-x-1"
+                  className="bg-gray-50 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center space-x-1"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -389,22 +388,12 @@ export const ConsultasSection = () => {
 
                 <button
                   onClick={() => window.open(`tel:${consulta.numero}`, '_blank')}
-                  className="bg-gray-50 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center space-x-1"
+                  className="bg-gray-50 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center space-x-1"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <span>Llamar</span>
-                </button>
-
-                <button
-                  onClick={() => handleDeleteConsulta(consulta.id)}
-                  className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center space-x-1"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                  <span>Eliminar</span>
                 </button>
               </div>
             </div>
@@ -438,7 +427,7 @@ export const ConsultasSection = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         consulta={selectedConsulta}
-        onResponder={handleResponderConsulta}
+        onStatusUpdate={handleStatusUpdate}
       />
     </div>
   );

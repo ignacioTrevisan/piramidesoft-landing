@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { SessionButton } from "./SessionButton";
-import { SessionDebug } from "./SessionDebug";
+
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -147,7 +147,7 @@ export const NavbarClient = () => {
   return (
     <div
       ref={navbarRef}
-      className={`w-full fixed flex items-center justify-between md:justify-around top-0 py-4 px-6 md:px-10  navbar-glass border-b border-gray-100 z-50`}
+      className={`w-full fixed flex items-center justify-between md:justify-around top-0 py-4 px-6 md:px-10 navbar-glass border-b border-gray-100 z-50`}
     >
       <Link href="/">
         <div ref={logoRef} className="cursor-pointer relative group">
@@ -195,9 +195,6 @@ export const NavbarClient = () => {
       <div ref={buttonRef} className="hidden md:block">
         <SessionButton />
       </div>
-      
-      {/* Debug temporal */}
-      <SessionDebug />
     </div>
   );
 };

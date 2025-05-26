@@ -2,6 +2,7 @@ import { ImagesSelected } from "./imagesSelected";
 import { getProducts } from "@/app/action/products/products";
 import { notFound } from "next/navigation";
 import { Products } from "@/interfaces/products";
+import { ContactButton } from "@/app/components/ContactButton";
 
 interface Props {
   params: Promise<{
@@ -120,30 +121,15 @@ export default async function ProductoDetalle({ params }: Props) {
             </div>
 
             {/* Botón de Consulta */}
-            <button className="bg-blue-600 hover:bg-blue-700 transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium mb-8 w-full md:w-auto">
+            <ContactButton
+              productId={producto.id}
+              productTitle={producto.titulo}
+              className="mb-8 w-full md:w-auto"
+            >
               Consultar
-            </button>
+            </ContactButton>
 
             {/* Información adicional */}
-            <div className="bg-gray-50 border-l-4 border-[#2563EB] p-4 rounded-r-lg">
-              <h4 className="font-medium text-gray-800 mb-2">
-                Información del Producto
-              </h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>
-                  • {producto.modulos.length} módulo
-                  {producto.modulos.length !== 1 ? "s" : ""} incluido
-                  {producto.modulos.length !== 1 ? "s" : ""}
-                </li>
-                <li>
-                  • {producto.imagenes.length} imagen
-                  {producto.imagenes.length !== 1 ? "es" : ""} disponible
-                  {producto.imagenes.length !== 1 ? "s" : ""}
-                </li>
-                <li>• Video demostrativo incluido</li>
-                <li>• Soporte técnico incluido</li>
-              </ul>
-            </div>
           </div>
         </div>
 
@@ -240,10 +226,6 @@ export default async function ProductoDetalle({ params }: Props) {
                     src={imagen}
                     alt={`${producto.titulo} - Imagen ${index + 1}`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "/placeholder-product.jpg";
-                    }}
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                     <svg
@@ -286,12 +268,20 @@ export default async function ProductoDetalle({ params }: Props) {
                 </p>
               </div>
               <div className="space-y-3">
-                <button className="bg-blue-600 hover:bg-blue-700 transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium mr-4">
+                <ContactButton
+                  productId={producto.id}
+                  productTitle={producto.titulo}
+                  className="mr-4"
+                >
                   Solicitar Información
-                </button>
-                <button className="bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all py-3 px-8 rounded-lg cursor-pointer text-base font-medium">
+                </ContactButton>
+                <ContactButton
+                  productId={producto.id}
+                  productTitle={producto.titulo}
+                  variant="secondary"
+                >
                   Agendar Reunión
-                </button>
+                </ContactButton>
               </div>
             </div>
           </div>

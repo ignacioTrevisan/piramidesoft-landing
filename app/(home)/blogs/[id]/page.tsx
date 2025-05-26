@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import ShareButton from "./ShareButton";
+import { LikeButton } from "./LikeButton";
+import { Comments } from "./Comments";
 
 interface BlogPageProps {
   params: {
@@ -93,18 +95,23 @@ export default async function BlogPage({ params }: BlogPageProps) {
           )}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div className="flex items-center space-x-4">
+            <LikeButton blogId={blog.id} />
+            <ShareButton blog={blog} />
+          </div>
+          
           <Link
             href="/blogs"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >
             Ver más artículos
           </Link>
-
-          {/* Componente de compartir se renderiza solo en el cliente */}
-          <ShareButton blog={blog} />
         </div>
       </footer>
+
+      {/* Sección de comentarios */}
+      <Comments blogId={blog.id} />
     </article>
   );
 }

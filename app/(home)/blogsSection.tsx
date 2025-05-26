@@ -157,7 +157,7 @@ export const BlogsSection = () => {
 
   if (loading) {
     return (
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-8 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="container mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-[#2563EB] mb-4">
@@ -197,7 +197,7 @@ export const BlogsSection = () => {
     <section
       id="blogs"
       ref={sectionRef}
-      className="py-16 bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden"
+      className="py-8 bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden"
     >
       <div className="container mx-auto px-4 md:px-8">
         {/* Divisores animados */}

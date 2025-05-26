@@ -95,7 +95,7 @@ const ProductsPreview = () => {
 
   if (loading) {
     return (
-      <div className="fatherContainer min-h-screen py-16 bg-[#f2f2f2] relative">
+      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
             Nuestros Productos
@@ -110,7 +110,7 @@ const ProductsPreview = () => {
 
   if (products.length === 0) {
     return (
-      <div className="fatherContainer min-h-screen py-16 bg-[#f2f2f2] relative">
+      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
             Nuestros Productos
@@ -133,7 +133,7 @@ const ProductsPreview = () => {
 
   return (
     <div
-      className="fatherContainer min-h-screen py-16 bg-[#f2f2f2] relative"
+      className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative"
       ref={fatherContainer}
     >
       <div className="container mx-auto px-4">
@@ -245,7 +245,7 @@ const ProductsPreview = () => {
           ))}
         </div>
 
-        <div className="mt-10 text-center">
+        <div className="mt-10 mb-8 text-center">
           <p className="text-gray-600 mb-4">
             Explora nuestra gama completa de productos
           </p>

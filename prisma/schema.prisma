@@ -15,21 +15,22 @@ datasource db {
 }
 
 model Product {
-  id           String   @id @default(uuid())
+  id           String      @id @default(uuid())
   titulo       String
   descripcion  String
   precioAntes  Decimal?
   precioAhora  Decimal
   imagenes     String[]
   video        String
-  modulos      Modulo[]  // Relación uno a muchos
+  modulos      Modulo[]    // Relación uno a muchos
   url_demo     String?
   url_full     String?
   tipoId       String
-  tipo         Tipo      @relation(fields: [tipoId], references: [id])
-  visible      Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  tipo         Tipo        @relation(fields: [tipoId], references: [id])
+  visible      Boolean     @default(true)
+  consultas    Consultas[] // Relación con consultas
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Modulo {
@@ -47,6 +48,11 @@ model Tipo {
 }
 
 
+enum ConsultaStatus {
+  PENDIENTE
+  ATENDIDA
+}
+
 enum Role {
   admin
   user
@@ -59,16 +65,26 @@ model User{
   email       String       @unique
   password    String
   role        Role         @default(user)
+  comentarios BlogComment[]
+  likes       BlogLike[]
 }
 
 model Consultas {
-  id          String      @id @default(uuid())
+  id          String         @id @default(uuid())
+  nombre      String
   descripcion String
   email       String
   numero      String
-  createdAt   DateTime    @default(now())
+  productId   String?        // Opcional, para consultas sobre productos específicos
+  product     Product?       @relation(fields: [productId], references: [id])
+  status      ConsultaStatus @default(PENDIENTE)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   statsMes    String
-  stats       Stats @relation(fields:[statsMes], references:[mes])
+  stats       Stats          @relation(fields:[statsMes], references:[mes])
+
+  @@index([status])
+  @@index([createdAt])
 }
 
 model Blog {
@@ -80,6 +96,8 @@ model Blog {
   visible     Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  comentarios BlogComment[]
+  likes       BlogLike[]
 }
 
 
@@ -96,4 +114,30 @@ model UserView {
   ip        String
   statsMes  String
   stats     Stats  @relation(fields: [statsMes], references: [mes])
+}
+
+model BlogComment {
+  id        String   @id @default(uuid())
+  contenido String
+  blogId    String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([blogId])
+  @@index([userId])
+}
+
+model BlogLike {
+  id     String @id @default(uuid())
+  blogId String
+  userId String
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([blogId, userId]) // Un usuario solo puede dar like una vez por blog
+  @@index([blogId])
+  @@index([userId])
 }

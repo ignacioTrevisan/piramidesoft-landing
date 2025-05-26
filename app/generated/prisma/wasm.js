@@ -188,6 +188,21 @@ exports.Prisma.UserViewScalarFieldEnum = {
   statsMes: 'statsMes'
 };
 
+exports.Prisma.BlogCommentScalarFieldEnum = {
+  id: 'id',
+  contenido: 'contenido',
+  blogId: 'blogId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BlogLikeScalarFieldEnum = {
+  id: 'id',
+  blogId: 'blogId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -215,7 +230,9 @@ exports.Prisma.ModelName = {
   Consultas: 'Consultas',
   Blog: 'Blog',
   Stats: 'Stats',
-  UserView: 'UserView'
+  UserView: 'UserView',
+  BlogComment: 'BlogComment',
+  BlogLike: 'BlogLike'
 };
 
 /**

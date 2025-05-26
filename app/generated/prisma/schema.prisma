@@ -52,11 +52,13 @@ enum Role {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  email    String @unique
-  password String
-  role     Role   @default(user)
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        Role          @default(user)
+  comentarios BlogComment[]
+  likes       BlogLike[]
 }
 
 model Consultas {
@@ -70,14 +72,16 @@ model Consultas {
 }
 
 model Blog {
-  id        String   @id @default(uuid())
-  titulo    String
-  contenido String
-  resumen   String
-  imagen    String
-  visible   Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String        @id @default(uuid())
+  titulo      String
+  contenido   String
+  resumen     String
+  imagen      String
+  visible     Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  comentarios BlogComment[]
+  likes       BlogLike[]
 }
 
 model Stats {
@@ -93,4 +97,30 @@ model UserView {
   ip       String
   statsMes String
   stats    Stats  @relation(fields: [statsMes], references: [mes])
+}
+
+model BlogComment {
+  id        String   @id @default(uuid())
+  contenido String
+  blogId    String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  blog      Blog     @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([blogId])
+  @@index([userId])
+}
+
+model BlogLike {
+  id     String @id @default(uuid())
+  blogId String
+  userId String
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([blogId, userId]) // Un usuario solo puede dar like una vez por blog
+  @@index([blogId])
+  @@index([userId])
 }

@@ -85,7 +85,7 @@ export default function HeroContent() {
       </h1>
       <h2
         ref={subtitleRef}
-        className="text-xl md:text-2xl mb-3 text-center md:text-left"
+        className="text-xl md:text-2xl mb-3 text-center md:text-left text-gray-700 "
       >
         Más de 30 Años impulsando el futuro Digital
       </h2>

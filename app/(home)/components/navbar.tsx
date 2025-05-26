@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styles from "./navbar.module.css";
 import { Navbar_elements } from "./navbar_elements";
+import { SessionButton } from "./SessionButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -36,7 +37,7 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navbarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
   const ticking = useRef(false);
@@ -98,21 +99,23 @@ export const Navbar = () => {
     // Agregar listener de scroll
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Button hover animation
+    // Button container hover animation
     const handleMouseEnter = () => {
-      gsap.to(buttonRef.current, {
-        scale: 1.03,
-        backgroundColor: "#1E40AF",
-        duration: 0.2,
-      });
+      if (buttonRef.current) {
+        gsap.to(buttonRef.current, {
+          scale: 1.02,
+          duration: 0.2,
+        });
+      }
     };
 
     const handleMouseLeave = () => {
-      gsap.to(buttonRef.current, {
-        scale: 1,
-        backgroundColor: "#2563EB",
-        duration: 0.2,
-      });
+      if (buttonRef.current) {
+        gsap.to(buttonRef.current, {
+          scale: 1,
+          duration: 0.2,
+        });
+      }
     };
 
     const currentButtonRef = buttonRef.current;
@@ -184,24 +187,16 @@ export const Navbar = () => {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-white shadow-md py-4 px-4">
             <MobileNavbarElements />
-            <Link
-              href={"auth/login"}
-              className="bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white p-2 px-5 w-full rounded-lg cursor-pointer mt-4 text-sm"
-            >
-              Ingresar
-            </Link>
+            <div className="mt-4">
+              <SessionButton isMobile={true} />
+            </div>
           </div>
         )}
       </div>
 
-      <button
-        ref={buttonRef}
-        className="hidden md:block bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-2.5 px-6 w-auto rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium"
-        onClick={() => (window.location.href = "/auth/login")}
-        type="button"
-      >
-        Ingresar
-      </button>
+      <div ref={buttonRef} className="hidden md:block">
+        <SessionButton />
+      </div>
     </div>
   );
 };

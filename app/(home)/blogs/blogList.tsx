@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Blog } from "@/interfaces/blog";
 import Link from "next/link";
 import Image from "next/image";
+import { BlogStats } from "./BlogStats";
 
 interface BlogListProps {
   initialBlogs: Blog[];
@@ -85,9 +86,14 @@ const BlogCard: React.FC<{ blog: Blog; index: number; isVisible: boolean }> = ({
           {blog.titulo}
         </h2>
 
-        <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
+        <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
           {blog.resumen}
         </p>
+
+        {/* Estadísticas de interacción */}
+        <div className="mb-6">
+          <BlogStats blogId={blog.id} />
+        </div>
 
         <Link
           href={`/blogs/${blog.id}`}
