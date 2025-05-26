@@ -8,6 +8,7 @@ import { createProduct } from "@/app/action/products/createProducts";
 import { updateProduct } from "@/app/action/products/updateProducts";
 import { changeVisibility } from "@/app/action/products/changeVisibility";
 import { deleteProduct } from "@/app/action/products/deleteProducts";
+import { MediaUploader } from "./MediaUploader";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -83,12 +84,71 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validaciones básicas
+    if (!formData.titulo.trim()) {
+      alert("El título es requerido");
+      return;
+    }
+
+    if (!formData.descripcion.trim()) {
+      alert("La descripción es requerida");
+      return;
+    }
+
+    if (!formData.precioAhora || parseFloat(formData.precioAhora) <= 0) {
+      alert("El precio actual debe ser mayor a 0");
+      return;
+    }
+
+    if (!formData.tipoId) {
+      alert("Debe seleccionar un tipo de producto");
+      return;
+    }
+
+    if (!formData.video.trim()) {
+      alert("El video es requerido");
+      return;
+    }
+
+    // Verificar que al menos una imagen tenga URL
+    const imagenesValidas = formData.imagenes.filter(
+      (img) => img.trim() !== ""
+    );
+    if (imagenesValidas.length === 0) {
+      alert("Debe agregar al menos una imagen");
+      return;
+    }
+
+    // Verificar que los módulos tengan contenido
+    const modulosValidos = formData.modulos.filter(
+      (mod) =>
+        mod.titulo.trim() !== "" &&
+        mod.subtitulos.some((sub) => sub.trim() !== "")
+    );
+    if (modulosValidos.length === 0) {
+      alert("Debe agregar al menos un módulo con título y subtitulos");
+      return;
+    }
+
+    console.log("Formulario válido, enviando datos:", {
+      ...formData,
+      precioAntes: formData.precioAntes
+        ? parseFloat(formData.precioAntes)
+        : null,
+      precioAhora: parseFloat(formData.precioAhora),
+      imagenes: imagenesValidas,
+      modulos: modulosValidos,
+    });
+
     onSave({
       ...formData,
       precioAntes: formData.precioAntes
         ? parseFloat(formData.precioAntes)
         : null,
       precioAhora: parseFloat(formData.precioAhora),
+      imagenes: imagenesValidas,
+      modulos: modulosValidos,
     });
     onClose();
   };
@@ -306,23 +366,43 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </div>
           </div>
 
-          {/* URLs */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Video con MediaUploader */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Video URL
-              </label>
-              <input
-                type="url"
-                value={formData.video}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, video: e.target.value }))
+              <MediaUploader
+                type="video"
+                label="Video del Producto"
+                currentUrl={formData.video}
+                onUpload={(url) =>
+                  setFormData((prev) => ({ ...prev, video: url }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
               />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Producto visible
+              </label>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={formData.visible}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      visible: e.target.checked,
+                    }))
+                  }
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  Producto visible
+                </span>
+              </label>
+            </div>
+          </div>
 
+          {/* URLs adicionales */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 URL Demo (opcional)
@@ -334,9 +414,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   setFormData((prev) => ({ ...prev, url_demo: e.target.value }))
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://demo.ejemplo.com"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 URL Completa (opcional)
@@ -348,61 +428,64 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   setFormData((prev) => ({ ...prev, url_full: e.target.value }))
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="https://producto.ejemplo.com"
               />
             </div>
           </div>
 
-          {/* Visible checkbox */}
+          {/* Imágenes con Cloudinary */}
           <div>
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.visible}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    visible: e.target.checked,
-                  }))
-                }
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                Producto visible
-              </span>
+            <label className="block text-sm font-medium text-gray-700 mb-4">
+              Imágenes del Producto
             </label>
-          </div>
-
-          {/* Imágenes */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Imágenes
-            </label>
-            {formData.imagenes.map((imagen, index) => (
-              <div key={index} className="flex space-x-2 mb-2">
-                <input
-                  type="url"
-                  value={imagen}
-                  onChange={(e) => updateImagen(index, e.target.value)}
-                  placeholder="URL de la imagen"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeImagen(index)}
-                  className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                  disabled={formData.imagenes.length === 1}
+            <div className="space-y-4">
+              {formData.imagenes.map((imagen, index) => (
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-4"
                 >
-                  ×
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addImagen}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-            >
-              + Agregar Imagen
-            </button>
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="font-medium text-gray-700">
+                      Imagen {index + 1}
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => removeImagen(index)}
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                      disabled={formData.imagenes.length === 1}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                  <MediaUploader
+                    type="image"
+                    label=""
+                    currentUrl={imagen}
+                    onUpload={(url) => updateImagen(index, url)}
+                  />
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addImagen}
+                className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-gray-400 hover:text-gray-700 transition-colors flex items-center justify-center space-x-2"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                <span>Agregar Nueva Imagen</span>
+              </button>
+            </div>
           </div>
 
           {/* Módulos */}
@@ -557,52 +640,74 @@ export const ProductosSection = () => {
   }, []);
 
   const handleSaveProduct = async (productData: FormToCreateProducts) => {
-    if (
-      selectedProduct === null ||
-      selectedProduct.id === null ||
-      selectedProduct.id === undefined
-    )
-      return;
-    const data = await updateProduct(selectedProduct.id, productData);
-    if (data.ok) {
-      if (selectedProduct) {
-        setProducts((prev) =>
-          prev.map((p) =>
-            p.id === selectedProduct.id
-              ? {
-                  ...p,
-                  ...data.data,
-                  modulos: p.modulos.map((mod, idx) => ({
-                    ...mod,
-                    id: mod.id ?? "",
-                    titulo: productData.modulos[idx]?.titulo ?? mod.titulo,
-                    subtitulos:
-                      productData.modulos[idx]?.subtitulos ?? mod.subtitulos,
-                  })),
+    try {
+      if (selectedProduct && selectedProduct.id) {
+        // Actualizar producto existente
+        const data = await updateProduct(selectedProduct.id, productData);
+        if (data.ok && data.data) {
+          setProducts((prev) =>
+            prev.map((p) =>
+              p.id === selectedProduct.id
+                ? ({
+                    ...data.data!,
+                    precioAntes: data.data!.precioAntes
+                      ? Number(data.data!.precioAntes)
+                      : null,
+                    precioAhora: Number(data.data!.precioAhora),
+                    createdAt:
+                      typeof data.data!.createdAt === "string"
+                        ? data.data!.createdAt
+                        : data.data!.createdAt.toISOString(),
+                    updatedAt:
+                      typeof data.data!.updatedAt === "string"
+                        ? data.data!.updatedAt
+                        : data.data!.updatedAt.toISOString(),
+                  } as Products)
+                : p
+            )
+          );
+          console.log("Producto actualizado exitosamente");
+        } else {
+          console.error("Error al actualizar producto:", data.msg);
+        }
+      } else {
+        // Crear nuevo producto
+        console.log("Creando nuevo producto con datos:", productData);
+        const data = await createProduct(productData);
+        console.log("Respuesta de createProduct:", data);
 
-                  updatedAt: new Date().toISOString(),
-                }
-              : p
-          )
-        );
-      }
-    } else {
-      const newProduct: FormToCreateProducts = {
-        ...productData,
-        modulos: productData.modulos.map((m) => ({
-          ...m,
-        })),
-        precioAntes: 12,
-      };
-
-      const data = await createProduct(newProduct);
-
-      if (data.ok && data.data) {
-        if (data.data) {
-          setProducts((prev) => [...prev, data.data as Products]);
+        if (data.ok && data.data) {
+          const newProduct: Products = {
+            ...data.data,
+            precioAntes: data.data.precioAntes
+              ? Number(data.data.precioAntes)
+              : null,
+            precioAhora: Number(data.data.precioAhora),
+            createdAt:
+              typeof data.data.createdAt === "string"
+                ? data.data.createdAt
+                : data.data.createdAt.toISOString(),
+            updatedAt:
+              typeof data.data.updatedAt === "string"
+                ? data.data.updatedAt
+                : data.data.updatedAt.toISOString(),
+          };
+          setProducts((prev) => [newProduct, ...prev]);
+          console.log("Producto creado exitosamente");
+        } else {
+          console.error("Error al crear producto:", data.msg || data.error);
+          alert(
+            "Error al crear el producto: " +
+              (data.msg || data.error || "Error desconocido")
+          );
         }
       }
+    } catch (error) {
+      console.error("Error en handleSaveProduct:", error);
+      alert("Error inesperado al guardar el producto");
     }
+
+    // Cerrar modal solo si todo salió bien
     setSelectedProduct(null);
   };
 

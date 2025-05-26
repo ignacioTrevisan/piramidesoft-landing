@@ -1,103 +1,61 @@
 import { ImagesSelected } from "./imagesSelected";
-
-// Definición de tipos
-interface ModuloItem {
-  titulo: string;
-  caracteristicas: string[];
-}
-
-interface ProductoProps {
-  titulo: string;
-  descripcion: string;
-  precioAntes?: number;
-  precioActual: number;
-  modulos: ModuloItem[];
-  imagenes: string[];
-  video?: string;
-}
+import { getProducts } from "@/app/action/products/products";
+import { notFound } from "next/navigation";
+import { Products } from "@/interfaces/products";
 
 interface Props {
   params: Promise<{
     slug: string;
   }>;
 }
+
+// Función para obtener el producto por ID
+async function getProductById(id: string): Promise<Products | null> {
+  const response = await getProducts();
+  if (response.ok && response.data) {
+    const product = response.data.find((p) => p.id === id && p.visible);
+    if (!product) return null;
+    // Convert Date fields to string to match Products interface
+    return {
+      ...product,
+      createdAt:
+        product.createdAt instanceof Date
+          ? product.createdAt.toISOString()
+          : product.createdAt,
+      updatedAt:
+        product.updatedAt instanceof Date
+          ? product.updatedAt.toISOString()
+          : product.updatedAt,
+    };
+  }
+  return null;
+}
+
+// Generar parámetros estáticos para todas las rutas de productos
+export async function generateStaticParams() {
+  const response = await getProducts();
+
+  if (!response.ok || !response.data) {
+    return [];
+  }
+
+  return response.data
+    .filter((product) => product.visible)
+    .map((product) => ({
+      slug: product.id,
+    }));
+}
+
 // Componente principal
 export default async function ProductoDetalle({ params }: Props) {
-  // Estado para la imagen seleccionada
   const slug = (await params).slug;
 
-  // En una aplicación real, aquí cargarías los datos del producto basado en el slug
-  // Datos de ejemplo del producto
-  const producto: ProductoProps = {
-    titulo: "Sistema Integrado de Gestión Comercial",
-    descripcion:
-      "Solución completa para la gestión de tu negocio con módulos personalizables que se adaptan a diferentes industrias y tamaños de empresa. Optimiza tus procesos, mejora la toma de decisiones y aumenta la productividad con nuestra plataforma intuitiva y potente.",
-    precioAntes: 150000,
-    precioActual: 120000,
-    modulos: [
-      {
-        titulo: "Facturación Electrónica",
-        caracteristicas: [
-          "Integración con AFIP",
-          "Emisión de facturas A, B y C",
-          "Envío automático por email",
-          "Reportes fiscales detallados",
-        ],
-      },
-      {
-        titulo: "Control de Inventario",
-        caracteristicas: [
-          "Control de stock multi-sucursal",
-          "Alertas de stock mínimo",
-          "Trazabilidad completa",
-          "Valuación de inventario",
-        ],
-      },
-      {
-        titulo: "Punto de Venta",
-        caracteristicas: [
-          "Interfaz táctil intuitiva",
-          "Control de cajas y turnos",
-          "Gestión de promociones",
-          "Ventas offline/online",
-        ],
-      },
-      {
-        titulo: "CRM Integrado",
-        caracteristicas: [
-          "Seguimiento de clientes",
-          "Gestión de oportunidades",
-          "Historial de comunicaciones",
-          "Métricas de rendimiento",
-        ],
-      },
-      {
-        titulo: "Reportes y Dashboard",
-        caracteristicas: [
-          "Dashboard personalizable",
-          "Reportes en tiempo real",
-          "Exportación a Excel/PDF",
-          "Indicadores de rendimiento",
-        ],
-      },
-      {
-        titulo: "App Móvil",
-        caracteristicas: [
-          "Acceso desde cualquier lugar",
-          "Consultas de inventario",
-          "Registro de ventas",
-          "Gestión de clientes móvil",
-        ],
-      },
-    ],
-    imagenes: [
-      "https://ss-static-01.esmsv.com/id/134567/productos/obtenerimagen/?id=7&useDensity=true&width=1366&height=685&tipoEscala=contain",
-      "https://ss-static-01.esmsv.com/id/134567/productos/obtenerimagen/?id=9&useDensity=true&width=1366&height=685&tipoEscala=contain",
-    ],
-    video: "https://www.youtube.com/embed/dLywT-T95rk",
-  };
+  // Obtener el producto por ID (usando slug como ID)
+  const producto = await getProductById(slug);
 
-  // Cambiar imagen en la galería
+  if (!producto) {
+    notFound();
+  }
 
   return (
     <div className="w-full py-8 px-4 max-w-full mt-20">
@@ -113,8 +71,14 @@ export default async function ProductoDetalle({ params }: Props) {
 
           {/* Detalles del Producto */}
           <div className="md:order-2 order-1">
+            <div className="mb-4">
+              <span className="inline-block bg-[#2563EB] text-white px-3 py-1 rounded-full text-sm font-medium mb-4">
+                {producto.tipo.titulo}
+              </span>
+            </div>
+
             <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-              {producto.titulo} -{slug}
+              {producto.titulo}
             </h1>
 
             <p className="text-gray-600 mb-6 text-lg">{producto.descripcion}</p>
@@ -127,75 +91,177 @@ export default async function ProductoDetalle({ params }: Props) {
                 </span>
               )}
               <span className="text-blue-600 font-bold text-3xl">
-                ${producto.precioActual.toLocaleString()}
+                ${producto.precioAhora.toLocaleString()}
               </span>
+            </div>
+
+            {/* URLs de demo y producto completo */}
+            <div className="mb-6 space-y-3">
+              {producto.url_demo && (
+                <a
+                  href={producto.url_demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-green-600 hover:bg-green-700 transition-all text-white py-2 px-6 rounded-lg text-sm font-medium mr-3"
+                >
+                  Ver Demo
+                </a>
+              )}
+              {producto.url_full && (
+                <a
+                  href={producto.url_full}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-purple-600 hover:bg-purple-700 transition-all text-white py-2 px-6 rounded-lg text-sm font-medium"
+                >
+                  Ver Producto Completo
+                </a>
+              )}
             </div>
 
             {/* Botón de Consulta */}
             <button className="bg-blue-600 hover:bg-blue-700 transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium mb-8 w-full md:w-auto">
               Consultar
             </button>
+
+            {/* Información adicional */}
+            <div className="bg-gray-50 border-l-4 border-[#2563EB] p-4 rounded-r-lg">
+              <h4 className="font-medium text-gray-800 mb-2">
+                Información del Producto
+              </h4>
+              <ul className="text-sm text-gray-600 space-y-1">
+                <li>
+                  • {producto.modulos.length} módulo
+                  {producto.modulos.length !== 1 ? "s" : ""} incluido
+                  {producto.modulos.length !== 1 ? "s" : ""}
+                </li>
+                <li>
+                  • {producto.imagenes.length} imagen
+                  {producto.imagenes.length !== 1 ? "es" : ""} disponible
+                  {producto.imagenes.length !== 1 ? "s" : ""}
+                </li>
+                <li>• Video demostrativo incluido</li>
+                <li>• Soporte técnico incluido</li>
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Módulos */}
-        <div className="mb-16">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b border-gray-200 pb-3">
-            Módulos Incluidos
-          </h2>
+        {producto.modulos && producto.modulos.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b border-gray-200 pb-3">
+              Módulos Incluidos
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {producto.modulos.map((modulo, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 p-5"
-              >
-                <h3 className="text-xl font-semibold text-blue-600 mb-4">
-                  {modulo.titulo}
-                </h3>
-                <div className="space-y-2">
-                  {modulo.caracteristicas.map((caracteristica, idx) => (
-                    <div key={idx} className="flex items-start">
-                      <svg
-                        className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>
-                      <span className="ml-2 text-gray-700">
-                        {caracteristica}
-                      </span>
-                    </div>
-                  ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {producto.modulos.map((modulo, index) => (
+                <div
+                  key={modulo.id || index}
+                  className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 p-5"
+                >
+                  <h3 className="text-xl font-semibold text-blue-600 mb-4">
+                    {modulo.titulo}
+                  </h3>
+                  <div className="space-y-2">
+                    {modulo.subtitulos &&
+                      modulo.subtitulos.map((subtitulo, idx) => (
+                        <div key={idx} className="flex items-start">
+                          <svg
+                            className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M5 13l4 4L19 7"
+                            ></path>
+                          </svg>
+                          <span className="ml-2 text-gray-700 text-sm">
+                            {subtitulo}
+                          </span>
+                        </div>
+                      ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Video (Opcional) */}
+        {/* Video */}
         {producto.video && (
           <div className="mb-16">
             <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b border-gray-200 pb-3">
               Video Demostrativo
             </h2>
 
-            <div className="rounded-xl overflow-hidden shadow-md">
-              <iframe
-                src={producto.video}
-                title="Video demostrativo"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-96"
-              ></iframe>
+            <div className="rounded-xl overflow-hidden shadow-md bg-black">
+              {producto.video.includes("youtube.com") ||
+              producto.video.includes("youtu.be") ? (
+                <iframe
+                  src={producto.video.replace("watch?v=", "embed/")}
+                  title="Video demostrativo"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-96"
+                ></iframe>
+              ) : (
+                <video
+                  controls
+                  className="w-full h-96 object-contain"
+                  poster={producto.imagenes[0] || undefined}
+                >
+                  <source src={producto.video} type="video/mp4" />
+                  Tu navegador no soporta la reproducción de video.
+                </video>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Galería de imágenes adicionales */}
+        {producto.imagenes && producto.imagenes.length > 1 && (
+          <div className="mb-16">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800 border-b border-gray-200 pb-3">
+              Galería de Imágenes
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {producto.imagenes.map((imagen, index) => (
+                <div
+                  key={index}
+                  className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group"
+                >
+                  <img
+                    src={imagen}
+                    alt={`${producto.titulo} - Imagen ${index + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "/placeholder-product.jpg";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -219,13 +285,47 @@ export default async function ProductoDetalle({ params }: Props) {
                   opciones de personalización.
                 </p>
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium">
-                Solicitar Información
-              </button>
+              <div className="space-y-3">
+                <button className="bg-blue-600 hover:bg-blue-700 transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium mr-4">
+                  Solicitar Información
+                </button>
+                <button className="bg-transparent border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all py-3 px-8 rounded-lg cursor-pointer text-base font-medium">
+                  Agendar Reunión
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+// Generar metadata dinámica para SEO
+export async function generateMetadata({ params }: Props) {
+  const slug = (await params).slug;
+  const producto = await getProductById(slug);
+
+  if (!producto) {
+    return {
+      title: "Producto no encontrado",
+    };
+  }
+
+  return {
+    title: `${producto.titulo} - Piramide Soft`,
+    description: producto.descripcion,
+    openGraph: {
+      title: producto.titulo,
+      description: producto.descripcion,
+      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : [],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: producto.titulo,
+      description: producto.descripcion,
+      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : [],
+    },
+  };
 }

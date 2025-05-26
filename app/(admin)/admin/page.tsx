@@ -35,7 +35,6 @@ export default function AdminPage() {
         return <Dashboard />;
     }
   };
-
   return (
     <div ref={contentRef} className="w-full">
       {renderSection()}

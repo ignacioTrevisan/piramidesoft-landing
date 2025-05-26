@@ -5,7 +5,8 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { getProducts } from "@/app/action/products/products";
+import { Products as ProductType } from "@/interfaces/products";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {
@@ -25,23 +26,11 @@ if (typeof window !== "undefined") {
 }
 
 interface ProductCardProps {
-  title: string;
-  description: string;
-  image: string;
-  features: string[];
-  category: string;
+  product: ProductType;
 }
 
-const ProductCard = ({
-  title,
-  description,
-  image,
-  features,
-  category,
-}: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  // Generar un slug único para cada producto basado en su título
-  const productSlug = title.toLowerCase().replace(/\s+/g, "-");
   const [isCardMounted, setIsCardMounted] = useState(false);
 
   useEffect(() => {
@@ -96,6 +85,7 @@ const ProductCard = ({
     return () => {
       animation.kill();
       clearTimeout(timer);
+      // Solo matar ScrollTriggers específicos de esta tarjeta
       ScrollTrigger.getAll().forEach((st) => {
         if (st.vars.trigger === cardRef.current) {
           st.kill();
@@ -105,35 +95,57 @@ const ProductCard = ({
   }, [isCardMounted]);
 
   return (
-    <Link
-      href={`/products/${encodeURIComponent(productSlug)}`}
-      legacyBehavior={false}
-    >
+    <Link href={`/products/${product.id}`} legacyBehavior={false}>
       <div
         ref={cardRef}
-        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100"
+        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 group"
         style={{
           opacity: 1,
           transform: "translateY(0)",
-        }} /* Garantizar visibilidad inicial */
+        }}
       >
         <div className="relative h-48 md:h-56 overflow-hidden">
-          <Image
-            src={image}
-            alt={title}
-            layout="fill"
-            objectFit="cover"
-            className="transition-transform duration-500 hover:scale-110"
-          />
+          {product.imagenes && product.imagenes.length > 0 && product.imagenes[0] ? (
+            <Image
+              src={product.imagenes[0]}
+              alt={product.titulo}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/placeholder-product.jpg";
+              }}
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+              <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+          )}
           <div className="absolute top-3 right-3 bg-[#2563EB] text-white px-3 py-1 rounded-full text-xs font-medium">
-            {category}
+            {product.tipo.titulo}
           </div>
         </div>
         <div className="p-5">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">{title}</h3>
-          <p className="text-gray-600 mb-4">{description}</p>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.titulo}</h3>
+          <p className="text-gray-600 mb-4 line-clamp-3">{product.descripcion}</p>
+          
+          {/* Precio */}
+          <div className="mb-4">
+            {product.precioAntes && (
+              <span className="text-sm text-gray-500 line-through mr-2">
+                ${product.precioAntes.toLocaleString()}
+              </span>
+            )}
+            <span className="text-lg font-bold text-[#2563EB]">
+              ${product.precioAhora.toLocaleString()}
+            </span>
+          </div>
+
+          {/* Características de los módulos */}
           <div className="space-y-2">
-            {features.map((feature, index) => (
+            {product.modulos.slice(0, 3).map((modulo, index) => (
               <div key={index} className="flex items-start">
                 <svg
                   className="w-5 h-5 text-[#2563EB] mt-0.5 flex-shrink-0"
@@ -149,9 +161,14 @@ const ProductCard = ({
                     d="M5 13l4 4L19 7"
                   ></path>
                 </svg>
-                <span className="ml-2 text-gray-700">{feature}</span>
+                <span className="ml-2 text-gray-700 text-sm">{modulo.titulo}</span>
               </div>
             ))}
+            {product.modulos.length > 3 && (
+              <div className="text-sm text-gray-500 ml-7">
+                +{product.modulos.length - 3} módulo{product.modulos.length - 3 !== 1 ? 's' : ''} más
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -166,15 +183,25 @@ export function Products() {
   const customSolutionRef = useRef<HTMLDivElement>(null);
   const productsGridRef = useRef<HTMLDivElement>(null);
 
-  const router = useRouter();
-
-  // Asegurar que las animaciones se ejecuten cuando el componente se monta
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [animationsCreated, setAnimationsCreated] = useState(false);
 
   useEffect(() => {
-    // Marcar que estamos en el cliente para asegurar que las animaciones se inicien
     setIsClient(true);
+    
+    const loadProducts = async () => {
+      const response = await getProducts();
+      if (response.ok && response.data) {
+        // Filtrar solo productos visibles
+        const visibleProducts = response.data.filter(product => product.visible);
+        setProducts(visibleProducts);
+      }
+      setLoading(false);
+    };
+
+    loadProducts();
   }, []);
 
   // Efecto adicional para garantizar que los productos sean visibles
@@ -184,36 +211,37 @@ export function Products() {
     // Asegurar que todos los productos sean visibles después de cargar la página
     const visibilityTimer = setTimeout(() => {
       ensureElementsVisible();
-    }, 1000); // Esperar a que todas las animaciones tengan tiempo de iniciarse
+    }, 1000);
 
     return () => clearTimeout(visibilityTimer);
   }, [isClient]);
 
   useEffect(() => {
-    if (!isClient || animationsCreated) return;
+    if (!isClient || animationsCreated || loading) return;
 
     // Función para limpiar todas las animaciones
     const cleanup = () => {
-      // Limpiar todas las instancias de ScrollTrigger
-      ScrollTrigger.killAll();
+      // Limpiar ScrollTrigger específicamente para este componente
+      ScrollTrigger.getAll().forEach((st) => {
+        // Solo matar ScrollTriggers de este componente
+        if (st.vars.trigger === titleRef.current || 
+            st.vars.trigger === subtitleRef.current ||
+            st.vars.trigger === descriptionRef.current ||
+            st.vars.trigger === customSolutionRef.current) {
+          st.kill();
+        }
+      });
 
-      // Limpiar propiedades GSAP de todos los elementos
+      // Limpiar propiedades GSAP solo de elementos de este componente
       if (titleRef.current) gsap.set(titleRef.current, { clearProps: "all" });
-      if (subtitleRef.current)
-        gsap.set(subtitleRef.current, { clearProps: "all" });
-      if (descriptionRef.current)
-        gsap.set(descriptionRef.current, { clearProps: "all" });
-      if (customSolutionRef.current)
-        gsap.set(customSolutionRef.current, { clearProps: "all" });
+      if (subtitleRef.current) gsap.set(subtitleRef.current, { clearProps: "all" });
+      if (descriptionRef.current) gsap.set(descriptionRef.current, { clearProps: "all" });
+      if (customSolutionRef.current) gsap.set(customSolutionRef.current, { clearProps: "all" });
     };
 
-    // Limpiar animaciones anteriores
     cleanup();
-
-    // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Verificar que todos los elementos existen
     if (
       !titleRef.current ||
       !subtitleRef.current ||
@@ -223,15 +251,10 @@ export function Products() {
       return;
     }
 
-    // Crear las animaciones con un timeout para asegurar que el DOM esté listo
     const createAnimations = () => {
       try {
-        // Timeline para animaciones iniciales
         const tl = gsap.timeline({
           defaults: { ease: "power2.out" },
-          onComplete: () => {
-            console.log("Initial animations completed");
-          },
         });
 
         tl.fromTo(
@@ -252,13 +275,9 @@ export function Products() {
             "-=0.4"
           );
 
-        // Animación del custom solution con ScrollTrigger
         const customSolutionAnimation = gsap.fromTo(
           customSolutionRef.current,
-          {
-            y: 50,
-            opacity: 0,
-          },
+          { y: 50, opacity: 0 },
           {
             y: 0,
             opacity: 1,
@@ -268,30 +287,16 @@ export function Products() {
               start: "top bottom-=100",
               end: "bottom top",
               toggleActions: "play none none reverse",
-              markers: false, // Cambiar a true para debug
-              onToggle: (self) => {
-                console.log(
-                  "Custom solution ScrollTrigger toggled:",
-                  self.isActive
-                );
-              },
-              onRefresh: () => {
-                console.log("Custom solution ScrollTrigger refreshed");
-              },
             },
           }
         );
 
-        // Marcar que las animaciones fueron creadas
         setAnimationsCreated(true);
 
-        // Forzar refresh de ScrollTrigger después de un breve delay
         setTimeout(() => {
           ScrollTrigger.refresh();
-          console.log("ScrollTrigger refreshed");
         }, 100);
 
-        // Retornar función de limpieza
         return () => {
           tl.kill();
           customSolutionAnimation.kill();
@@ -303,120 +308,43 @@ export function Products() {
       }
     };
 
-    // Crear animaciones después de un pequeño delay para asegurar que el DOM esté listo
     const animationTimer = setTimeout(createAnimations, 50);
 
-    // Función de limpieza
     return () => {
       clearTimeout(animationTimer);
       cleanup();
     };
-  }, [isClient, animationsCreated]);
+  }, [isClient, animationsCreated, loading]);
 
-  // Efecto para manejar cambios de ruta
-  useEffect(() => {
-    const handleRouteChange = () => {
-      console.log("Route change detected, resetting animations");
-      setAnimationsCreated(false);
-      ScrollTrigger.refresh();
-    };
-
-    // Reset animaciones cuando la ruta cambia
-    handleRouteChange();
-  }, [router]);
-
-  // Efecto para refresh de ScrollTrigger cuando el componente se monta completamente
   useEffect(() => {
     if (!isClient) return;
 
     const refreshTimer = setTimeout(() => {
       ScrollTrigger.refresh();
-      console.log("Final ScrollTrigger refresh");
     }, 500);
 
     return () => clearTimeout(refreshTimer);
-  }, [isClient, animationsCreated]);
+  }, [isClient, animationsCreated, products]);
 
-  const products: ProductCardProps[] = [
-    {
-      title: "Sistema de Gestión de Stock",
-      description:
-        "Control completo de inventario con reportes detallados y alertas automáticas.",
-      image: "/stock-management.jpg",
-      features: [
-        "Control de stock multi-sucursal",
-        "Generación de órdenes de compra",
-        "Alertas de stock mínimo",
-        "Reportes personalizados",
-      ],
-      category: "Inventario",
-    },
-    {
-      title: "Sistema de Punto de Venta",
-      description:
-        "Agiliza tus ventas con un sistema rápido e intuitivo para comercios minoristas.",
-      image: "/pos-system.jpg",
-      features: [
-        "Interfaz táctil intuitiva",
-        "Integración con lectores de códigos",
-        "Control de cajas y turnos",
-        "Gestión de promociones",
-      ],
-      category: "Ventas",
-    },
-    {
-      title: "Facturación Electrónica",
-      description:
-        "Solución completa para emisión y gestión de comprobantes electrónicos AFIP.",
-      image: "/electronic-invoice.jpg",
-      features: [
-        "Integración con AFIP",
-        "Emisión de facturas A, B y C",
-        "Envío automático por email",
-        "Reportes fiscales",
-      ],
-      category: "Facturación",
-    },
-    {
-      title: "CRM para PyMEs",
-      description:
-        "Gestiona tus clientes y potencia tus ventas con nuestro sistema de CRM adaptado.",
-      image: "/crm-system.jpg",
-      features: [
-        "Seguimiento de clientes",
-        "Pipeline de ventas",
-        "Automatización de marketing",
-        "Métricas de rendimiento",
-      ],
-      category: "CRM",
-    },
-    {
-      title: "E-commerce Integrado",
-      description:
-        "Plataforma completa de comercio electrónico integrada con tu sistema de gestión.",
-      image: "/ecommerce-platform.jpg",
-      features: [
-        "Diseño responsive",
-        "Integración con MercadoPago",
-        "Sincronización automática de stock",
-        "Panel administrativo completo",
-      ],
-      category: "E-commerce",
-    },
-    {
-      title: "App Móvil para Vendedores",
-      description:
-        "Aplicación móvil para que tus vendedores gestionen pedidos desde cualquier lugar.",
-      image: "/mobile-sales-app.jpg",
-      features: [
-        "Catálogo digital",
-        "Toma de pedidos offline",
-        "Geolocalización de clientes",
-        "Reportes de actividad",
-      ],
-      category: "App Móvil",
-    },
-  ];
+  if (loading) {
+    return (
+      <div className="w-full py-16 px-4 md:px-10 mt-16 md:mt-20 max-w-[100vw]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-[#2563EB]">
+              Nuestros Productos
+            </h1>
+            <p className="text-xl md:text-2xl mb-6 text-gray-700">
+              Cargando productos...
+            </p>
+          </div>
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full py-16 px-4 md:px-10 mt-16 md:mt-20 max-w-[100vw]">
@@ -449,14 +377,30 @@ export function Products() {
         </div>
 
         {/* Products Grid */}
-        <div
-          ref={productsGridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
-        >
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
-          ))}
-        </div>
+        {products.length > 0 ? (
+          <div
+            ref={productsGridRef}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+          >
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 mb-16">
+            <div className="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              Productos en preparación
+            </h3>
+            <p className="text-gray-600">
+              Estamos finalizando nuestro catálogo de productos. ¡Pronto estará disponible!
+            </p>
+          </div>
+        )}
 
         {/* Custom Solutions Section */}
         <div
@@ -495,9 +439,11 @@ export function Products() {
               <Image
                 src="/custom-solution.jpg"
                 alt="Soluciones a medida"
-                layout="fill"
-                objectFit="cover"
-                className="rounded-lg"
+                fill
+                className="rounded-lg object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/placeholder-custom.jpg";
+                }}
               />
             </div>
           </div>

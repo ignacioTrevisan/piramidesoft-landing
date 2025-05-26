@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ss-static-01.esmsv.com",
       },
+      {
+        protocol: "https",
+        hostname: "c4.wallpaperflare.com",
+      },
     ],
   },
 };

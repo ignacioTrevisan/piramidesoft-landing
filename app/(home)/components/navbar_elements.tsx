@@ -13,61 +13,61 @@ interface elementos_navbar {
 export const Navbar_elements = () => {
   const elementos: elementos_navbar[] = [
     { titulo: "Inicio", isFocus: true, url: "/" },
-    { titulo: "Blogs", isFocus: true, url: "/blog" },
+    { titulo: "Blogs", isFocus: true, url: "/blogs" },
     { titulo: "Productos", isFocus: true, url: "/products" },
   ];
   const [elementHovered, setElementHovered] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  
+
   // Reset itemRefs array
   itemRefs.current = [];
-  
+
   // Add or update ref in the array
   const addToItemRefs = (el: HTMLDivElement | null, index: number) => {
     if (el && !itemRefs.current[index]) {
       itemRefs.current[index] = el;
     }
   };
-  
+
   useEffect(() => {
     if (!containerRef.current || itemRefs.current.length === 0) return;
-    
+
     // Initial animation for navbar items
     gsap.fromTo(
       itemRefs.current,
       { y: -20, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        duration: 0.5, 
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
         stagger: 0.1,
         delay: 0.3,
-        ease: "power2.out" 
+        ease: "power2.out",
       }
     );
-    
+
     // Add hover animation for each item
     itemRefs.current.forEach((item) => {
       if (!item) return;
-      
+
       item.addEventListener("mouseenter", () => {
         gsap.to(item, {
           y: -2,
           duration: 0.2,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       });
-      
+
       item.addEventListener("mouseleave", () => {
         gsap.to(item, {
           y: 0,
           duration: 0.2,
-          ease: "power1.out"
+          ease: "power1.out",
         });
       });
     });
-    
+
     return () => {
       // Cleanup event listeners
       itemRefs.current.forEach((item) => {
@@ -81,9 +81,9 @@ export const Navbar_elements = () => {
   return (
     <div ref={containerRef} className="flex h-full gap-8 items-center">
       {elementos.map((e, i) => (
-        <div 
+        <div
           ref={(el) => addToItemRefs(el, i)}
-          className="relative" 
+          className="relative"
           key={e.titulo}
         >
           <Link href={e.url}>

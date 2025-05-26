@@ -33,7 +33,7 @@ export async function createProduct(
         modulos: true,
       },
     });
-
+    console.log({ product });
     revalidatePath("/admin");
     return {
       ok: true,

@@ -1,99 +1,37 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NosotrosCard } from "./components/nosotrosCard";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export const SobreNosotros = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
-  const dividerLeftRef = useRef<HTMLHRElement>(null);
-  const dividerRightRef = useRef<HTMLHRElement>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-
-    // Registrar ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Limpiar animaciones previas
-    ScrollTrigger.killAll();
-
-    const timer = setTimeout(() => {
-      if (
-        !sectionRef.current ||
-        !titleRef.current ||
-        !cardsContainerRef.current
-      )
-        return;
-
-      // Establecer estados iniciales
-      gsap.set(titleRef.current, { opacity: 0, y: 20 });
-      gsap.set([dividerLeftRef.current, dividerRightRef.current], {
-        width: 0,
-        opacity: 0.5,
-      });
-
-      // Animar título
-      gsap.to(titleRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        delay: 0.3,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top bottom-=100",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Animar dividers
-      gsap.to([dividerLeftRef.current, dividerRightRef.current], {
-        width: "100%",
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom-=50",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Animar cartas
-      const cards = gsap.utils.toArray(".nosotros-card");
-      if (cards.length > 0) {
-        gsap.set(cards, { y: 30, opacity: 0 });
-        gsap.to(cards, {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: cardsContainerRef.current,
-            start: "top bottom-=50",
-            toggleActions: "play none none reverse",
-          },
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
         });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
       }
+    );
 
-      ScrollTrigger.refresh();
-    }, 100);
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => {
-      clearTimeout(timer);
-      ScrollTrigger.killAll();
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
     };
-  }, [mounted]);
+  }, []);
 
   const nosotros = [
     {
@@ -135,29 +73,45 @@ export const SobreNosotros = () => {
       ref={sectionRef}
       className="flex flex-col w-full h-auto px-4 md:px-8 py-12 overflow-x-hidden"
     >
+      {/* Divisores animados */}
       <div className="flex justify-between space-x-8 mb-10">
-        <hr
-          ref={dividerLeftRef}
-          className="divider-left w-full border-[#2563EB] border-1"
+        <hr 
+          className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
+            isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+          }`}
+          style={{ transformOrigin: 'left' }}
         />
-        <hr
-          ref={dividerRightRef}
-          className="divider-right w-full border-[#2563EB] border-1"
+        <hr 
+          className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
+            isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+          }`}
+          style={{ transformOrigin: 'right' }}
         />
       </div>
-      <h1
-        ref={titleRef}
-        className="text-4xl md:text-5xl lg:text-6xl text-center mb-10 text-[#2563EB] font-bold px-4 relative z-10"
+      
+      {/* Título animado */}
+      <h1 
+        className={`text-4xl md:text-5xl lg:text-6xl text-center mb-10 text-[#2563EB] font-bold px-4 relative z-10 transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+        }`}
+        style={{ transitionDelay: '300ms' }}
       >
         Nuestro <span className="text-gray-800">Equipo</span>
         <div className="absolute -z-10 inset-0 blur-md bg-gray-100 opacity-50 transform scale-150"></div>
       </h1>
-      <div
-        ref={cardsContainerRef}
-        className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12"
-      >
-        {nosotros.map((n) => (
-          <div key={n.name} className="nosotros-card">
+      
+      {/* Grid de cartas con animación escalonada */}
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12">
+        {nosotros.map((n, index) => (
+          <div 
+            key={n.name} 
+            className={`nosotros-card transition-all duration-600 ease-out ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ 
+              transitionDelay: `${600 + (index * 150)}ms` 
+            }}
+          >
             <NosotrosCard {...n} />
           </div>
         ))}

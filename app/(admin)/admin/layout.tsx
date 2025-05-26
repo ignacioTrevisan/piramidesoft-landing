@@ -1,4 +1,4 @@
-import { CheckSession } from "@/app/action/session/checkSession";
+import { checkAdminSession } from "@/app/action/session/checkSession";
 import { redirect } from "next/navigation";
 import { AdminLayoutClient } from "./components/AdminLayoutClient";
 import "../../(home)/globals.css";
@@ -6,14 +6,14 @@ import "./styles/admin.css";
 import "./styles/admin-override.css";
 import "./styles/sidebar-mobile.css";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const IsSessionActive = CheckSession();
+  const user = await checkAdminSession();
 
-  if (!IsSessionActive) {
+  if (!user) {
     redirect("/auth/login");
   }
 
@@ -24,7 +24,7 @@ export default function RootLayout({
         <meta name="description" content="Panel administrativo Piramide Soft" />
       </head>
       <body className="antialiased overflow-x-hidden bg-gray-50">
-        <AdminLayoutClient>{children}</AdminLayoutClient>
+        <AdminLayoutClient user={user}>{children}</AdminLayoutClient>
       </body>
     </html>
   );

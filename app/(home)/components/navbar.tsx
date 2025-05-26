@@ -184,9 +184,12 @@ export const Navbar = () => {
         {mobileMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-white shadow-md py-4 px-4">
             <MobileNavbarElements />
-            <button className="bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white p-2 px-5 w-full rounded-lg cursor-pointer mt-4 text-sm">
+            <Link
+              href={"auth/login"}
+              className="bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white p-2 px-5 w-full rounded-lg cursor-pointer mt-4 text-sm"
+            >
               Ingresar
-            </button>
+            </Link>
           </div>
         )}
       </div>
@@ -194,6 +197,8 @@ export const Navbar = () => {
       <button
         ref={buttonRef}
         className="hidden md:block bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-2.5 px-6 w-auto rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium"
+        onClick={() => (window.location.href = "/auth/login")}
+        type="button"
       >
         Ingresar
       </button>

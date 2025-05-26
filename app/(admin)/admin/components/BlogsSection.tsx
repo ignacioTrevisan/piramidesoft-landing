@@ -1,28 +1,24 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-
-interface Blog {
-  id: string;
-  titulo: string;
-  contenido: string;
-  resumen: string;
-  imagen: string;
-  visible: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { getBlogs } from "@/app/action/blogs/getBlogs";
+import { createBlog } from "@/app/action/blogs/createBlog";
+import { updateBlog } from "@/app/action/blogs/updateBlog";
+import { deleteBlog } from "@/app/action/blogs/deleteBlog";
+import { changeVisibilityBlog } from "@/app/action/blogs/changeVisibilityBlog";
+import { Blog, FormToCreateBlog } from "@/interfaces/blog";
+import { MediaUploader } from "./MediaUploader";
 
 interface BlogModalProps {
   isOpen: boolean;
   onClose: () => void;
   blog?: Blog | null;
-  onSave: (blog: any) => void;
+  onSave: (blog: FormToCreateBlog) => void;
 }
 
 const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormToCreateBlog>({
     titulo: "",
     contenido: "",
     resumen: "",
@@ -69,10 +65,10 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="modal-overlay admin-container">
       <div
         ref={modalRef}
-        className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="admin-modal modal-content bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
       >
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-2xl font-bold text-gray-800">
@@ -89,7 +85,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
               type="text"
               value={formData.titulo}
               onChange={(e) => setFormData(prev => ({ ...prev, titulo: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
             />
           </div>
@@ -102,23 +98,18 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
               value={formData.resumen}
               onChange={(e) => setFormData(prev => ({ ...prev, resumen: e.target.value }))}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
               placeholder="Resumen corto del blog post..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Imagen URL
-            </label>
-            <input
-              type="url"
-              value={formData.imagen}
-              onChange={(e) => setFormData(prev => ({ ...prev, imagen: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-              placeholder="https://example.com/imagen.jpg"
+            <MediaUploader
+              type="image"
+              label="Imagen del Blog"
+              currentUrl={formData.imagen}
+              onUpload={(url) => setFormData(prev => ({ ...prev, imagen: url }))}
             />
           </div>
 
@@ -130,7 +121,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
               value={formData.contenido}
               onChange={(e) => setFormData(prev => ({ ...prev, contenido: e.target.value }))}
               rows={12}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               required
               placeholder="Escribe el contenido completo del blog post..."
             />
@@ -142,7 +133,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
                 type="checkbox"
                 checked={formData.visible}
                 onChange={(e) => setFormData(prev => ({ ...prev, visible: e.target.checked }))}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
               />
               <span className="text-sm font-medium text-gray-700">Blog visible</span>
             </label>
@@ -158,7 +149,7 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
             >
               {blog ? "Actualizar" : "Crear"} Blog
             </button>
@@ -184,52 +175,35 @@ export const BlogsSection = () => {
         { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
       );
     }
-
-    // Simular carga de blogs
-    setTimeout(() => {
-      setBlogs([
-        {
-          id: "1",
-          titulo: "Beneficios de la Digitalización en PyMEs",
-          resumen: "Descubre cómo la digitalización puede transformar tu pequeña o mediana empresa y mejorar tu competitividad en el mercado.",
-          contenido: "La digitalización es un proceso fundamental para las PyMEs en la era moderna. Permite automatizar procesos, mejorar la eficiencia y alcanzar nuevos mercados...",
-          imagen: "/blog-digitalization.jpg",
-          visible: true,
-          createdAt: "2024-01-10T09:00:00Z",
-          updatedAt: "2024-01-10T09:00:00Z"
-        },
-        {
-          id: "2",
-          titulo: "Tendencias en Software de Gestión 2024",
-          resumen: "Las últimas tendencias en software de gestión empresarial que están revolucionando la forma de hacer negocios.",
-          contenido: "El año 2024 trae consigo nuevas tendencias en software de gestión que prometen revolucionar la forma en que las empresas operan...",
-          imagen: "/blog-trends.jpg",
-          visible: false,
-          createdAt: "2024-01-08T14:30:00Z",
-          updatedAt: "2024-01-08T14:30:00Z"
-        }
-      ]);
+    
+    const loadBlogs = async () => {
+      const response = await getBlogs();
+      if (response.ok && response.data) {
+        setBlogs(response.data);
+      }
       setLoading(false);
-    }, 1000);
+    };
+
+    loadBlogs();
   }, []);
 
-  const handleSaveBlog = (blogData: any) => {
+  const handleSaveBlog = async (blogData: FormToCreateBlog) => {
     if (selectedBlog) {
       // Actualizar blog existente
-      setBlogs(prev => prev.map(b => 
-        b.id === selectedBlog.id 
-          ? { ...b, ...blogData, updatedAt: new Date().toISOString() }
-          : b
-      ));
+      const response = await updateBlog(selectedBlog.id, blogData);
+      if (response.ok && response.data) {
+        setBlogs(prev => prev.map(b => 
+          b.id === selectedBlog.id 
+            ? response.data!
+            : b
+        ));
+      }
     } else {
       // Crear nuevo blog
-      const newBlog: Blog = {
-        id: Date.now().toString(),
-        ...blogData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      setBlogs(prev => [...prev, newBlog]);
+      const response = await createBlog(blogData);
+      if (response.ok && response.data) {
+        setBlogs(prev => [response.data!, ...prev]);
+      }
     }
     setSelectedBlog(null);
   };
@@ -239,18 +213,24 @@ export const BlogsSection = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteBlog = (blogId: string) => {
+  const handleDeleteBlog = async (blogId: string) => {
     if (confirm("¿Estás seguro de que quieres eliminar este blog?")) {
-      setBlogs(prev => prev.filter(b => b.id !== blogId));
+      const response = await deleteBlog(blogId);
+      if (response.ok) {
+        setBlogs(prev => prev.filter(b => b.id !== blogId));
+      }
     }
   };
 
-  const toggleBlogVisibility = (blogId: string) => {
-    setBlogs(prev => prev.map(b => 
-      b.id === blogId 
-        ? { ...b, visible: !b.visible, updatedAt: new Date().toISOString() }
-        : b
-    ));
+  const toggleBlogVisibility = async (blogId: string) => {
+    const response = await changeVisibilityBlog(blogId);
+    if (response.ok) {
+      setBlogs(prev => prev.map(b => 
+        b.id === blogId 
+          ? { ...b, visible: !b.visible, updatedAt: new Date().toISOString() }
+          : b
+      ));
+    }
   };
 
   const openCreateModal = () => {
@@ -269,7 +249,7 @@ export const BlogsSection = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
       </div>
     );
   }
@@ -302,7 +282,7 @@ export const BlogsSection = () => {
         {blogs.map((blog) => (
           <div
             key={blog.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+            className="admin-card hover:shadow-lg transition-all duration-300"
           >
             <div className="aspect-w-16 aspect-h-9 relative h-48 bg-gray-200 rounded-t-xl overflow-hidden">
               <img
@@ -336,7 +316,7 @@ export const BlogsSection = () => {
             
             <div className="p-6">
               <div className="flex justify-between items-start mb-3">
-                <h3 className="text-xl font-semibold text-gray-800 line-clamp-2 flex-1">
+                <h3 className="text-xl font-semibold text-gray-800 line-clamp-2 flex-1" style={{ fontSize: '18px' }}>
                   {blog.titulo}
                 </h3>
                 <span className={`ml-3 px-2 py-1 rounded-full text-xs font-medium ${
@@ -348,11 +328,11 @@ export const BlogsSection = () => {
                 </span>
               </div>
 
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3" style={{ fontSize: '14px' }}>
                 {blog.resumen}
               </p>
 
-              <div className="text-sm text-gray-500 mb-4">
+              <div className="text-sm text-gray-500 mb-4" style={{ fontSize: '12px' }}>
                 <div>Creado: {formatDate(blog.createdAt)}</div>
                 {blog.updatedAt !== blog.createdAt && (
                   <div>Actualizado: {formatDate(blog.updatedAt)}</div>

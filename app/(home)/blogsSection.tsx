@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import { getVisibleBlogs } from "@/app/action/blogs";
 import { Blog } from "@/interfaces/blog";
@@ -16,28 +15,36 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, index, isVisible }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('es-AR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+    return new Date(dateString).toLocaleDateString("es-AR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   return (
     <article
       className={`bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 ease-out overflow-hidden group ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
-      style={{ 
-        transitionDelay: `${600 + (index * 150)}ms` 
+      style={{
+        transitionDelay: `${600 + index * 150}ms`,
       }}
     >
       {/* Imagen del blog */}
       <div className="relative h-48 w-full overflow-hidden">
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-            <svg className="w-12 h-12 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+            <svg
+              className="w-12 h-12 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
         )}
@@ -46,7 +53,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, index, isVisible }) => {
           alt={blog.titulo}
           fill
           className={`object-cover transition-all duration-500 group-hover:scale-110 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0'
+            imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={() => setImageLoaded(true)}
           onError={(e) => {
@@ -54,26 +61,26 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, index, isVisible }) => {
             setImageLoaded(true);
           }}
         />
-        
+
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
+
         {/* Fecha flotante */}
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
           {formatDate(blog.createdAt)}
         </div>
       </div>
-      
+
       {/* Contenido de la carta */}
       <div className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#2563EB] transition-colors duration-300">
           {blog.titulo}
         </h3>
-        
+
         <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
           {blog.resumen}
         </p>
-        
+
         <Link
           href={`/blogs/${blog.id}`}
           className="inline-flex items-center text-[#2563EB] hover:text-[#1E40AF] font-semibold transition-all duration-300 group-hover:translate-x-1"
@@ -115,7 +122,7 @@ export const BlogsSection = () => {
       },
       {
         threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px"
+        rootMargin: "0px 0px -50px 0px",
       }
     );
 
@@ -160,11 +167,14 @@ export const BlogsSection = () => {
               Mantente al día con las últimas tendencias tecnológicas
             </p>
           </div>
-          
+
           {/* Loading skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden animate-pulse">
+              <div
+                key={i}
+                className="bg-white rounded-xl shadow-md overflow-hidden animate-pulse"
+              >
                 <div className="h-48 bg-gray-200"></div>
                 <div className="p-6">
                   <div className="h-4 bg-gray-200 rounded mb-3"></div>
@@ -184,7 +194,7 @@ export const BlogsSection = () => {
   }
 
   return (
-    <section 
+    <section
       id="blogs"
       ref={sectionRef}
       className="py-16 bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden"
@@ -192,58 +202,63 @@ export const BlogsSection = () => {
       <div className="container mx-auto px-4 md:px-8">
         {/* Divisores animados */}
         <div className="flex justify-between space-x-8 mb-10">
-          <hr 
+          <hr
             className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
-              isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+              isVisible ? "opacity-100 scale-x-100" : "opacity-50 scale-x-0"
             }`}
-            style={{ transformOrigin: 'left' }}
+            style={{ transformOrigin: "left" }}
           />
-          <hr 
+          <hr
             className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
-              isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+              isVisible ? "opacity-100 scale-x-100" : "opacity-50 scale-x-0"
             }`}
-            style={{ transformOrigin: 'right' }}
+            style={{ transformOrigin: "right" }}
           />
         </div>
 
         {/* Título animado */}
         <div className="text-center mb-12">
-          <h2 
+          <h2
             className={`text-4xl md:text-5xl lg:text-6xl font-bold text-[#2563EB] mb-4 transition-all duration-700 ease-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-5"
             }`}
-            style={{ transitionDelay: '300ms' }}
+            style={{ transitionDelay: "300ms" }}
           >
             Últimos <span className="text-gray-800">Artículos</span>
           </h2>
-          <p 
+          <p
             className={`text-xl text-gray-600 max-w-3xl mx-auto transition-all duration-700 ease-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-5"
             }`}
-            style={{ transitionDelay: '450ms' }}
+            style={{ transitionDelay: "450ms" }}
           >
-            Mantente al día con las últimas tendencias en tecnología y software empresarial
+            Mantente al día con las últimas tendencias en tecnología y software
+            empresarial
           </p>
         </div>
 
         {/* Grid de blogs */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {blogs.map((blog, index) => (
-            <BlogCard 
-              key={blog.id} 
-              blog={blog} 
-              index={index} 
+            <BlogCard
+              key={blog.id}
+              blog={blog}
+              index={index}
               isVisible={isVisible}
             />
           ))}
         </div>
 
         {/* Botón para ver todos los blogs */}
-        <div 
+        <div
           className={`text-center transition-all duration-700 ease-out ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
-          style={{ transitionDelay: `${600 + (blogs.length * 150) + 200}ms` }}
+          style={{ transitionDelay: `${600 + blogs.length * 150 + 200}ms` }}
         >
           <Link
             href="/blogs"
