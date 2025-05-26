@@ -38,5 +38,10 @@ export interface FormToCreateProducts {
   url_full?: string;
   visible: boolean;
   tipoId: string;
-  modulos: Modulos[];
+  modulos: NewModulos[];
+}
+
+interface NewModulos {
+  titulo: string;
+  subtitulos: string[];
 }

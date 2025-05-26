@@ -6,36 +6,11 @@ import { getTipos } from "@/app/action/actions/actions";
 import { FormToCreateProducts, Products } from "@/interfaces/products";
 import { createProduct } from "@/app/action/products/createProducts";
 
-interface Product {
-  id: string;
-  titulo: string;
-  descripcion: string;
-  precioAntes: number | null;
-  precioAhora: number;
-  imagenes: string[];
-  video: string;
-  url_demo?: string;
-  url_full?: string;
-  visible: boolean;
-  tipoId: string;
-  tipo: {
-    id: string;
-    titulo: string;
-  };
-  modulos: Array<{
-    id: string;
-    titulo: string;
-    subtitulos: string[];
-  }>;
-  createdAt: string;
-  updatedAt: string;
-}
-
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product?: Product | null;
-  onSave: (product: any) => void;
+  product?: Products | null;
+  onSave: (product: FormToCreateProducts) => void;
 }
 
 const ProductModal: React.FC<ProductModalProps> = ({
@@ -150,7 +125,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
     }));
   };
 
-  const updateModulo = (index: number, field: string, value: any) => {
+  const updateModulo = (
+    index: number,
+    field: keyof (typeof formData.modulos)[number],
+    value: string | string[]
+  ) => {
     setFormData((prev) => ({
       ...prev,
       modulos: prev.modulos.map((mod, i) =>
@@ -531,9 +510,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
 export const ProductosSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Products[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Products | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -548,7 +527,7 @@ export const ProductosSection = () => {
       const products = await getProducts();
       if (products.data) {
         setProducts(
-          products.data.map((p: any) => ({
+          products.data.map((p) => ({
             ...p,
             precioAntes:
               p.precioAntes !== null && p.precioAntes !== undefined
@@ -599,14 +578,14 @@ export const ProductosSection = () => {
 
       if (data.ok && data.data) {
         if (data.data) {
-          setProducts((prev) => [...prev, data.data as Product]);
+          setProducts((prev) => [...prev, data.data as Products]);
         }
       }
     }
     setSelectedProduct(null);
   };
 
-  const handleEditProduct = (product: Product) => {
+  const handleEditProduct = (product: Products) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
