@@ -22,7 +22,7 @@ export async function createProduct(
         visible: data.visible,
         tipoId: data.tipoId,
         modulos: {
-          create: data.modulos.map((modulo: any) => ({
+          create: data.modulos.map((modulo) => ({
             titulo: modulo.titulo,
             subtitulos: modulo.subtitulos,
           })),

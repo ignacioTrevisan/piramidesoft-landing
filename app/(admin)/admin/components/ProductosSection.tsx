@@ -553,22 +553,31 @@ export const ProductosSection = () => {
     asynFunction();
   }, []);
 
-  const handleSaveProduct = async (productData: any) => {
+  const handleSaveProduct = async (productData: FormToCreateProducts) => {
     if (selectedProduct) {
-      // Actualizar producto existente
       setProducts((prev) =>
         prev.map((p) =>
           p.id === selectedProduct.id
-            ? { ...p, ...productData, updatedAt: new Date().toISOString() }
+            ? {
+                ...p,
+                ...productData,
+                modulos: p.modulos.map((mod, idx) => ({
+                  ...mod,
+                  // Use existing id or fallback to empty string if not present
+                  id: mod.id ?? "",
+                  titulo: productData.modulos[idx]?.titulo ?? mod.titulo,
+                  subtitulos:
+                    productData.modulos[idx]?.subtitulos ?? mod.subtitulos,
+                })),
+                updatedAt: new Date().toISOString(),
+              }
             : p
         )
       );
     } else {
-      // Crear nuevo producto
       const newProduct: FormToCreateProducts = {
         ...productData,
-        tipo: { id: productData.tipoId, titulo: "Tipo" },
-        modulos: productData.modulos.map((m: any, index: number) => ({
+        modulos: productData.modulos.map((m) => ({
           ...m,
         })),
         precioAntes: 12,

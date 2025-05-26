@@ -1,8 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
-import { Products } from "@/interfaces/products";
+import { FormToCreateProducts } from "@/interfaces/products";
 import { revalidatePath } from "next/cache";
 
 export async function getProducts() {
@@ -32,7 +31,7 @@ export async function getProducts() {
   }
 }
 
-export async function updateProduct(id: string, data: any) {
+export async function updateProduct(id: string, data: FormToCreateProducts) {
   try {
     // Eliminar módulos existentes
     await prisma.modulo.deleteMany({
@@ -45,8 +44,8 @@ export async function updateProduct(id: string, data: any) {
       data: {
         titulo: data.titulo,
         descripcion: data.descripcion,
-        precioAntes: data.precioAntes ? parseFloat(data.precioAntes) : null,
-        precioAhora: parseFloat(data.precioAhora),
+        precioAntes: data.precioAntes ? data.precioAntes : null,
+        precioAhora: data.precioAhora,
         imagenes: data.imagenes,
         video: data.video,
         url_demo: data.url_demo || null,
@@ -54,7 +53,7 @@ export async function updateProduct(id: string, data: any) {
         visible: data.visible,
         tipoId: data.tipoId,
         modulos: {
-          create: data.modulos.map((modulo: any) => ({
+          create: data.modulos.map((modulo) => ({
             titulo: modulo.titulo,
             subtitulos: modulo.subtitulos,
           })),

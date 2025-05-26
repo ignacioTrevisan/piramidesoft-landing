@@ -34,8 +34,8 @@ export interface FormToCreateProducts {
   precioAhora: number;
   imagenes: string[];
   video: string;
-  url_demo?: string;
-  url_full?: string;
+  url_demo: string | null;
+  url_full: string | null;
   visible: boolean;
   tipoId: string;
   modulos: NewModulos[];
