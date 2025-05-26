@@ -31,48 +31,6 @@ export async function getProducts() {
   }
 }
 
-export async function updateProduct(id: string, data: FormToCreateProducts) {
-  try {
-    // Eliminar módulos existentes
-    await prisma.modulo.deleteMany({
-      where: { productId: id },
-    });
-
-    // Actualizar producto con nuevos módulos
-    const product = await prisma.product.update({
-      where: { id },
-      data: {
-        titulo: data.titulo,
-        descripcion: data.descripcion,
-        precioAntes: data.precioAntes ? data.precioAntes : null,
-        precioAhora: data.precioAhora,
-        imagenes: data.imagenes,
-        video: data.video,
-        url_demo: data.url_demo || null,
-        url_full: data.url_full || null,
-        visible: data.visible,
-        tipoId: data.tipoId,
-        modulos: {
-          create: data.modulos.map((modulo) => ({
-            titulo: modulo.titulo,
-            subtitulos: modulo.subtitulos,
-          })),
-        },
-      },
-      include: {
-        tipo: true,
-        modulos: true,
-      },
-    });
-
-    revalidatePath("/admin");
-    return { success: true, data: product };
-  } catch (error) {
-    console.error("Error updating product:", error);
-    return { success: false, error: "Error al actualizar producto" };
-  }
-}
-
 export async function deleteProduct(id: string) {
   try {
     await prisma.product.delete({

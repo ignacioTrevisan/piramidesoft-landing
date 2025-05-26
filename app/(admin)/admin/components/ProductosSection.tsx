@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { getProducts } from "@/app/action/products/products";
-import { getTipos } from "@/app/action/actions/actions";
+import { getTipos } from "@/app/action/tipos/getTipos";
 import { FormToCreateProducts, Products } from "@/interfaces/products";
 import { createProduct } from "@/app/action/products/createProducts";
+import { updateProduct } from "@/app/action/products/updateProducts";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -554,26 +555,35 @@ export const ProductosSection = () => {
   }, []);
 
   const handleSaveProduct = async (productData: FormToCreateProducts) => {
-    if (selectedProduct) {
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === selectedProduct.id
-            ? {
-                ...p,
-                ...productData,
-                modulos: p.modulos.map((mod, idx) => ({
-                  ...mod,
-                  // Use existing id or fallback to empty string if not present
-                  id: mod.id ?? "",
-                  titulo: productData.modulos[idx]?.titulo ?? mod.titulo,
-                  subtitulos:
-                    productData.modulos[idx]?.subtitulos ?? mod.subtitulos,
-                })),
-                updatedAt: new Date().toISOString(),
-              }
-            : p
-        )
-      );
+    if (
+      selectedProduct === null ||
+      selectedProduct.id === null ||
+      selectedProduct.id === undefined
+    )
+      return;
+    const data = await updateProduct(selectedProduct.id, productData);
+    if (data.ok) {
+      if (selectedProduct) {
+        setProducts((prev) =>
+          prev.map((p) =>
+            p.id === selectedProduct.id
+              ? {
+                  ...p,
+                  ...data.data,
+                  modulos: p.modulos.map((mod, idx) => ({
+                    ...mod,
+                    id: mod.id ?? "",
+                    titulo: productData.modulos[idx]?.titulo ?? mod.titulo,
+                    subtitulos:
+                      productData.modulos[idx]?.subtitulos ?? mod.subtitulos,
+                  })),
+
+                  updatedAt: new Date().toISOString(),
+                }
+              : p
+          )
+        );
+      }
     } else {
       const newProduct: FormToCreateProducts = {
         ...productData,
