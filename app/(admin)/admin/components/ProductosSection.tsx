@@ -6,6 +6,8 @@ import { getTipos } from "@/app/action/tipos/getTipos";
 import { FormToCreateProducts, Products } from "@/interfaces/products";
 import { createProduct } from "@/app/action/products/createProducts";
 import { updateProduct } from "@/app/action/products/updateProducts";
+import { changeVisibility } from "@/app/action/products/changeVisibility";
+import { deleteProduct } from "@/app/action/products/deleteProducts";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -609,20 +611,28 @@ export const ProductosSection = () => {
     setIsModalOpen(true);
   };
 
-  const handleDeleteProduct = (productId: string) => {
+  const handleDeleteProduct = async (productId: string) => {
     if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
-      setProducts((prev) => prev.filter((p) => p.id !== productId));
+      const resp = await deleteProduct(productId);
+      console.log({ resp });
+      if (resp.ok) {
+        setProducts((prev) => prev.filter((p) => p.id !== productId));
+      }
     }
   };
 
-  const toggleProductVisibility = (productId: string) => {
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === productId
-          ? { ...p, visible: !p.visible, updatedAt: new Date().toISOString() }
-          : p
-      )
-    );
+  const toggleProductVisibility = async (productId: string) => {
+    const data = await changeVisibility(productId);
+    console.log({ data });
+    if (data.ok) {
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === productId
+            ? { ...p, visible: !p.visible, updatedAt: new Date().toISOString() }
+            : p
+        )
+      );
+    }
   };
 
   const openCreateModal = () => {
