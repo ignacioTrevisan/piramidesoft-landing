@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface Cliente {
   nombre: string;
@@ -10,54 +11,169 @@ interface Cliente {
 
 const clientesData: Cliente[] = [
   {
-    nombre: "Comercial San Martín",
-    ubicacion: "Buenos Aires, Argentina",
-    contacto: "contacto@comercialsanmartin.com",
+    nombre: "𝐷𝐼𝑆𝑇𝑅𝐼𝐵𝑈𝐼𝐷𝑂𝑅𝐴 𝑁𝐴𝑇𝑈𝑅𝐴𝐿",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "3447 551926",
   },
   {
-    nombre: "Distribuidora El Sol",
-    ubicacion: "Córdoba, Argentina",
-    contacto: "ventas@elsol.com.ar",
+    nombre: "Kioscos Pinocho",
+    ubicacion: "Villaguay, Entre Rios",
+    contacto: "3455 54-2713",
   },
   {
-    nombre: "Autopartes Norte",
-    ubicacion: "Rosario, Santa Fe",
-    contacto: "info@autopartesnorte.com",
+    nombre: "Metalurgica Constructora Estrumax",
+    ubicacion: "San Jose, Entre Rios",
+    contacto: "03446 544450",
   },
   {
-    nombre: "Ferretería Central",
-    ubicacion: "Mendoza, Argentina",
-    contacto: "administracion@ferreteriacentral.com",
+    nombre: `EMER "Emergencias Médicas Entre Rios SRL `,
+    ubicacion: "Colon, Entre Rios",
+    contacto: "3447 423346",
   },
   {
-    nombre: "Textiles La Victoria",
-    ubicacion: "Tucumán, Argentina",
-    contacto: "consultas@textilesvictoria.com",
+    nombre: "La Buena Pasta Colón",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "@labuenapasta.er",
   },
   {
-    nombre: "Mayorista del Valle",
-    ubicacion: "Salta, Argentina",
-    contacto: "pedidos@mayoristadelvalle.com",
+    nombre: "Pizzeria Me Gusta",
+    ubicacion: "Concepcion del Uruguay, Entre Rios",
+    contacto: "3442 429806",
   },
   {
-    nombre: "Distribuidora Patagonia",
-    ubicacion: "Bariloche, Río Negro",
-    contacto: "contacto@distripatagonia.com",
+    nombre: "Zona informatica",
+    ubicacion: "Concepcion del Uruguay, Entre Rios",
+    contacto: "3442 431000",
   },
   {
-    nombre: "Electrónica Moderna",
-    ubicacion: "La Plata, Buenos Aires",
-    contacto: "ventas@electronicamoderna.com",
+    nombre: "Veterinaria Fisiovet",
+    ubicacion: "Concepcion del Uruguay, Entre Rios",
+    contacto: "3442 498143",
   },
   {
-    nombre: "Supermercado Familiar",
-    ubicacion: "San Juan, Argentina",
-    contacto: "gerencia@superfamiliar.com.ar",
+    nombre: "Bonnin Hnos",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "@bonninhnos",
   },
   {
-    nombre: "Librería Universitaria",
-    ubicacion: "Santa Fe, Argentina",
-    contacto: "info@libreriauniversitaria.com",
+    nombre: "Autoservicio Bouvier",
+    ubicacion: "San Jose, Entre Rios",
+    contacto: "3447 400191",
+  },
+  {
+    nombre: "Autoservicio Bouvier",
+    ubicacion: "San Jose, Entre Rios",
+    contacto: "3447 400191",
+  },
+  {
+    nombre: "Bonato Accesorios",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "3447 423477",
+  },
+  {
+    nombre: "Mi Pueblo Autoservicio",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "@mipueblo.autoservicio",
+  },
+  {
+    nombre: "Bocatto",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "03447 542756",
+  },
+  {
+    nombre: "Ultraneumáticos",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "3447 572482",
+  },
+  {
+    nombre: "CORRALON FORESTAL",
+    ubicacion: "Buenos Aires, Buenos Aires",
+    contacto: "011 5155-0603",
+  },
+  {
+    nombre: "Barraca Llumarc S.R.L.",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "3447 477616",
+  },
+  {
+    nombre: "Refrigeración Moreno",
+    ubicacion: "Moreno, Buenos Aires",
+    contacto: "0237 466-5918",
+  },
+  {
+    nombre: "OXFORD POLO CLUB",
+    ubicacion: "Esperanza, Santa Fe",
+    contacto: "342 5304765",
+  },
+  {
+    nombre: "Chic Soul",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "@chicsoulddc",
+  },
+  {
+    nombre: "Cantera Crepy ",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "03442 15-58-8244",
+  },
+  {
+    nombre: "Lubricentro 2mil3",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "03447 42-7001",
+  },
+  {
+    nombre: "Corralon Martin  ",
+    ubicacion: "San Fernando Del Valle, Catamarca",
+    contacto: "0383 445-4853",
+  },
+  {
+    nombre: "Punto13 Distribuidora ",
+    ubicacion: " Colon, Entre Rios",
+    contacto: "punto13dis@gmail.com",
+  },
+  {
+    nombre: "Dermasur ",
+    ubicacion: "Neuquen, Argentina",
+    contacto: "299 524 9649",
+  },
+  {
+    nombre: "AUTOSERVIO MA-BRI",
+    ubicacion: "San Jose, Entre Rios",
+    contacto: "3447 45-5225",
+  },
+  {
+    nombre: "Arenera Durand",
+    ubicacion: "Villa Elisa, Entre Rios",
+    contacto: "03447 48-0500",
+  },
+  {
+    nombre: "Viejo Almacen",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "@restauranteviejoalmacen",
+  },
+  {
+    nombre: "El Yugo",
+    ubicacion: "Concepcion Del Uruguay, Entre Rios",
+    contacto: "03442 441600",
+  },
+  {
+    nombre: "Don Goyo",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "03447 417745",
+  },
+  {
+    nombre: "Servicentro San José",
+    ubicacion: "San Jose, Entre Rios",
+    contacto: "0345 421-6966",
+  },
+  {
+    nombre: "Autopartes Daniel",
+    ubicacion: "San Cipriano, Entre Rios",
+    contacto: "03442 416180",
+  },
+  {
+    nombre: "C & G Distribuciones S.r.l.",
+    ubicacion: "Colon, Entre Rios",
+    contacto: "03447 64-3631",
   },
 ];
 
@@ -65,8 +181,23 @@ export default function ClientesPage() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
+  const backButtonRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.push("/");
+  };
 
   useEffect(() => {
+    // Manejar la tecla ESC
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleGoBack();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
     const loadAnimations = async () => {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
@@ -79,10 +210,16 @@ export default function ClientesPage() {
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
       tl.fromTo(
-        titleRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 }
+        backButtonRef.current,
+        { y: -20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6 }
       )
+        .fromTo(
+          titleRef.current,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8 },
+          "-=0.4"
+        )
         .fromTo(
           descriptionRef.current,
           { y: 20, opacity: 0 },
@@ -117,6 +254,7 @@ export default function ClientesPage() {
     loadAnimations();
 
     return () => {
+      document.removeEventListener("keydown", handleKeyDown);
       import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       });
@@ -124,8 +262,35 @@ export default function ClientesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen mt-20 bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
+        {/* Botón de salir - Ahora con z-index alto y más espaciado */}
+        <div className="mb-8 relative z-40">
+          <button
+            ref={backButtonRef}
+            onClick={handleGoBack}
+            className="flex items-center gap-3 bg-[#2563EB] text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl hover:bg-blue-700 transition-all duration-200 group font-semibold"
+          >
+            <svg
+              className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            Volver al inicio
+            <span className="text-xs bg-blue-600 px-2 py-1 rounded-md ml-2">
+              ESC
+            </span>
+          </button>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1

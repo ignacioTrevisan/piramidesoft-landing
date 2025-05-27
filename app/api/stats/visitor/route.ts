@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
     // Obtener la IP del visitante
     const forwarded = request.headers.get("x-forwarded-for");
     const real = request.headers.get("x-real-ip");
-    const ip = forwarded?.split(",")[0] || real || request.ip || "unknown";
+    const ip = forwarded?.split(",")[0] || real || "unknown";
 
     // Registrar el visitante
     const result = await registerVisitor(ip);

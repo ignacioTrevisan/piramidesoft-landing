@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getToken, verifyToken } from '@/app/lib/auth/jwt';
+import { NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "@/app/lib/auth/jwt";
 
 export async function GET(request: NextRequest) {
   try {
-    const token = request.cookies.get('auth-token')?.value;
+    const token = request.cookies.get("auth-token")?.value;
 
     if (!token) {
       return NextResponse.json(
-        { success: false, error: 'No autenticado' },
+        { success: false, error: "No autenticado" },
         { status: 401 }
       );
     }
@@ -16,10 +16,10 @@ export async function GET(request: NextRequest) {
 
     if (!payload) {
       const response = NextResponse.json(
-        { success: false, error: 'Token inválido' },
+        { success: false, error: "Token inválido" },
         { status: 401 }
       );
-      response.cookies.delete('auth-token');
+      response.cookies.delete("auth-token");
       return response;
     }
 
@@ -28,12 +28,12 @@ export async function GET(request: NextRequest) {
       id: payload.id,
       email: payload.email,
       name: payload.name,
-      role: payload.role
+      role: payload.role,
     });
   } catch (error) {
-    console.error('Get user error:', error);
+    console.error("Get user error:", error);
     return NextResponse.json(
-      { success: false, error: 'Error interno del servidor' },
+      { success: false, error: "Error interno del servidor" },
       { status: 500 }
     );
   }

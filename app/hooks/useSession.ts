@@ -15,23 +15,21 @@ export function useSession() {
 
   const fetchSession = async () => {
     try {
-      console.log('🔄 Fetching session...');
       const response = await fetch('/api/auth/session', {
         credentials: 'include'
       });
       
-      console.log('📡 Response status:', response.status);
-      
       if (response.ok) {
         const data = await response.json();
-        console.log('📦 Session data:', data);
         setUser(data.user);
       } else {
-        console.log('❌ Response not ok');
         setUser(null);
       }
     } catch (error) {
-      console.error('🚨 Error checking session:', error);
+      // Error silencioso en producción - solo log si es necesario para debugging
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error checking session:', error);
+      }
       setUser(null);
     } finally {
       setIsLoading(false);

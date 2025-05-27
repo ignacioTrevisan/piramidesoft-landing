@@ -7,13 +7,14 @@ import { LikeButton } from "./LikeButton";
 import { Comments } from "./Comments";
 
 interface BlogPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
-  const response = await getBlogById(params.id);
+  const id = (await params).id;
+  const response = await getBlogById(id);
 
   if (!response.ok || !response.data) {
     notFound();
@@ -100,7 +101,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
             <LikeButton blogId={blog.id} />
             <ShareButton blog={blog} />
           </div>
-          
+
           <Link
             href="/blogs"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
@@ -117,7 +118,8 @@ export default async function BlogPage({ params }: BlogPageProps) {
 }
 
 export async function generateMetadata({ params }: BlogPageProps) {
-  const response = await getBlogById(params.id);
+  const id = (await params).id;
+  const response = await getBlogById(id);
 
   if (!response.ok || !response.data) {
     return {

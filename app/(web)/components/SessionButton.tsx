@@ -15,8 +15,7 @@ export const SessionButton = ({ isMobile = false }: SessionButtonProps) => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
-  // Debug: Log del estado actual
-  console.log('🔍 SessionButton render:', { user, isLoading, isAuthenticated: !!user });
+
 
   const handleLogout = async () => {
     setIsLoggingOut(true);

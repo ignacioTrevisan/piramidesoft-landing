@@ -1,12 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/app/lib/prisma";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const now = new Date();
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
-    const monthString = `${String(currentMonth).padStart(2, "0")}/${currentYear}`;
+    const monthString = `${String(currentMonth).padStart(
+      2,
+      "0"
+    )}/${currentYear}`;
 
     console.log("Resetting stats for month:", monthString);
 

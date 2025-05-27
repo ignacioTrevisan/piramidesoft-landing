@@ -12,7 +12,18 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
-    ignores: ["**/app/generated/**"],
+    ignores: [
+      "**/app/generated/**",
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.turbo/**",
+      "**/out/**",
+      "**/public/**",
+      "**/.vscode/**",
+      "**/C:/Users/nacho/Configuración local/**", // <- este es el problema real
+    ],
   },
 ];
 

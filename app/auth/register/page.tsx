@@ -42,6 +42,7 @@ export default function RegisterPage() {
         setError(result.error || "Error al crear la cuenta");
       }
     } catch (error) {
+      console.log(error);
       setError("Error de conexión. Inténtalo de nuevo.");
     } finally {
       setIsLoading(false);

@@ -19,9 +19,12 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* Navbar glass mejorada para mejor contraste */
 .navbar-glass {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  color: #1F2937 !important;
 }
 
 .blob-animation {
@@ -68,7 +71,7 @@
   }
 }
 
-/* Animaciones para SobreNosotros */
+/* Animaciones para SobreNosotros con mejor contraste */
 .fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
 }
@@ -134,19 +137,92 @@
   }
 }
 
+/* Asegurar contraste en elementos animados */
+.nosotros-card {
+  background-color: #ffffff !important;
+  color: #1F2937 !important;
+  border: 1px solid #E5E7EB;
+}
+
+.nosotros-card:hover {
+  background-color: #ffffff !important;
+  color: #1F2937 !important;
+}
+
+.nosotros-card h1 {
+  color: #2563EB !important;
+}
+
+.mobile-menu {
+  background-color: #ffffff !important;
+  color: #1F2937 !important;
+  border: 1px solid #E5E7EB !important;
+}
+
+.mobile-menu a {
+  color: #374151 !important;
+}
+
+.mobile-menu a:hover {
+  color: #1F2937 !important;
+}
+
 /* Prefers-reduced-motion para accesibilidad */
 @media (prefers-reduced-motion: reduce) {
   .fade-in-up,
   .fade-in-left,
   .fade-in-right,
   .stagger-animation,
-  .scale-in {
-    animation: none;
-    opacity: 1;
-    transform: none;
+  .scale-in,
+  .blob-animation,
+  .glowing-btn::before {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
   
   .transition-all {
-    transition: none;
+    transition: none !important;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Correcciones específicas para alto contraste */
+@media (prefers-contrast: high) {
+  .navbar-glass {
+    background: #ffffff !important;
+    border-bottom: 2px solid #D1D5DB !important;
+  }
+  
+  .nosotros-card {
+    border: 2px solid #D1D5DB !important;
+  }
+  
+  .gradient-text {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    color: #1F2937 !important;
+  }
+}
+
+/* Forzar modo claro en elementos específicos */
+@media (prefers-color-scheme: dark) {
+  .navbar-glass,
+  .nosotros-card,
+  .mobile-menu {
+    background-color: #ffffff !important;
+    color: #1F2937 !important;
+  }
+  
+  .navbar-glass svg,
+  .nosotros-card *,
+  .mobile-menu * {
+    color: inherit !important;
   }
 }

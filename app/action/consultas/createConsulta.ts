@@ -4,7 +4,9 @@ import prisma from "@/app/lib/prisma";
 import { CreateConsultaData, ConsultaResponse } from "@/interfaces/consulta";
 import { AddHistorial } from "../historial/addHistorial";
 
-export async function createConsulta(data: CreateConsultaData): Promise<ConsultaResponse> {
+export async function createConsulta(
+  data: CreateConsultaData
+): Promise<ConsultaResponse> {
   try {
     // Generar mes actual para stats
     const now = new Date();
@@ -38,28 +40,34 @@ export async function createConsulta(data: CreateConsultaData): Promise<Consulta
           select: {
             id: true,
             titulo: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     // Registrar en historial
-    const productInfo = consulta.product ? ` sobre "${consulta.product.titulo}"` : '';
-    await AddHistorial(`Nueva consulta recibida de ${consulta.nombre}${productInfo}`);
+    const productInfo = consulta.product
+      ? ` sobre "${consulta.product.titulo}"`
+      : "";
+    await AddHistorial(
+      `Nueva consulta recibida de ${consulta.nombre}${productInfo}`
+    );
 
     return {
       ok: true,
       data: {
         ...consulta,
+        productId: consulta.productId === null ? undefined : consulta.productId,
+        product: consulta.product === null ? undefined : consulta.product,
         createdAt: consulta.createdAt.toISOString(),
         updatedAt: consulta.updatedAt.toISOString(),
-      }
+      },
     };
   } catch (error) {
-    console.error('Error creating consulta:', error);
-    return { 
-      ok: false, 
-      error: "Error al enviar la consulta. Por favor, intenta nuevamente." 
+    console.error("Error creating consulta:", error);
+    return {
+      ok: false,
+      error: "Error al enviar la consulta. Por favor, intenta nuevamente.",
     };
   }
 }

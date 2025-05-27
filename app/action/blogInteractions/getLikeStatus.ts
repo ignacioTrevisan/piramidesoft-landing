@@ -3,7 +3,13 @@
 import prisma from "@/app/lib/prisma";
 import { verifyToken, getToken } from "@/app/lib/auth/jwt";
 
-export async function getLikeStatus(blogId: string): Promise<{ ok: boolean; data?: { liked: boolean; totalLikes: number }; error?: string }> {
+export async function getLikeStatus(
+  blogId: string
+): Promise<{
+  ok: boolean;
+  data?: { liked: boolean; totalLikes: number };
+  error?: string;
+}> {
   try {
     const token = await getToken();
 
@@ -12,20 +18,21 @@ export async function getLikeStatus(blogId: string): Promise<{ ok: boolean; data
     if (token) {
       try {
         const payload = await verifyToken(token);
-        
+
         if (payload) {
           const existingLike = await prisma.blogLike.findUnique({
             where: {
               blogId_userId: {
                 blogId,
-                userId: payload.id
-              }
-            }
+                userId: payload.id,
+              },
+            },
           });
 
           liked = !!existingLike;
         }
       } catch (error) {
+        console.log(error);
         // Token inválido, pero continuamos
         liked = false;
       }
@@ -33,18 +40,18 @@ export async function getLikeStatus(blogId: string): Promise<{ ok: boolean; data
 
     // Contar total de likes
     const totalLikes = await prisma.blogLike.count({
-      where: { blogId }
+      where: { blogId },
     });
 
-    return { 
-      ok: true, 
+    return {
+      ok: true,
       data: {
         liked,
-        totalLikes
-      }
+        totalLikes,
+      },
     };
   } catch (error) {
-    console.error('Error getting like status:', error);
+    console.error("Error getting like status:", error);
     return { ok: false, error: "Error al obtener el estado del like" };
   }
 }

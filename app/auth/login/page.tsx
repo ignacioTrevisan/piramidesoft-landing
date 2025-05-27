@@ -37,6 +37,7 @@ export default function LoginPage() {
         setError(result.error || "Error al iniciar sesión");
       }
     } catch (error) {
+      console.log(error);
       setError("Error de conexión. Inténtalo de nuevo.");
     } finally {
       setIsLoading(false);

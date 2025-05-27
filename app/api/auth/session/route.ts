@@ -1,22 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { checkSession } from '@/app/action/session/checkSession';
+import { NextResponse } from "next/server";
+import { checkSession } from "@/app/action/session/checkSession";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    console.log('🔎 API Session check called');
+    console.log("🔎 API Session check called");
     const session = await checkSession();
-    console.log('📦 Session result:', session);
-    
+    console.log("📦 Session result:", session);
+
     if (!session) {
-      console.log('❌ No session found');
-      return NextResponse.json({ user: null }, { 
-        status: 200,
-        headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
+      console.log("❌ No session found");
+      return NextResponse.json(
+        { user: null },
+        {
+          status: 200,
+          headers: {
+            "Cache-Control":
+              "no-store, no-cache, must-revalidate, proxy-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
         }
-      });
+      );
     }
 
     const userResponse = {
@@ -24,28 +28,33 @@ export async function GET(request: NextRequest) {
         id: session.id,
         email: session.email,
         name: session.name,
-        role: session.role
-      }
+        role: session.role,
+      },
     };
-    
-    console.log('✅ Returning user:', userResponse);
-    return NextResponse.json(userResponse, { 
+
+    console.log("✅ Returning user:", userResponse);
+    return NextResponse.json(userResponse, {
       status: 200,
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
-      }
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
     });
   } catch (error) {
-    console.error('🚨 Session check error:', error);
-    return NextResponse.json({ user: null }, { 
-      status: 200,
-      headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0'
+    console.error("🚨 Session check error:", error);
+    return NextResponse.json(
+      { user: null },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       }
-    });
+    );
   }
 }

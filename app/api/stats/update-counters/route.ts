@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { updateStatsCounters } from "@/app/action/stats/updateStatsCounters";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Actualizar los contadores de stats
     const result = await updateStatsCounters();

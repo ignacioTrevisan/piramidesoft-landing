@@ -23,7 +23,14 @@ export async function getBlogs() {
   }
 }
 
-export async function createBlog(data: any) {
+interface blog {
+  titulo: string;
+  contenido: string;
+  resumen: string;
+  imagen: string;
+  visible: boolean;
+}
+export async function createBlog(data: blog) {
   try {
     const blog = await prisma.blog.create({
       data: {
@@ -43,7 +50,7 @@ export async function createBlog(data: any) {
   }
 }
 
-export async function updateBlog(id: string, data: any) {
+export async function updateBlog(id: string, data: blog) {
   try {
     const blog = await prisma.blog.update({
       where: { id },

@@ -1,8 +1,6 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { FormToCreateProducts } from "@/interfaces/products";
-import { revalidatePath } from "next/cache";
 
 export async function getProducts() {
   try {
