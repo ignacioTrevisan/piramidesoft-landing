@@ -207,6 +207,12 @@ exports.Prisma.BlogLikeScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.HistorialScalarFieldEnum = {
+  id: 'id',
+  descripcion: 'descripcion',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -241,7 +247,8 @@ exports.Prisma.ModelName = {
   Stats: 'Stats',
   UserView: 'UserView',
   BlogComment: 'BlogComment',
-  BlogLike: 'BlogLike'
+  BlogLike: 'BlogLike',
+  Historial: 'Historial'
 };
 
 /**

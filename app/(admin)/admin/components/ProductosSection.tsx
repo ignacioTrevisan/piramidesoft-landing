@@ -9,6 +9,7 @@ import { updateProduct } from "@/app/action/products/updateProducts";
 import { changeVisibility } from "@/app/action/products/changeVisibility";
 import { deleteProduct } from "@/app/action/products/deleteProducts";
 import { MediaUploader } from "./MediaUploader";
+import { AddHistorial } from "@/app/action/historial/addHistorial";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -728,7 +729,7 @@ export const ProductosSection = () => {
 
   const toggleProductVisibility = async (productId: string) => {
     const data = await changeVisibility(productId);
-    console.log({ data });
+
     if (data.ok) {
       setProducts((prev) =>
         prev.map((p) =>
@@ -736,6 +737,12 @@ export const ProductosSection = () => {
             ? { ...p, visible: !p.visible, updatedAt: new Date().toISOString() }
             : p
         )
+      );
+      const producto = products.filter((p) => p.id === productId);
+      await AddHistorial(
+        `Se configuro ${producto[0].titulo} a ${
+          producto[0].visible ? "visible" : "invisible"
+        }`
       );
     }
   };

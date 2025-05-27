@@ -5,8 +5,14 @@ import "../../(home)/globals.css";
 import "./styles/admin.css";
 import "./styles/admin-override.css";
 import "./styles/sidebar-mobile.css";
+import type { Metadata } from "next";
 
-export default async function RootLayout({
+export const metadata: Metadata = {
+  title: "Admin Panel - Piramide Soft",
+  description: "Panel administrativo Piramide Soft",
+};
+
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -18,14 +24,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="es">
-      <head>
-        <title>Admin Panel - Piramide Soft</title>
-        <meta name="description" content="Panel administrativo Piramide Soft" />
-      </head>
-      <body className="antialiased overflow-x-hidden bg-gray-50">
-        <AdminLayoutClient user={user}>{children}</AdminLayoutClient>
-      </body>
-    </html>
+    <div className="admin-layout bg-gray-50 min-h-screen">
+      <AdminLayoutClient user={user}>{children}</AdminLayoutClient>
+    </div>
   );
 }

@@ -95,6 +95,7 @@ export const config = {
   matcher: [
     '/admin/:path*',
     '/auth/:path*',
-    '/profile/:path*'
+    '/profile/:path*',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'
   ]
 };

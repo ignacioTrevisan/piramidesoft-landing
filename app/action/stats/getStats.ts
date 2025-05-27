@@ -22,13 +22,18 @@ export const getStats = async (
         cantidadDeConsultas: true,
       },
     });
-    if (data1 && data2) {
-      return { ok: true, data: [data1, data2] };
+    
+    const result: StatsResponse[] = [];
+    
+    if (data1) {
+      result.push(data1);
     }
-    return {
-      ok: false,
-      msg: "ocurrio un error al intentar traer las stats",
-    };
+    
+    if (data2) {
+      result.push(data2);
+    }
+    
+    return { ok: true, data: result };
   } catch (error) {
     console.log(error);
     return {

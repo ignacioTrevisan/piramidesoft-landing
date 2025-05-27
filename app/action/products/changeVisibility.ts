@@ -13,7 +13,7 @@ export async function changeVisibility(id: string): Promise<ApiResponse> {
       return { ok: false, msg: "Producto no encontrado" };
     }
 
-    const updatedProduct = await prisma.product.update({
+    await prisma.product.update({
       where: { id },
       data: {
         visible: !product.visible,

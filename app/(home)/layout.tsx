@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Navbar } from "./components/navbar";
-import { verifyStats } from "../action/stats/verifyStats";
+import { initializeMonthlyStats } from "../action/stats/initializeMonthlyStats";
+import { VisitorTracker } from "../components/VisitorTracker";
 
 export const metadata: Metadata = {
   title: "Piramide Soft - Soluciones Tecnológicas",
@@ -13,17 +14,17 @@ export default async function HomeLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const now = new Date();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const year = now.getFullYear();
-  await verifyStats(`${month}/${year}`);
+  // Inicializar stats del mes actual
+  await initializeMonthlyStats();
 
   return (
     <>
       <Navbar />
-      <main>
-        {children}
-      </main>
+      <VisitorTracker>
+        <main>
+          {children}
+        </main>
+      </VisitorTracker>
     </>
   );
 }

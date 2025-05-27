@@ -141,3 +141,9 @@ model BlogLike {
   @@index([blogId])
   @@index([userId])
 }
+
+model Historial{
+  id          String @id @default(uuid())
+  descripcion String
+  createdAt   DateTime @default(now())
+}
