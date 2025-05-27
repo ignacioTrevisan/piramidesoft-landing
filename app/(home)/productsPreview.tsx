@@ -121,7 +121,7 @@ const ProductsPreview = () => {
             </p>
             <Link
               href="/products"
-              className="inline-block bg-[#2563EB] hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all"
+              className="inline-block text-white  font-bold py-3 px-6 rounded-lg transition-all"
             >
               Ver más información
             </Link>
