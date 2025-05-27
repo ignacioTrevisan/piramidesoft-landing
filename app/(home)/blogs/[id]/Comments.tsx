@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "@/app/hooks/useSession";
 import { createComment } from "@/app/action/blogInteractions/createComment";
 import { getCommentsByBlogId } from "@/app/action/blogInteractions/getComments";
-import { BlogComment } from "@/interfaces/blogInteractions";
+import { BlogComment } from "@/app/interfaces/blogInteractions";
 import Link from "next/link";
 
 interface CommentsProps {

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { CreateConsultaData, ConsultaResponse } from "@/interfaces/consulta";
+import { CreateConsultaData, ConsultaResponse } from "@/app/interfaces/consulta";
 import { AddHistorial } from "../historial/addHistorial";
 
 export async function createConsulta(

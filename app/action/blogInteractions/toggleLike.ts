@@ -2,7 +2,7 @@
 
 import prisma from "@/app/lib/prisma";
 import { verifyToken, getToken } from "@/app/lib/auth/jwt";
-import { LikeResponse } from "@/interfaces/blogInteractions";
+import { LikeResponse } from "@/app/interfaces/blogInteractions";
 
 export async function toggleLike(blogId: string): Promise<LikeResponse> {
   try {

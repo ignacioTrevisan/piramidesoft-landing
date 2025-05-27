@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ConsultasListResponse } from "@/interfaces/consulta";
+import { ConsultasListResponse } from "@/app/interfaces/consulta";
 
 export async function getConsultas(): Promise<ConsultasListResponse> {
   try {

@@ -1,7 +1,7 @@
 import { ImagesSelected } from "./imagesSelected";
 import { getProducts } from "@/app/action/products/products";
 import { notFound } from "next/navigation";
-import { Products } from "@/interfaces/products";
+import { Products } from "@/app/interfaces/products";
 import { ContactButton } from "@/app/components/ContactButton";
 
 interface Props {

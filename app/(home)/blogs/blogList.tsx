@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Blog } from "@/interfaces/blog";
+import { Blog } from "@/app/interfaces/blog";
 import Link from "next/link";
 import Image from "next/image";
 import { BlogStats } from "./BlogStats";

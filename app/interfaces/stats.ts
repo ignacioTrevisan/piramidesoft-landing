@@ -7,16 +7,16 @@ export interface StatsResponse {
 }
 
 interface UserView {
-  id: String;
-  ip: String;
-  statsMes: String;
+  id: string;
+  ip: string;
+  statsMes: string;
 }
 
 interface Consultas {
-  id: String;
-  descripcion: String;
-  email: String;
-  numero: String;
+  id: string;
+  descripcion: string;
+  email: string;
+  numero: string;
   createdAt: Date;
-  statsMes: String;
+  statsMes: string;
 }

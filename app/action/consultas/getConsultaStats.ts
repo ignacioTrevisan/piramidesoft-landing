@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ConsultaStats } from "@/interfaces/consulta";
+import { ConsultaStats } from "@/app/interfaces/consulta";
 
 export async function getConsultaStats(): Promise<{ ok: boolean; data?: ConsultaStats; error?: string }> {
   try {

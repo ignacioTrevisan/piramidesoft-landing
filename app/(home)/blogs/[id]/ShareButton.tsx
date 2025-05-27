@@ -1,5 +1,5 @@
 "use client";
-import { Blog } from "@/interfaces/blog";
+import { Blog } from "@/app/interfaces/blog";
 
 interface ShareButtonProps {
   blog: Blog;

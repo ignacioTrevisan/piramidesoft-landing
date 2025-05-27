@@ -1,5 +1,5 @@
 "use server";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 import prisma from "../../lib/prisma";
 import { verifyStats } from "./verifyStats";
 

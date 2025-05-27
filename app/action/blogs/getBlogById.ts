@@ -1,9 +1,9 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
-export async function getBlogById(id: string): Promise<ApiResponse<import("@/interfaces/blog").Blog | null>> {
+export async function getBlogById(id: string): Promise<ApiResponse<import("@/app/interfaces/blog").Blog | null>> {
   try {
     const blog = await prisma.blog.findUnique({
       where: { id },

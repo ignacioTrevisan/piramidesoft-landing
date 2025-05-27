@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { getConsultas, updateConsultaStatus, getConsultaStats } from "@/app/action/consultas";
-import { Consulta, ConsultaStats } from "@/interfaces/consulta";
+import { Consulta, ConsultaStats } from "@/app/interfaces/consulta";
 
 interface ConsultaModalProps {
   isOpen: boolean;

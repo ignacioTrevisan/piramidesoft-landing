@@ -6,7 +6,7 @@ import { createBlog } from "@/app/action/blogs/createBlog";
 import { updateBlog } from "@/app/action/blogs/updateBlog";
 import { deleteBlog } from "@/app/action/blogs/deleteBlog";
 import { changeVisibilityBlog } from "@/app/action/blogs/changeVisibilityBlog";
-import { Blog, FormToCreateBlog } from "@/interfaces/blog";
+import { Blog, FormToCreateBlog } from "@/app/interfaces/blog";
 import { MediaUploader } from "./MediaUploader";
 
 interface BlogModalProps {

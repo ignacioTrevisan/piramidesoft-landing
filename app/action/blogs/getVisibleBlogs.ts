@@ -1,9 +1,9 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
-export async function getVisibleBlogs(): Promise<ApiResponse<import("@/interfaces/blog").Blog[]>> {
+export async function getVisibleBlogs(): Promise<ApiResponse<import("@/app/interfaces/blog").Blog[]>> {
   try {
     const blogs = await prisma.blog.findMany({
       where: {

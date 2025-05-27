@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { BlogComment } from "@/interfaces/blogInteractions";
+import { BlogComment } from "@/app/interfaces/blogInteractions";
 
 export async function getCommentsByBlogId(blogId: string): Promise<{ ok: boolean; data?: BlogComment[]; error?: string }> {
   try {

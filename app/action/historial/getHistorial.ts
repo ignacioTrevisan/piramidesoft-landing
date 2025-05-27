@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
 export interface HistorialEntry {
   id: string;

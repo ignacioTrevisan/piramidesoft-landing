@@ -2,7 +2,7 @@
 
 import prisma from "@/app/lib/prisma";
 import { verifyToken, getToken } from "@/app/lib/auth/jwt";
-import { CommentResponse, CreateCommentData } from "@/interfaces/blogInteractions";
+import { CommentResponse, CreateCommentData } from "@/app/interfaces/blogInteractions";
 
 export async function createComment(data: CreateCommentData): Promise<CommentResponse> {
   try {

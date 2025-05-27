@@ -4,7 +4,7 @@ import prisma from "@/app/lib/prisma";
 import { verifyPassword } from "@/app/lib/auth/password";
 import { signToken } from "@/app/lib/auth/jwt";
 import { cookies } from "next/headers";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
 interface LoginData {
   id: string;

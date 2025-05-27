@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { getProducts } from "@/app/action/products/products";
 import { getTipos } from "@/app/action/tipos/getTipos";
-import { FormToCreateProducts, Products } from "@/interfaces/products";
+import { FormToCreateProducts, Products } from "@/app/interfaces/products";
 import { createProduct } from "@/app/action/products/createProducts";
 import { updateProduct } from "@/app/action/products/updateProducts";
 import { changeVisibility } from "@/app/action/products/changeVisibility";

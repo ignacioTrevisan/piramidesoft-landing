@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createConsulta } from "@/app/action/consultas";
-import { CreateConsultaData } from "@/interfaces/consulta";
+import { CreateConsultaData } from "@/app/interfaces/consulta";
 
 interface ContactFormProps {
   productId?: string;

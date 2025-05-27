@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { getProducts } from "@/app/action/products/products";
-import { Products as ProductType } from "@/interfaces/products";
+import { Products as ProductType } from "@/app/interfaces/products";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {

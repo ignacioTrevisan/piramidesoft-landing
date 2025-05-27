@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getProducts } from "@/app/action/products/products";
-import { Products } from "@/interfaces/products";
+import { Products } from "@/app/interfaces/products";
 import Image from "next/image";
 
 const ProductsPreview = () => {

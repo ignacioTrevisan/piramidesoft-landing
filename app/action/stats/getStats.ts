@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
-import { StatsResponse } from "@/interfaces/stats";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
+import { StatsResponse } from "@/app/interfaces/stats";
 
 export const getStats = async (
   mesaBuscar: string,

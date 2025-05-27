@@ -4,7 +4,7 @@ import prisma from "@/app/lib/prisma";
 import {
   UpdateConsultaStatusData,
   ConsultaResponse,
-} from "@/interfaces/consulta";
+} from "@/app/interfaces/consulta";
 import { verifyToken, getToken } from "@/app/lib/auth/jwt";
 
 export async function updateConsultaStatus(

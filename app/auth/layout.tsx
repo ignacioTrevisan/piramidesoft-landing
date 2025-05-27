@@ -6,12 +6,13 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <head>
+   <>
+      <main>
         <title>Autenticación - Piramide Soft</title>
         <meta name="description" content="Autenticación Piramide Soft" />
-      </head>
-      <body className="antialiased">{children}</body>
-    </html>
+      </main>
+      <div className="antialiased">{children}</div>
+   </>
+   
   );
 }

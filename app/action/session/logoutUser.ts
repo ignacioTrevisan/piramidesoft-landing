@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
 export async function logoutUser(): Promise<ApiResponse> {
   try {

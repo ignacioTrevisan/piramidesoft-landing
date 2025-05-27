@@ -1,8 +1,8 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import { ApiResponse } from "@/interfaces/apiResponse";
-import { FormToCreateProducts, Products } from "@/interfaces/products";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
+import { FormToCreateProducts, Products } from "@/app/interfaces/products";
 import { revalidatePath } from "next/cache";
 import { AddHistorial } from "../historial/addHistorial";
 

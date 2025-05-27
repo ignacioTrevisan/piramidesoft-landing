@@ -1,7 +1,7 @@
 // Archivo de verificación de tipos para evitar errores en build
-import { Blog, FormToCreateBlog } from "@/interfaces/blog";
-import { Products, FormToCreateProducts } from "@/interfaces/products";
-import { ApiResponse } from "@/interfaces/apiResponse";
+import { Blog, FormToCreateBlog } from "@/app/interfaces/blog";
+import { Products, FormToCreateProducts } from "@/app/interfaces/products";
+import { ApiResponse } from "@/app/interfaces/apiResponse";
 
 // Verificación de tipos de las funciones del servidor para blogs
 type GetBlogsReturn = Promise<ApiResponse<Blog[]>>;
