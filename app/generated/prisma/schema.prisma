@@ -15,7 +15,7 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   titulo      String
   descripcion String
   precioAntes Decimal?
@@ -26,10 +26,11 @@ model Product {
   url_demo    String?
   url_full    String?
   tipoId      String
-  tipo        Tipo     @relation(fields: [tipoId], references: [id])
-  visible     Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  tipo        Tipo        @relation(fields: [tipoId], references: [id])
+  visible     Boolean     @default(true)
+  consultas   Consultas[] // Relación con consultas
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 model Modulo {
@@ -44,6 +45,11 @@ model Tipo {
   id        String    @id @default(uuid())
   titulo    String
   productos Product[] // <- relación inversa
+}
+
+enum ConsultaStatus {
+  PENDIENTE
+  ATENDIDA
 }
 
 enum Role {
@@ -62,13 +68,21 @@ model User {
 }
 
 model Consultas {
-  id          String   @id @default(uuid())
+  id          String         @id @default(uuid())
+  nombre      String
   descripcion String
   email       String
   numero      String
-  createdAt   DateTime @default(now())
+  productId   String? // Opcional, para consultas sobre productos específicos
+  product     Product?       @relation(fields: [productId], references: [id])
+  status      ConsultaStatus @default(PENDIENTE)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   statsMes    String
-  stats       Stats    @relation(fields: [statsMes], references: [mes])
+  stats       Stats          @relation(fields: [statsMes], references: [mes])
+
+  @@index([status])
+  @@index([createdAt])
 }
 
 model Blog {

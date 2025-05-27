@@ -158,10 +158,14 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.ConsultasScalarFieldEnum = {
   id: 'id',
+  nombre: 'nombre',
   descripcion: 'descripcion',
   email: 'email',
   numero: 'numero',
+  productId: 'productId',
+  status: 'status',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   statsMes: 'statsMes'
 };
 
@@ -220,6 +224,11 @@ exports.Prisma.NullsOrder = {
 exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   user: 'user'
+};
+
+exports.ConsultaStatus = exports.$Enums.ConsultaStatus = {
+  PENDIENTE: 'PENDIENTE',
+  ATENDIDA: 'ATENDIDA'
 };
 
 exports.Prisma.ModelName = {

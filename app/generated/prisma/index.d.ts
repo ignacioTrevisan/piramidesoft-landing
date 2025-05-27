@@ -68,7 +68,15 @@ export type BlogLike = $Result.DefaultSelection<Prisma.$BlogLikePayload>
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
+  export const ConsultaStatus: {
+  PENDIENTE: 'PENDIENTE',
+  ATENDIDA: 'ATENDIDA'
+};
+
+export type ConsultaStatus = (typeof ConsultaStatus)[keyof typeof ConsultaStatus]
+
+
+export const Role: {
   admin: 'admin',
   user: 'user'
 };
@@ -76,6 +84,10 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 }
+
+export type ConsultaStatus = $Enums.ConsultaStatus
+
+export const ConsultaStatus: typeof $Enums.ConsultaStatus
 
 export type Role = $Enums.Role
 
@@ -1706,10 +1718,12 @@ export namespace Prisma {
 
   export type ProductCountOutputType = {
     modulos: number
+    consultas: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modulos?: boolean | ProductCountOutputTypeCountModulosArgs
+    consultas?: boolean | ProductCountOutputTypeCountConsultasArgs
   }
 
   // Custom InputTypes
@@ -1728,6 +1742,13 @@ export namespace Prisma {
    */
   export type ProductCountOutputTypeCountModulosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ModuloWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountConsultasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsultasWhereInput
   }
 
 
@@ -2150,6 +2171,7 @@ export namespace Prisma {
     updatedAt?: boolean
     modulos?: boolean | Product$modulosArgs<ExtArgs>
     tipo?: boolean | TipoDefaultArgs<ExtArgs>
+    consultas?: boolean | Product$consultasArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -2207,6 +2229,7 @@ export namespace Prisma {
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modulos?: boolean | Product$modulosArgs<ExtArgs>
     tipo?: boolean | TipoDefaultArgs<ExtArgs>
+    consultas?: boolean | Product$consultasArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2221,6 +2244,7 @@ export namespace Prisma {
     objects: {
       modulos: Prisma.$ModuloPayload<ExtArgs>[]
       tipo: Prisma.$TipoPayload<ExtArgs>
+      consultas: Prisma.$ConsultasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2632,6 +2656,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     modulos<T extends Product$modulosArgs<ExtArgs> = {}>(args?: Subset<T, Product$modulosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ModuloPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tipo<T extends TipoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TipoDefaultArgs<ExtArgs>>): Prisma__TipoClient<$Result.GetResult<Prisma.$TipoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    consultas<T extends Product$consultasArgs<ExtArgs> = {}>(args?: Subset<T, Product$consultasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultasPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3091,6 +3116,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ModuloScalarFieldEnum | ModuloScalarFieldEnum[]
+  }
+
+  /**
+   * Product.consultas
+   */
+  export type Product$consultasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Consultas
+     */
+    select?: ConsultasSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Consultas
+     */
+    omit?: ConsultasOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ConsultasInclude<ExtArgs> | null
+    where?: ConsultasWhereInput
+    orderBy?: ConsultasOrderByWithRelationInput | ConsultasOrderByWithRelationInput[]
+    cursor?: ConsultasWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ConsultasScalarFieldEnum | ConsultasScalarFieldEnum[]
   }
 
   /**
@@ -6294,28 +6343,40 @@ export namespace Prisma {
 
   export type ConsultasMinAggregateOutputType = {
     id: string | null
+    nombre: string | null
     descripcion: string | null
     email: string | null
     numero: string | null
+    productId: string | null
+    status: $Enums.ConsultaStatus | null
     createdAt: Date | null
+    updatedAt: Date | null
     statsMes: string | null
   }
 
   export type ConsultasMaxAggregateOutputType = {
     id: string | null
+    nombre: string | null
     descripcion: string | null
     email: string | null
     numero: string | null
+    productId: string | null
+    status: $Enums.ConsultaStatus | null
     createdAt: Date | null
+    updatedAt: Date | null
     statsMes: string | null
   }
 
   export type ConsultasCountAggregateOutputType = {
     id: number
+    nombre: number
     descripcion: number
     email: number
     numero: number
+    productId: number
+    status: number
     createdAt: number
+    updatedAt: number
     statsMes: number
     _all: number
   }
@@ -6323,28 +6384,40 @@ export namespace Prisma {
 
   export type ConsultasMinAggregateInputType = {
     id?: true
+    nombre?: true
     descripcion?: true
     email?: true
     numero?: true
+    productId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
     statsMes?: true
   }
 
   export type ConsultasMaxAggregateInputType = {
     id?: true
+    nombre?: true
     descripcion?: true
     email?: true
     numero?: true
+    productId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
     statsMes?: true
   }
 
   export type ConsultasCountAggregateInputType = {
     id?: true
+    nombre?: true
     descripcion?: true
     email?: true
     numero?: true
+    productId?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
     statsMes?: true
     _all?: true
   }
@@ -6423,10 +6496,14 @@ export namespace Prisma {
 
   export type ConsultasGroupByOutputType = {
     id: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    productId: string | null
+    status: $Enums.ConsultaStatus
     createdAt: Date
+    updatedAt: Date
     statsMes: string
     _count: ConsultasCountAggregateOutputType | null
     _min: ConsultasMinAggregateOutputType | null
@@ -6449,65 +6526,92 @@ export namespace Prisma {
 
   export type ConsultasSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    nombre?: boolean
     descripcion?: boolean
     email?: boolean
     numero?: boolean
+    productId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     statsMes?: boolean
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    nombre?: boolean
     descripcion?: boolean
     email?: boolean
     numero?: boolean
+    productId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     statsMes?: boolean
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    nombre?: boolean
     descripcion?: boolean
     email?: boolean
     numero?: boolean
+    productId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     statsMes?: boolean
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["consultas"]>
 
   export type ConsultasSelectScalar = {
     id?: boolean
+    nombre?: boolean
     descripcion?: boolean
     email?: boolean
     numero?: boolean
+    productId?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     statsMes?: boolean
   }
 
-  export type ConsultasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "descripcion" | "email" | "numero" | "createdAt" | "statsMes", ExtArgs["result"]["consultas"]>
+  export type ConsultasOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "email" | "numero" | "productId" | "status" | "createdAt" | "updatedAt" | "statsMes", ExtArgs["result"]["consultas"]>
   export type ConsultasInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }
   export type ConsultasIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }
   export type ConsultasIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | Consultas$productArgs<ExtArgs>
     stats?: boolean | StatsDefaultArgs<ExtArgs>
   }
 
   export type $ConsultasPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Consultas"
     objects: {
+      product: Prisma.$ProductPayload<ExtArgs> | null
       stats: Prisma.$StatsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      nombre: string
       descripcion: string
       email: string
       numero: string
+      productId: string | null
+      status: $Enums.ConsultaStatus
       createdAt: Date
+      updatedAt: Date
       statsMes: string
     }, ExtArgs["result"]["consultas"]>
     composites: {}
@@ -6903,6 +7007,7 @@ export namespace Prisma {
    */
   export interface Prisma__ConsultasClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    product<T extends Consultas$productArgs<ExtArgs> = {}>(args?: Subset<T, Consultas$productArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     stats<T extends StatsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StatsDefaultArgs<ExtArgs>>): Prisma__StatsClient<$Result.GetResult<Prisma.$StatsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6934,10 +7039,14 @@ export namespace Prisma {
    */
   interface ConsultasFieldRefs {
     readonly id: FieldRef<"Consultas", 'String'>
+    readonly nombre: FieldRef<"Consultas", 'String'>
     readonly descripcion: FieldRef<"Consultas", 'String'>
     readonly email: FieldRef<"Consultas", 'String'>
     readonly numero: FieldRef<"Consultas", 'String'>
+    readonly productId: FieldRef<"Consultas", 'String'>
+    readonly status: FieldRef<"Consultas", 'ConsultaStatus'>
     readonly createdAt: FieldRef<"Consultas", 'DateTime'>
+    readonly updatedAt: FieldRef<"Consultas", 'DateTime'>
     readonly statsMes: FieldRef<"Consultas", 'String'>
   }
     
@@ -7332,6 +7441,25 @@ export namespace Prisma {
      * Limit how many Consultas to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Consultas.product
+   */
+  export type Consultas$productArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
   }
 
   /**
@@ -12815,10 +12943,14 @@ export namespace Prisma {
 
   export const ConsultasScalarFieldEnum: {
     id: 'id',
+    nombre: 'nombre',
     descripcion: 'descripcion',
     email: 'email',
     numero: 'numero',
+    productId: 'productId',
+    status: 'status',
     createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     statsMes: 'statsMes'
   };
 
@@ -12971,6 +13103,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ConsultaStatus'
+   */
+  export type EnumConsultaStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultaStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConsultaStatus[]'
+   */
+  export type ListEnumConsultaStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConsultaStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -13020,6 +13166,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     modulos?: ModuloListRelationFilter
     tipo?: XOR<TipoScalarRelationFilter, TipoWhereInput>
+    consultas?: ConsultasListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -13038,6 +13185,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     modulos?: ModuloOrderByRelationAggregateInput
     tipo?: TipoOrderByWithRelationInput
+    consultas?: ConsultasOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -13059,6 +13207,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     modulos?: ModuloListRelationFilter
     tipo?: XOR<TipoScalarRelationFilter, TipoWhereInput>
+    consultas?: ConsultasListRelationFilter
   }, "id">
 
   export type ProductOrderByWithAggregationInput = {
@@ -13254,21 +13403,31 @@ export namespace Prisma {
     OR?: ConsultasWhereInput[]
     NOT?: ConsultasWhereInput | ConsultasWhereInput[]
     id?: StringFilter<"Consultas"> | string
+    nombre?: StringFilter<"Consultas"> | string
     descripcion?: StringFilter<"Consultas"> | string
     email?: StringFilter<"Consultas"> | string
     numero?: StringFilter<"Consultas"> | string
+    productId?: StringNullableFilter<"Consultas"> | string | null
+    status?: EnumConsultaStatusFilter<"Consultas"> | $Enums.ConsultaStatus
     createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    updatedAt?: DateTimeFilter<"Consultas"> | Date | string
     statsMes?: StringFilter<"Consultas"> | string
+    product?: XOR<ProductNullableScalarRelationFilter, ProductWhereInput> | null
     stats?: XOR<StatsScalarRelationFilter, StatsWhereInput>
   }
 
   export type ConsultasOrderByWithRelationInput = {
     id?: SortOrder
+    nombre?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
+    productId?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     statsMes?: SortOrder
+    product?: ProductOrderByWithRelationInput
     stats?: StatsOrderByWithRelationInput
   }
 
@@ -13277,20 +13436,29 @@ export namespace Prisma {
     AND?: ConsultasWhereInput | ConsultasWhereInput[]
     OR?: ConsultasWhereInput[]
     NOT?: ConsultasWhereInput | ConsultasWhereInput[]
+    nombre?: StringFilter<"Consultas"> | string
     descripcion?: StringFilter<"Consultas"> | string
     email?: StringFilter<"Consultas"> | string
     numero?: StringFilter<"Consultas"> | string
+    productId?: StringNullableFilter<"Consultas"> | string | null
+    status?: EnumConsultaStatusFilter<"Consultas"> | $Enums.ConsultaStatus
     createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    updatedAt?: DateTimeFilter<"Consultas"> | Date | string
     statsMes?: StringFilter<"Consultas"> | string
+    product?: XOR<ProductNullableScalarRelationFilter, ProductWhereInput> | null
     stats?: XOR<StatsScalarRelationFilter, StatsWhereInput>
   }, "id">
 
   export type ConsultasOrderByWithAggregationInput = {
     id?: SortOrder
+    nombre?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
+    productId?: SortOrderInput | SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     statsMes?: SortOrder
     _count?: ConsultasCountOrderByAggregateInput
     _max?: ConsultasMaxOrderByAggregateInput
@@ -13302,10 +13470,14 @@ export namespace Prisma {
     OR?: ConsultasScalarWhereWithAggregatesInput[]
     NOT?: ConsultasScalarWhereWithAggregatesInput | ConsultasScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Consultas"> | string
+    nombre?: StringWithAggregatesFilter<"Consultas"> | string
     descripcion?: StringWithAggregatesFilter<"Consultas"> | string
     email?: StringWithAggregatesFilter<"Consultas"> | string
     numero?: StringWithAggregatesFilter<"Consultas"> | string
+    productId?: StringNullableWithAggregatesFilter<"Consultas"> | string | null
+    status?: EnumConsultaStatusWithAggregatesFilter<"Consultas"> | $Enums.ConsultaStatus
     createdAt?: DateTimeWithAggregatesFilter<"Consultas"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Consultas"> | Date | string
     statsMes?: StringWithAggregatesFilter<"Consultas"> | string
   }
 
@@ -13604,6 +13776,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     modulos?: ModuloCreateNestedManyWithoutProductInput
     tipo: TipoCreateNestedOneWithoutProductosInput
+    consultas?: ConsultasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -13621,6 +13794,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
+    consultas?: ConsultasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -13638,6 +13812,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUpdateManyWithoutProductNestedInput
     tipo?: TipoUpdateOneRequiredWithoutProductosNestedInput
+    consultas?: ConsultasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -13655,6 +13830,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
+    consultas?: ConsultasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -13857,63 +14033,90 @@ export namespace Prisma {
 
   export type ConsultasCreateInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
+    product?: ProductCreateNestedOneWithoutConsultasInput
     stats: StatsCreateNestedOneWithoutCantidadDeConsultasInput
   }
 
   export type ConsultasUncheckedCreateInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    productId?: string | null
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
     statsMes: string
   }
 
   export type ConsultasUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneWithoutConsultasNestedInput
     stats?: StatsUpdateOneRequiredWithoutCantidadDeConsultasNestedInput
   }
 
   export type ConsultasUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     statsMes?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConsultasCreateManyInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    productId?: string | null
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
     statsMes: string
   }
 
   export type ConsultasUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConsultasUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     statsMes?: StringFieldUpdateOperationsInput | string
   }
 
@@ -14281,12 +14484,22 @@ export namespace Prisma {
     isNot?: TipoWhereInput
   }
 
+  export type ConsultasListRelationFilter = {
+    every?: ConsultasWhereInput
+    some?: ConsultasWhereInput
+    none?: ConsultasWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type ModuloOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ConsultasOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14546,6 +14759,18 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type EnumConsultaStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsultaStatus | EnumConsultaStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsultaStatusFilter<$PrismaModel> | $Enums.ConsultaStatus
+  }
+
+  export type ProductNullableScalarRelationFilter = {
+    is?: ProductWhereInput | null
+    isNot?: ProductWhereInput | null
+  }
+
   export type StatsScalarRelationFilter = {
     is?: StatsWhereInput
     isNot?: StatsWhereInput
@@ -14553,29 +14778,51 @@ export namespace Prisma {
 
   export type ConsultasCountOrderByAggregateInput = {
     id?: SortOrder
+    nombre?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
+    productId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     statsMes?: SortOrder
   }
 
   export type ConsultasMaxOrderByAggregateInput = {
     id?: SortOrder
+    nombre?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
+    productId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     statsMes?: SortOrder
   }
 
   export type ConsultasMinOrderByAggregateInput = {
     id?: SortOrder
+    nombre?: SortOrder
     descripcion?: SortOrder
     email?: SortOrder
     numero?: SortOrder
+    productId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     statsMes?: SortOrder
+  }
+
+  export type EnumConsultaStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsultaStatus | EnumConsultaStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsultaStatusWithAggregatesFilter<$PrismaModel> | $Enums.ConsultaStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsultaStatusFilter<$PrismaModel>
+    _max?: NestedEnumConsultaStatusFilter<$PrismaModel>
   }
 
   export type BlogCountOrderByAggregateInput = {
@@ -14628,17 +14875,7 @@ export namespace Prisma {
     none?: UserViewWhereInput
   }
 
-  export type ConsultasListRelationFilter = {
-    every?: ConsultasWhereInput
-    some?: ConsultasWhereInput
-    none?: ConsultasWhereInput
-  }
-
   export type UserViewOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ConsultasOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14781,11 +15018,25 @@ export namespace Prisma {
     connect?: TipoWhereUniqueInput
   }
 
+  export type ConsultasCreateNestedManyWithoutProductInput = {
+    create?: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput> | ConsultasCreateWithoutProductInput[] | ConsultasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutProductInput | ConsultasCreateOrConnectWithoutProductInput[]
+    createMany?: ConsultasCreateManyProductInputEnvelope
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+  }
+
   export type ModuloUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<ModuloCreateWithoutProductInput, ModuloUncheckedCreateWithoutProductInput> | ModuloCreateWithoutProductInput[] | ModuloUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ModuloCreateOrConnectWithoutProductInput | ModuloCreateOrConnectWithoutProductInput[]
     createMany?: ModuloCreateManyProductInputEnvelope
     connect?: ModuloWhereUniqueInput | ModuloWhereUniqueInput[]
+  }
+
+  export type ConsultasUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput> | ConsultasCreateWithoutProductInput[] | ConsultasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutProductInput | ConsultasCreateOrConnectWithoutProductInput[]
+    createMany?: ConsultasCreateManyProductInputEnvelope
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -14847,6 +15098,20 @@ export namespace Prisma {
     update?: XOR<XOR<TipoUpdateToOneWithWhereWithoutProductosInput, TipoUpdateWithoutProductosInput>, TipoUncheckedUpdateWithoutProductosInput>
   }
 
+  export type ConsultasUpdateManyWithoutProductNestedInput = {
+    create?: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput> | ConsultasCreateWithoutProductInput[] | ConsultasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutProductInput | ConsultasCreateOrConnectWithoutProductInput[]
+    upsert?: ConsultasUpsertWithWhereUniqueWithoutProductInput | ConsultasUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: ConsultasCreateManyProductInputEnvelope
+    set?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    disconnect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    delete?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    update?: ConsultasUpdateWithWhereUniqueWithoutProductInput | ConsultasUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: ConsultasUpdateManyWithWhereWithoutProductInput | ConsultasUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+  }
+
   export type ModuloUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<ModuloCreateWithoutProductInput, ModuloUncheckedCreateWithoutProductInput> | ModuloCreateWithoutProductInput[] | ModuloUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ModuloCreateOrConnectWithoutProductInput | ModuloCreateOrConnectWithoutProductInput[]
@@ -14859,6 +15124,20 @@ export namespace Prisma {
     update?: ModuloUpdateWithWhereUniqueWithoutProductInput | ModuloUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: ModuloUpdateManyWithWhereWithoutProductInput | ModuloUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: ModuloScalarWhereInput | ModuloScalarWhereInput[]
+  }
+
+  export type ConsultasUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput> | ConsultasCreateWithoutProductInput[] | ConsultasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ConsultasCreateOrConnectWithoutProductInput | ConsultasCreateOrConnectWithoutProductInput[]
+    upsert?: ConsultasUpsertWithWhereUniqueWithoutProductInput | ConsultasUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: ConsultasCreateManyProductInputEnvelope
+    set?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    disconnect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    delete?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
+    update?: ConsultasUpdateWithWhereUniqueWithoutProductInput | ConsultasUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: ConsultasUpdateManyWithWhereWithoutProductInput | ConsultasUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
   }
 
   export type ModuloCreatesubtitulosInput = {
@@ -15014,10 +15293,30 @@ export namespace Prisma {
     deleteMany?: BlogLikeScalarWhereInput | BlogLikeScalarWhereInput[]
   }
 
+  export type ProductCreateNestedOneWithoutConsultasInput = {
+    create?: XOR<ProductCreateWithoutConsultasInput, ProductUncheckedCreateWithoutConsultasInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutConsultasInput
+    connect?: ProductWhereUniqueInput
+  }
+
   export type StatsCreateNestedOneWithoutCantidadDeConsultasInput = {
     create?: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
     connectOrCreate?: StatsCreateOrConnectWithoutCantidadDeConsultasInput
     connect?: StatsWhereUniqueInput
+  }
+
+  export type EnumConsultaStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ConsultaStatus
+  }
+
+  export type ProductUpdateOneWithoutConsultasNestedInput = {
+    create?: XOR<ProductCreateWithoutConsultasInput, ProductUncheckedCreateWithoutConsultasInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutConsultasInput
+    upsert?: ProductUpsertWithoutConsultasInput
+    disconnect?: ProductWhereInput | boolean
+    delete?: ProductWhereInput | boolean
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutConsultasInput, ProductUpdateWithoutConsultasInput>, ProductUncheckedUpdateWithoutConsultasInput>
   }
 
   export type StatsUpdateOneRequiredWithoutCantidadDeConsultasNestedInput = {
@@ -15467,6 +15766,23 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedEnumConsultaStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsultaStatus | EnumConsultaStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsultaStatusFilter<$PrismaModel> | $Enums.ConsultaStatus
+  }
+
+  export type NestedEnumConsultaStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConsultaStatus | EnumConsultaStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ConsultaStatus[] | ListEnumConsultaStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumConsultaStatusWithAggregatesFilter<$PrismaModel> | $Enums.ConsultaStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumConsultaStatusFilter<$PrismaModel>
+    _max?: NestedEnumConsultaStatusFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -15531,6 +15847,40 @@ export namespace Prisma {
     create: XOR<TipoCreateWithoutProductosInput, TipoUncheckedCreateWithoutProductosInput>
   }
 
+  export type ConsultasCreateWithoutProductInput = {
+    id?: string
+    nombre: string
+    descripcion: string
+    email: string
+    numero: string
+    status?: $Enums.ConsultaStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    stats: StatsCreateNestedOneWithoutCantidadDeConsultasInput
+  }
+
+  export type ConsultasUncheckedCreateWithoutProductInput = {
+    id?: string
+    nombre: string
+    descripcion: string
+    email: string
+    numero: string
+    status?: $Enums.ConsultaStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    statsMes: string
+  }
+
+  export type ConsultasCreateOrConnectWithoutProductInput = {
+    where: ConsultasWhereUniqueInput
+    create: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput>
+  }
+
+  export type ConsultasCreateManyProductInputEnvelope = {
+    data: ConsultasCreateManyProductInput | ConsultasCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ModuloUpsertWithWhereUniqueWithoutProductInput = {
     where: ModuloWhereUniqueInput
     update: XOR<ModuloUpdateWithoutProductInput, ModuloUncheckedUpdateWithoutProductInput>
@@ -15578,6 +15928,38 @@ export namespace Prisma {
     titulo?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ConsultasUpsertWithWhereUniqueWithoutProductInput = {
+    where: ConsultasWhereUniqueInput
+    update: XOR<ConsultasUpdateWithoutProductInput, ConsultasUncheckedUpdateWithoutProductInput>
+    create: XOR<ConsultasCreateWithoutProductInput, ConsultasUncheckedCreateWithoutProductInput>
+  }
+
+  export type ConsultasUpdateWithWhereUniqueWithoutProductInput = {
+    where: ConsultasWhereUniqueInput
+    data: XOR<ConsultasUpdateWithoutProductInput, ConsultasUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ConsultasUpdateManyWithWhereWithoutProductInput = {
+    where: ConsultasScalarWhereInput
+    data: XOR<ConsultasUpdateManyMutationInput, ConsultasUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type ConsultasScalarWhereInput = {
+    AND?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+    OR?: ConsultasScalarWhereInput[]
+    NOT?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
+    id?: StringFilter<"Consultas"> | string
+    nombre?: StringFilter<"Consultas"> | string
+    descripcion?: StringFilter<"Consultas"> | string
+    email?: StringFilter<"Consultas"> | string
+    numero?: StringFilter<"Consultas"> | string
+    productId?: StringNullableFilter<"Consultas"> | string | null
+    status?: EnumConsultaStatusFilter<"Consultas"> | $Enums.ConsultaStatus
+    createdAt?: DateTimeFilter<"Consultas"> | Date | string
+    updatedAt?: DateTimeFilter<"Consultas"> | Date | string
+    statsMes?: StringFilter<"Consultas"> | string
+  }
+
   export type ProductCreateWithoutModulosInput = {
     id?: string
     titulo: string
@@ -15592,6 +15974,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     tipo: TipoCreateNestedOneWithoutProductosInput
+    consultas?: ConsultasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutModulosInput = {
@@ -15608,6 +15991,7 @@ export namespace Prisma {
     visible?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    consultas?: ConsultasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutModulosInput = {
@@ -15640,6 +16024,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tipo?: TipoUpdateOneRequiredWithoutProductosNestedInput
+    consultas?: ConsultasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutModulosInput = {
@@ -15656,6 +16041,7 @@ export namespace Prisma {
     visible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    consultas?: ConsultasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateWithoutTipoInput = {
@@ -15672,6 +16058,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloCreateNestedManyWithoutProductInput
+    consultas?: ConsultasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutTipoInput = {
@@ -15688,6 +16075,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
+    consultas?: ConsultasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutTipoInput = {
@@ -15834,6 +16222,45 @@ export namespace Prisma {
     userId?: StringFilter<"BlogLike"> | string
   }
 
+  export type ProductCreateWithoutConsultasInput = {
+    id?: string
+    titulo: string
+    descripcion: string
+    precioAntes?: Decimal | DecimalJsLike | number | string | null
+    precioAhora: Decimal | DecimalJsLike | number | string
+    imagenes?: ProductCreateimagenesInput | string[]
+    video: string
+    url_demo?: string | null
+    url_full?: string | null
+    visible?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modulos?: ModuloCreateNestedManyWithoutProductInput
+    tipo: TipoCreateNestedOneWithoutProductosInput
+  }
+
+  export type ProductUncheckedCreateWithoutConsultasInput = {
+    id?: string
+    titulo: string
+    descripcion: string
+    precioAntes?: Decimal | DecimalJsLike | number | string | null
+    precioAhora: Decimal | DecimalJsLike | number | string
+    imagenes?: ProductCreateimagenesInput | string[]
+    video: string
+    url_demo?: string | null
+    url_full?: string | null
+    tipoId: string
+    visible?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutConsultasInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutConsultasInput, ProductUncheckedCreateWithoutConsultasInput>
+  }
+
   export type StatsCreateWithoutCantidadDeConsultasInput = {
     mes: string
     cantidadDeProductos: number
@@ -15851,6 +16278,51 @@ export namespace Prisma {
   export type StatsCreateOrConnectWithoutCantidadDeConsultasInput = {
     where: StatsWhereUniqueInput
     create: XOR<StatsCreateWithoutCantidadDeConsultasInput, StatsUncheckedCreateWithoutCantidadDeConsultasInput>
+  }
+
+  export type ProductUpsertWithoutConsultasInput = {
+    update: XOR<ProductUpdateWithoutConsultasInput, ProductUncheckedUpdateWithoutConsultasInput>
+    create: XOR<ProductCreateWithoutConsultasInput, ProductUncheckedCreateWithoutConsultasInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutConsultasInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutConsultasInput, ProductUncheckedUpdateWithoutConsultasInput>
+  }
+
+  export type ProductUpdateWithoutConsultasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    imagenes?: ProductUpdateimagenesInput | string[]
+    video?: StringFieldUpdateOperationsInput | string
+    url_demo?: NullableStringFieldUpdateOperationsInput | string | null
+    url_full?: NullableStringFieldUpdateOperationsInput | string | null
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modulos?: ModuloUpdateManyWithoutProductNestedInput
+    tipo?: TipoUpdateOneRequiredWithoutProductosNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutConsultasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    imagenes?: ProductUpdateimagenesInput | string[]
+    video?: StringFieldUpdateOperationsInput | string
+    url_demo?: NullableStringFieldUpdateOperationsInput | string | null
+    url_full?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoId?: StringFieldUpdateOperationsInput | string
+    visible?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type StatsUpsertWithoutCantidadDeConsultasInput = {
@@ -15978,18 +16450,26 @@ export namespace Prisma {
 
   export type ConsultasCreateWithoutStatsInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
+    product?: ProductCreateNestedOneWithoutConsultasInput
   }
 
   export type ConsultasUncheckedCreateWithoutStatsInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    productId?: string | null
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ConsultasCreateOrConnectWithoutStatsInput = {
@@ -16041,18 +16521,6 @@ export namespace Prisma {
   export type ConsultasUpdateManyWithWhereWithoutStatsInput = {
     where: ConsultasScalarWhereInput
     data: XOR<ConsultasUpdateManyMutationInput, ConsultasUncheckedUpdateManyWithoutStatsInput>
-  }
-
-  export type ConsultasScalarWhereInput = {
-    AND?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
-    OR?: ConsultasScalarWhereInput[]
-    NOT?: ConsultasScalarWhereInput | ConsultasScalarWhereInput[]
-    id?: StringFilter<"Consultas"> | string
-    descripcion?: StringFilter<"Consultas"> | string
-    email?: StringFilter<"Consultas"> | string
-    numero?: StringFilter<"Consultas"> | string
-    createdAt?: DateTimeFilter<"Consultas"> | Date | string
-    statsMes?: StringFilter<"Consultas"> | string
   }
 
   export type StatsCreateWithoutUserViewsInput = {
@@ -16337,6 +16805,18 @@ export namespace Prisma {
     subtitulos?: ModuloCreatesubtitulosInput | string[]
   }
 
+  export type ConsultasCreateManyProductInput = {
+    id?: string
+    nombre: string
+    descripcion: string
+    email: string
+    numero: string
+    status?: $Enums.ConsultaStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    statsMes: string
+  }
+
   export type ModuloUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
@@ -16353,6 +16833,42 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     titulo?: StringFieldUpdateOperationsInput | string
     subtitulos?: ModuloUpdatesubtitulosInput | string[]
+  }
+
+  export type ConsultasUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    stats?: StatsUpdateOneRequiredWithoutCantidadDeConsultasNestedInput
+  }
+
+  export type ConsultasUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statsMes?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ConsultasUncheckedUpdateManyWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    statsMes?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProductCreateManyTipoInput = {
@@ -16384,6 +16900,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUpdateManyWithoutProductNestedInput
+    consultas?: ConsultasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutTipoInput = {
@@ -16400,6 +16917,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
+    consultas?: ConsultasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutTipoInput = {
@@ -16528,10 +17046,14 @@ export namespace Prisma {
 
   export type ConsultasCreateManyStatsInput = {
     id?: string
+    nombre: string
     descripcion: string
     email: string
     numero: string
+    productId?: string | null
+    status?: $Enums.ConsultaStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserViewUpdateWithoutStatsInput = {
@@ -16551,26 +17073,38 @@ export namespace Prisma {
 
   export type ConsultasUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneWithoutConsultasNestedInput
   }
 
   export type ConsultasUncheckedUpdateWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConsultasUncheckedUpdateManyWithoutStatsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    productId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumConsultaStatusFieldUpdateOperationsInput | $Enums.ConsultaStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
