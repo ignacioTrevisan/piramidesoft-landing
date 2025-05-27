@@ -2,6 +2,7 @@
 
 import prisma from "@/app/lib/prisma";
 import { CreateConsultaData, ConsultaResponse } from "@/interfaces/consulta";
+import { AddHistorial } from "../historial/addHistorial";
 
 export async function createConsulta(data: CreateConsultaData): Promise<ConsultaResponse> {
   try {
@@ -41,6 +42,10 @@ export async function createConsulta(data: CreateConsultaData): Promise<Consulta
         }
       }
     });
+
+    // Registrar en historial
+    const productInfo = consulta.product ? ` sobre "${consulta.product.titulo}"` : '';
+    await AddHistorial(`Nueva consulta recibida de ${consulta.nombre}${productInfo}`);
 
     return {
       ok: true,

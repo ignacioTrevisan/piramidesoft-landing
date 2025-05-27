@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { SessionButton } from "./SessionButton";
 
-
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -152,7 +151,7 @@ export const NavbarClient = () => {
       <Link href="/">
         <div ref={logoRef} className="cursor-pointer relative group">
           <Image
-            src={"/logo_sin_fondo.png"}
+            src={"/logo_2.png"}
             height={60}
             width={60}
             alt="logo de piramide soft"

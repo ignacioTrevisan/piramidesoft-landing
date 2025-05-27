@@ -1,12 +1,88 @@
 <svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
   <rect width="800" height="600" fill="#f0f4f8"/>
-  <rect width="200" height="350" x="300" y="125" rx="20" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
-  <text x="400" y="180" font-family="Arial" font-size="24" text-anchor="middle" fill="#2563EB">Mobile Sales App</text>
-  <rect width="150" height="200" x="325" y="220" rx="5" fill="white" stroke="#2563EB" stroke-width="2"/>
-  <circle cx="400" cy="450" r="15" fill="#2563EB" opacity="0.5" stroke="#2563EB" stroke-width="1"/>
-  <rect width="120" height="20" x="340" y="240" rx="3" fill="#2563EB" opacity="0.2"/>
-  <rect width="120" height="20" x="340" y="270" rx="3" fill="#2563EB" opacity="0.2"/>
-  <rect width="120" height="20" x="340" y="300" rx="3" fill="#2563EB" opacity="0.2"/>
-  <rect width="120" height="20" x="340" y="330" rx="3" fill="#2563EB" opacity="0.2"/>
-  <rect width="120" height="20" x="340" y="360" rx="3" fill="#2563EB" opacity="0.2"/>
+  
+  <!-- Smartphone frame -->
+  <rect width="300" height="560" x="250" y="20" rx="30" fill="#374151"/>
+  <rect width="280" height="520" x="260" y="40" rx="20" fill="#f3f4f6"/>
+  
+  <!-- Mobile app header -->
+  <rect width="280" height="60" x="260" y="40" rx="20" fill="#2563EB"/>
+  <text x="290" y="75" font-family="Arial" font-size="16" font-weight="bold" fill="white">Nuevo Pedido</text>
+  
+  <!-- Back button -->
+  <circle cx="280" cy="70" r="15" fill="white" opacity="0.2"/>
+  <text x="280" y="75" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="white">←</text>
+  
+  <!-- Client info -->
+  <rect width="240" height="80" x="280" y="110" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="300" y="130" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Cliente:</text>
+  <text x="300" y="150" font-family="Arial" font-size="13" fill="#4b5563">Comercial Mitre SRL</text>
+  <text x="300" y="170" font-family="Arial" font-size="12" fill="#4b5563">CUIT: 30-71234567-8</text>
+  
+  <!-- Order details -->
+  <text x="280" y="210" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">Items del Pedido:</text>
+  
+  <!-- Order item 1 -->
+  <rect width="240" height="80" x="280" y="220" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="60" height="60" x="290" y="230" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="360" y="245" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Camiseta Premium</text>
+  <text x="360" y="265" font-family="Arial" font-size="11" fill="#4b5563">Cantidad: 5</text>
+  <text x="360" y="282" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$3,500 c/u</text>
+  
+  <!-- Order item 2 -->
+  <rect width="240" height="80" x="280" y="310" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <rect width="60" height="60" x="290" y="320" rx="5" fill="#2563EB" opacity="0.1"/>
+  <text x="360" y="335" font-family="Arial" font-size="12" font-weight="bold" fill="#374151">Reloj Deportivo</text>
+  <text x="360" y="355" font-family="Arial" font-size="11" fill="#4b5563">Cantidad: 2</text>
+  <text x="360" y="372" font-family="Arial" font-size="12" font-weight="bold" fill="#2563EB">$8,750 c/u</text>
+  
+  <!-- Add item button -->
+  <rect width="240" height="40" x="280" y="400" rx="20" fill="#2563EB" opacity="0.1"/>
+  <text x="400" y="425" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#2563EB">+ Agregar Producto</text>
+  
+  <!-- Order total -->
+  <rect width="240" height="100" x="280" y="450" rx="10" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="300" y="470" font-family="Arial" font-size="12" fill="#4b5563">Subtotal:</text>
+  <text x="500" y="470" font-family="Arial" font-size="12" text-anchor="end" fill="#4b5563">$35,000</text>
+  
+  <text x="300" y="490" font-family="Arial" font-size="12" fill="#4b5563">IVA (21%):</text>
+  <text x="500" y="490" font-family="Arial" font-size="12" text-anchor="end" fill="#4b5563">$7,350</text>
+  
+  <line x1="300" y1="500" x2="500" y2="500" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <text x="300" y="520" font-family="Arial" font-size="14" font-weight="bold" fill="#374151">TOTAL:</text>
+  <text x="500" y="520" font-family="Arial" font-size="14" font-weight="bold" text-anchor="end" fill="#2563EB">$42,350</text>
+  
+  <!-- Bottom action buttons -->
+  <rect width="240" height="40" x="280" y="560" rx="20" fill="#2563EB"/>
+  <text x="400" y="584" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Confirmar Pedido</text>
+  
+  <!-- App features description -->
+  <rect width="200" height="280" x="50" y="150" rx="10" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <text x="70" y="180" font-family="Arial" font-size="16" font-weight="bold" fill="#2563EB">Toma de Pedidos:</text>
+  
+  <text x="70" y="215" font-family="Arial" font-size="14" fill="#4b5563">• Selección de cliente</text>
+  <text x="70" y="240" font-family="Arial" font-size="14" fill="#4b5563">• Agregar múltiples</text>
+  <text x="85" y="260" font-family="Arial" font-size="14" fill="#4b5563">productos</text>
+  <text x="70" y="285" font-family="Arial" font-size="14" fill="#4b5563">• Cálculo automático</text>
+  <text x="85" y="305" font-family="Arial" font-size="14" fill="#4b5563">de impuestos</text>
+  <text x="70" y="330" font-family="Arial" font-size="14" fill="#4b5563">• Verificación de stock</text>
+  <text x="70" y="355" font-family="Arial" font-size="14" fill="#4b5563">• Descuentos especiales</text>
+  <text x="70" y="380" font-family="Arial" font-size="14" fill="#4b5563">• Funciona sin conexión</text>
+  <text x="70" y="405" font-family="Arial" font-size="14" fill="#4b5563">• Sincronización</text>
+  <text x="85" y="425" font-family="Arial" font-size="14" fill="#4b5563">automática</text>
+  
+  <rect width="200" height="280" x="550" y="150" rx="10" fill="white" stroke="#2563EB" stroke-width="2"/>
+  <text x="570" y="180" font-family="Arial" font-size="16" font-weight="bold" fill="#2563EB">Ventajas:</text>
+  
+  <text x="570" y="215" font-family="Arial" font-size="14" fill="#4b5563">• Sin errores de cálculo</text>
+  <text x="570" y="240" font-family="Arial" font-size="14" fill="#4b5563">• Evita ventas de</text>
+  <text x="585" y="260" font-family="Arial" font-size="14" fill="#4b5563">productos sin stock</text>
+  <text x="570" y="285" font-family="Arial" font-size="14" fill="#4b5563">• Disponible siempre,</text>
+  <text x="585" y="305" font-family="Arial" font-size="14" fill="#4b5563">con o sin internet</text>
+  <text x="570" y="330" font-family="Arial" font-size="14" fill="#4b5563">• Pedidos enviados al</text>
+  <text x="585" y="350" font-family="Arial" font-size="14" fill="#4b5563">sistema central</text>
+  <text x="570" y="375" font-family="Arial" font-size="14" fill="#4b5563">• Aprobación inmediata</text>
+  <text x="570" y="400" font-family="Arial" font-size="14" fill="#4b5563">• Historial completo</text>
+  <text x="585" y="420" font-family="Arial" font-size="14" fill="#4b5563">de operaciones</text>
 </svg>

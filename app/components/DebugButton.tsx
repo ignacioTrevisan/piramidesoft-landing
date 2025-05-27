@@ -37,6 +37,26 @@ export const DebugButton = () => {
     } finally {
       setLoading(false);
     }
+  const handleClearHistorial = async () => {
+    if (!confirm('¿Estás seguro de que quieres limpiar todo el historial?')) {
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      const response = await fetch('/api/historial/clear', {
+        method: 'POST',
+      });
+      const result = await response.json();
+      console.log("Clear historial result:", result);
+      
+      // Refresh debug info
+      await handleDebug();
+    } catch (error) {
+      console.error("Error clearing historial:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleInitializeStats = async () => {

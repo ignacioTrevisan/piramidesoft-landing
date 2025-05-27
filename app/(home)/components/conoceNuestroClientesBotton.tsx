@@ -1,15 +1,21 @@
 "use client";
 import Image from "next/image";
 import { useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ClientLogosSection() {
   // Definir las imágenes de los logos (reducidas a solo las necesarias)
   const logoSrc = "/1-sin-fondo.png";
+  const router = useRouter();
   
   const logoRowOneRef = useRef<HTMLDivElement>(null);
   const logoRowTwoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  const handleClientesClick = () => {
+    router.push("/clientes");
+  };
 
   useEffect(() => {
     // Solo cargar GSAP en el cliente
@@ -107,6 +113,7 @@ export default function ClientLogosSection() {
           </p>
           <button 
             ref={buttonRef}
+            onClick={handleClientesClick}
             className="bg-gray-800 rounded-2xl text-white px-4 py-2 hover:bg-gray-700 transition-all cursor-pointer text-sm sm:text-base block mx-auto xl:ml-12"
           >
             Conocé a nuestros clientes

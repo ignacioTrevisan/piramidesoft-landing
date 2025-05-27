@@ -81,11 +81,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
     try {
       const result = await logoutUser();
       if (result.ok) {
-        router.push('/auth/login');
+        router.push("/auth/login");
         router.refresh();
       }
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     } finally {
       setIsLoggingOut(false);
     }
@@ -230,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
           {/* Logo */}
           <div className="flex items-center space-x-3 mb-8">
             <Image
-              src="/logo_sin_fondo.png"
+              src="/logo_2.png"
               height={40}
               width={40}
               alt="Piramide Soft Logo"
@@ -259,9 +259,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
                 <p className="text-sm font-medium text-gray-900 truncate">
                   {user.name}
                 </p>
-                <p className="text-xs text-gray-500 truncate">
-                  {user.email}
-                </p>
+                <p className="text-xs text-gray-500 truncate">{user.email}</p>
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mt-1">
                   {user.role}
                 </span>
@@ -285,15 +283,31 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
 
           {/* Logout */}
           <div className="pt-4 border-t border-gray-200">
-            <button 
+            <button
               onClick={handleLogout}
               disabled={isLoggingOut}
               className="w-full flex items-center space-x-3 p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoggingOut ? (
-                <svg className="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
               ) : (
                 <svg
@@ -311,7 +325,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
                 </svg>
               )}
               <span className="font-medium" style={{ fontSize: "14px" }}>
-                {isLoggingOut ? 'Cerrando...' : 'Cerrar Sesión'}
+                {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
               </span>
             </button>
           </div>

@@ -3,6 +3,7 @@ import prisma from "@/app/lib/prisma";
 import { ApiResponse } from "@/interfaces/apiResponse";
 import { FormToCreateProducts, Products } from "@/interfaces/products";
 import { revalidatePath } from "next/cache";
+import { AddHistorial } from "../historial/addHistorial";
 
 export async function updateProduct(
   id: string,
@@ -40,6 +41,9 @@ export async function updateProduct(
         modulos: true,
       },
     });
+
+    // Registrar en historial
+    await AddHistorial(`Producto actualizado: "${product.titulo}"`);
 
     revalidatePath("/admin");
     return {

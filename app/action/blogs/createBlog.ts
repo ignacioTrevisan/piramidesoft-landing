@@ -4,6 +4,7 @@ import prisma from "@/app/lib/prisma";
 import { ApiResponse } from "@/interfaces/apiResponse";
 import { Blog, FormToCreateBlog } from "@/interfaces/blog";
 import { revalidatePath } from "next/cache";
+import { AddHistorial } from "../historial/addHistorial";
 
 export async function createBlog(
   data: FormToCreateBlog
@@ -18,6 +19,9 @@ export async function createBlog(
         visible: data.visible,
       },
     });
+
+    // Registrar en historial
+    await AddHistorial(`Blog creado: "${blog.titulo}"`);
 
     revalidatePath("/admin");
     revalidatePath("/blogs");

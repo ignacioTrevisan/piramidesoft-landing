@@ -595,6 +595,17 @@ const ProductModal: React.FC<ProductModalProps> = ({
   );
 };
 
+// Función auxiliar para manejar las fechas de forma segura
+const formatDateString = (date: string | Date | null | undefined): string => {
+  if (typeof date === "string") {
+    return date;
+  }
+  if (date instanceof Date) {
+    return date.toISOString();
+  }
+  return new Date().toISOString();
+};
+
 export const ProductosSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [products, setProducts] = useState<Products[]>([]);
@@ -624,14 +635,8 @@ export const ProductosSection = () => {
               p.precioAhora !== null && p.precioAhora !== undefined
                 ? Number(p.precioAhora)
                 : 0,
-            createdAt:
-              typeof p.createdAt === "string"
-                ? p.createdAt
-                : p.createdAt?.toISOString?.() ?? "",
-            updatedAt:
-              typeof p.updatedAt === "string"
-                ? p.updatedAt
-                : p.updatedAt?.toISOString?.() ?? "",
+            createdAt: formatDateString(p.createdAt),
+            updatedAt: formatDateString(p.updatedAt),
           }))
         );
       }
@@ -655,14 +660,8 @@ export const ProductosSection = () => {
                       ? Number(data.data!.precioAntes)
                       : null,
                     precioAhora: Number(data.data!.precioAhora),
-                    createdAt:
-                      typeof data.data!.createdAt === "string"
-                        ? data.data!.createdAt
-                        : data.data!.createdAt.toISOString(),
-                    updatedAt:
-                      typeof data.data!.updatedAt === "string"
-                        ? data.data!.updatedAt
-                        : data.data!.updatedAt.toISOString(),
+                    createdAt: formatDateString(data.data!.createdAt),
+                    updatedAt: formatDateString(data.data!.updatedAt),
                   } as Products)
                 : p
             )
@@ -684,14 +683,8 @@ export const ProductosSection = () => {
               ? Number(data.data.precioAntes)
               : null,
             precioAhora: Number(data.data.precioAhora),
-            createdAt:
-              typeof data.data.createdAt === "string"
-                ? data.data.createdAt
-                : data.data.createdAt.toISOString(),
-            updatedAt:
-              typeof data.data.updatedAt === "string"
-                ? data.data.updatedAt
-                : data.data.updatedAt.toISOString(),
+            createdAt: formatDateString(data.data.createdAt),
+            updatedAt: formatDateString(data.data.updatedAt),
           };
           setProducts((prev) => [newProduct, ...prev]);
           console.log("Producto creado exitosamente");

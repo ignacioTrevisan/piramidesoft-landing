@@ -150,7 +150,7 @@ export const Navbar = () => {
       <Link href="/">
         <div ref={logoRef} className="cursor-pointer relative group">
           <Image
-            src={"/logo_sin_fondo.png"}
+            src={"/logo_2.png"}
             height={60}
             width={60}
             alt="logo de piramide soft"

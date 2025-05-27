@@ -237,13 +237,6 @@ export default async function ProductoDetalle({ params }: Props) {
                 >
                   Solicitar Información
                 </ContactButton>
-                <ContactButton
-                  productId={producto.id}
-                  productTitle={producto.titulo}
-                  variant="secondary"
-                >
-                  Agendar Reunión
-                </ContactButton>
               </div>
             </div>
           </div>
