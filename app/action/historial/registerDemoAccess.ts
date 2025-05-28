@@ -12,7 +12,6 @@ interface DemoAccessData {
 }
 
 export const registerDemoAccess = async ({
-  productId,
   productTitle,
   userId,
   userName,
