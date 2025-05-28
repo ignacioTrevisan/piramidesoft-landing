@@ -16,7 +16,7 @@ if (typeof window !== "undefined") {
 const MobileNavbarElements = () => {
   const elementos = [
     { titulo: "Inicio", url: "/" },
-    { titulo: "Blogs", url: "/blog" },
+    { titulo: "Blogs", url: "/blogs" }, // Corregido de /blog a /blogs
     { titulo: "Productos", url: "/products" },
   ];
 
