@@ -10,6 +10,7 @@ import { Blog, FormToCreateBlog } from "@/app/interfaces/blog";
 import { MediaUploader } from "./MediaUploader";
 import { useToast } from "@/app/components/ToastProvider";
 import { useAdmin } from "../context/AdminContext";
+import { BlogImage } from "@/app/components/BlogImage";
 
 interface BlogModalProps {
   isOpen: boolean;
@@ -330,35 +331,13 @@ export const BlogsSection = () => {
             key={blog.id}
             className="admin-card hover:shadow-lg transition-all duration-300"
           >
-            <div className="aspect-w-16 aspect-h-9 relative h-48 bg-gray-200 rounded-t-xl overflow-hidden">
-              {blog.imagen ? (
-                <img
-                  src={blog.imagen}
-                  alt={blog.titulo}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    console.error('Error loading blog image:', blog.imagen);
-                    // Crear un placeholder SVG como data URL
-                    const placeholderSvg = `
-                      <svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="#f3f4f6"/>
-                        <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af" font-family="system-ui" font-size="16">Imagen no disponible</text>
-                      </svg>
-                    `;
-                    (e.target as HTMLImageElement).src = `data:image/svg+xml;base64,${btoa(placeholderSvg)}`;
-                    (e.target as HTMLImageElement).onerror = null; // Prevent infinite loop
-                  }}
-                  onLoad={() => {
-                    console.log('Blog image loaded successfully:', blog.imagen);
-                  }}
-                />
-              ) : (
-                <div className="w-full h-full bg-gray-300 flex items-center justify-center">
-                  <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              )}
+            <div className="relative">
+              <BlogImage
+                src={blog.imagen}
+                alt={blog.titulo}
+                className="w-full h-48 rounded-t-xl"
+                fill={false}
+              />
               <div className="absolute top-3 right-3">
                 <button
                   onClick={() => toggleBlogVisibility(blog.id)}

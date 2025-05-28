@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Blog } from "@/app/interfaces/blog";
 import Link from "next/link";
-import Image from "next/image";
 import { BlogStats } from "./BlogStats";
+import { BlogImage } from "@/app/components/BlogImage";
 
 interface BlogListProps {
   initialBlogs: Blog[];
@@ -15,7 +15,6 @@ const BlogCard: React.FC<{ blog: Blog; index: number; isVisible: boolean }> = ({
   index,
   isVisible,
 }) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("es-AR", {
@@ -41,33 +40,11 @@ const BlogCard: React.FC<{ blog: Blog; index: number; isVisible: boolean }> = ({
       }}
     >
       <div className="relative h-64 w-full overflow-hidden">
-        {!imageLoaded && (
-          <div className="absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center">
-            <svg
-              className="w-12 h-12 text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-        )}
-        <Image
+        <BlogImage
           src={blog.imagen}
           alt={blog.titulo}
-          fill
-          className={`object-cover transition-all duration-500 group-hover:scale-110 ${
-            imageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          onLoad={() => setImageLoaded(true)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/placeholder-blog.jpg";
-            setImageLoaded(true);
-          }}
+          className="w-full h-full"
+          fill={true}
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   images: {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Usar unoptimized para evitar problemas en producción con imágenes externas
+    unoptimized: process.env.NODE_ENV === 'production',
     remotePatterns: [
       {
         protocol: "https",
@@ -20,6 +22,23 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "c4.wallpaperflare.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+      },
+      // Comodín para cualquier subdominio de cloudinary
+      {
+        protocol: "https",
+        hostname: "**.cloudinary.com",
       },
     ],
   },
