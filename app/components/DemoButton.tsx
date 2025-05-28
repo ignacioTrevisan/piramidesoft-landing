@@ -25,24 +25,24 @@ export const DemoButton: React.FC<DemoButtonProps> = ({
     try {
       // Registrar el acceso si tenemos la información del producto
       if (productId && productTitle) {
-        await fetch('/api/demo', {
-          method: 'POST',
+        await fetch("/api/demo", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             productId,
-            productTitle
-          })
+            productTitle,
+          }),
         });
       }
-      
+
       // Redirigir a la demo
-      window.open(url_demo, '_blank', 'noopener,noreferrer');
+      window.open(url_demo as string, "_blank", "noopener,noreferrer");
     } catch (error) {
-      console.error('Error registering demo access:', error);
+      console.error("Error registering demo access:", error);
       // Aún así, permitir el acceso a la demo
-      window.open(url_demo, '_blank', 'noopener,noreferrer');
+      window.open(url_demo as string, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -152,21 +152,31 @@ export const DemoButton: React.FC<DemoButtonProps> = ({
                   />
                 </svg>
               </div>
-              
+
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 🔒 Demo Bloqueada - ¡Crea tu cuenta para probarla!
               </h3>
-              
+
               <p className="text-gray-600 mb-4">
-                <strong>¡Buenas noticias!</strong> Puedes probar esta demo <strong>completamente gratis</strong> 
-                creando una cuenta. Solo toma 30 segundos y tendrás acceso inmediato.
+                <strong>¡Buenas noticias!</strong> Puedes probar esta demo{" "}
+                <strong>completamente gratis</strong>
+                creando una cuenta. Solo toma 30 segundos y tendrás acceso
+                inmediato.
               </p>
 
               <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    <svg
+                      className="h-5 w-5 text-blue-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                   </div>
                   <div className="ml-3">
@@ -177,7 +187,9 @@ export const DemoButton: React.FC<DemoButtonProps> = ({
                       <li>• 🎯 Probar todas las demos de nuestros productos</li>
                       <li>• 📱 Acceso inmediato desde cualquier dispositivo</li>
                       <li>• 📝 Guardar tus productos favoritos</li>
-                      <li>• 📧 Recibir actualizaciones sobre nuevos productos</li>
+                      <li>
+                        • 📧 Recibir actualizaciones sobre nuevos productos
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -190,7 +202,7 @@ export const DemoButton: React.FC<DemoButtonProps> = ({
                 >
                   🚀 ¡CREAR CUENTA GRATIS Y PROBAR DEMO!
                 </Link>
-                
+
                 <Link
                   href="/auth/login"
                   className="block w-full bg-gray-100 hover:bg-gray-200 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors border-2 border-gray-200 hover:border-gray-300"
@@ -201,7 +213,8 @@ export const DemoButton: React.FC<DemoButtonProps> = ({
 
               <div className="mt-4 text-center">
                 <p className="text-xs text-gray-500">
-                  ✅ Registro rápido • ✅ Sin costo • ✅ Acceso inmediato a todas las demos
+                  ✅ Registro rápido • ✅ Sin costo • ✅ Acceso inmediato a
+                  todas las demos
                 </p>
               </div>
 
