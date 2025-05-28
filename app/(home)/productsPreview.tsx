@@ -98,7 +98,7 @@ const ProductsPreview = () => {
       <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative">
         <div className="container mx-auto px-4">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
-            Nuestros Productoss
+            Nuestros Productos
           </h2>
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2563EB]"></div>
