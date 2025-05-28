@@ -28,7 +28,9 @@ export const BlogImage: React.FC<BlogImageProps> = ({
   // Si no hay src o hubo error, mostrar placeholder
   if (!src || imageError) {
     return (
-      <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
+      <div
+        className={`bg-gray-200 flex items-center justify-center ${className}`}
+      >
         <div className="text-center p-4">
           <svg
             className="w-16 h-16 text-gray-400 mx-auto mb-2"
@@ -50,7 +52,7 @@ export const BlogImage: React.FC<BlogImageProps> = ({
   }
 
   // Para producción, usar img directamente para evitar el optimizador de Next.js
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     return (
       <div className={`relative overflow-hidden ${className}`}>
         {isLoading && (
@@ -62,14 +64,14 @@ export const BlogImage: React.FC<BlogImageProps> = ({
           src={src}
           alt={alt}
           className={`w-full h-full object-cover transition-opacity duration-300 ${
-            isLoading ? 'opacity-0' : 'opacity-100'
+            isLoading ? "opacity-0" : "opacity-100"
           }`}
           onLoad={() => {
             setIsLoading(false);
-            console.log('Blog image loaded successfully:', src);
+            console.log("Blog image loaded successfully:", src);
           }}
-          onError={(e) => {
-            console.error('Error loading blog image:', src);
+          onError={() => {
+            console.error("Error loading blog image:", src);
             setImageError(true);
             setIsLoading(false);
           }}
@@ -94,15 +96,15 @@ export const BlogImage: React.FC<BlogImageProps> = ({
         width={!fill ? width : undefined}
         height={!fill ? height : undefined}
         className={`object-cover transition-opacity duration-300 ${
-          isLoading ? 'opacity-0' : 'opacity-100'
+          isLoading ? "opacity-0" : "opacity-100"
         }`}
         priority={priority}
         onLoad={() => {
           setIsLoading(false);
-          console.log('Blog image loaded successfully:', src);
+          console.log("Blog image loaded successfully:", src);
         }}
-        onError={(e) => {
-          console.error('Error loading blog image:', src);
+        onError={() => {
+          console.error("Error loading blog image:", src);
           setImageError(true);
           setIsLoading(false);
         }}
