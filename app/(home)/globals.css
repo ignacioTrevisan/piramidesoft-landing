@@ -1,3 +1,5 @@
+@tailwind utilities;
+
 @import "tailwindcss";
 @import "./components/animations/animations.css";
 
@@ -9,11 +11,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-blue: #2563EB;
-  --primary-blue-dark: #1E40AF;
+  --primary-blue: #2563eb;
+  --primary-blue-dark: #1e40af;
   --text-gray: #374151;
-  --text-gray-light: #6B7280;
-  --border-gray: #D1D5DB;
+  --text-gray-light: #6b7280;
+  --border-gray: #d1d5db;
 }
 
 /* Eliminamos el modo oscuro automático que puede causar problemas de contraste */
@@ -53,20 +55,20 @@ body {
 }
 
 .text-gray-600 {
-  color: #4B5563 !important;
+  color: #4b5563 !important;
 }
 
 .text-gray-800 {
-  color: #1F2937 !important;
+  color: #1f2937 !important;
 }
 
 .text-gray-400 {
-  color: #9CA3AF !important;
+  color: #9ca3af !important;
 }
 
 /* Mejorar contraste en botones grises */
 .bg-gray-800 {
-  background-color: #1F2937 !important;
+  background-color: #1f2937 !important;
   color: #ffffff !important;
 }
 
@@ -76,17 +78,17 @@ body {
 
 /* Asegurar contraste en fondos */
 .bg-gray-50 {
-  background-color: #F9FAFB !important;
+  background-color: #f9fafb !important;
 }
 
 .bg-white {
   background-color: #ffffff !important;
-  color: #1F2937 !important;
+  color: #1f2937 !important;
 }
 
 /* Mejorar contraste en elementos interactivos */
 .hover\:text-gray-600:hover {
-  color: #4B5563 !important;
+  color: #4b5563 !important;
 }
 
 .hover\:text-gray-700:hover {
@@ -95,33 +97,33 @@ body {
 
 /* Asegurar contraste en bordes */
 .border-gray-100 {
-  border-color: #F3F4F6 !important;
+  border-color: #f3f4f6 !important;
 }
 
 .border-gray-200 {
-  border-color: #E5E7EB !important;
+  border-color: #e5e7eb !important;
 }
 
 /* Mejorar contraste en formularios */
-input, textarea, select {
+input,
+textarea,
+select {
   background-color: #ffffff !important;
-  border: 1px solid #D1D5DB !important;
-  color: #1F2937 !important;
+  border: 1px solid #d1d5db !important;
+  color: #1f2937 !important;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   border-color: var(--primary-blue) !important;
   outline: 2px solid rgba(37, 99, 235, 0.2) !important;
   outline-offset: 2px;
 }
 
-input::placeholder, textarea::placeholder {
-  color: #9CA3AF !important;
-}
-
-/* Mejorar contraste en enlaces */
-a {
-  color: var(--primary-blue) !important;
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af !important;
 }
 
 a:hover {
@@ -155,9 +157,9 @@ a:hover {
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #f9fafb !important;
-    color: #1F2937 !important;
+    color: #1f2937 !important;
   }
-  
+
   * {
     color: inherit !important;
   }
@@ -168,9 +170,9 @@ a:hover {
   .text-gray-400 {
     color: #374151 !important;
   }
-  
+
   .text-gray-500 {
-    color: #1F2937 !important;
+    color: #1f2937 !important;
   }
 }
 
@@ -185,7 +187,7 @@ a:hover {
     opacity: 1 !important;
     transform: none !important;
   }
-  
+
   .transition-all {
     transition: none !important;
   }

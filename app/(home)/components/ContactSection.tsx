@@ -145,7 +145,9 @@ export const ContactSection = () => {
               {/* Redes sociales */}
               <div className="flex space-x-4">
                 <Link
-                  href="#"
+                  href="https://www.instagram.com/piramidesoft/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <svg
@@ -157,7 +159,9 @@ export const ContactSection = () => {
                   </svg>
                 </Link>
                 <Link
-                  href="#"
+                  href="https://www.facebook.com/piramidesoft"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <svg
@@ -170,7 +174,9 @@ export const ContactSection = () => {
                 </Link>
 
                 <Link
-                  href="#"
+                  href="https://wa.me/543454123456?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-800 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors"
                 >
                   <svg
