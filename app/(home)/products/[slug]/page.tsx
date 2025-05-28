@@ -3,6 +3,7 @@ import { getProducts } from "@/app/action/products/products";
 import { notFound } from "next/navigation";
 import { Products } from "@/app/interfaces/products";
 import { ContactButton } from "@/app/components/ContactButton";
+import { DemoButton } from "@/app/components/DemoButton";
 
 interface Props {
   params: Promise<{
@@ -98,16 +99,12 @@ export default async function ProductoDetalle({ params }: Props) {
 
             {/* URLs de demo y producto completo */}
             <div className="mb-6 space-y-3">
-              {producto.url_demo && (
-                <a
-                  href={producto.url_demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-green-600 hover:bg-green-700 transition-all text-white py-2 px-6 rounded-lg text-sm font-medium mr-3"
-                >
-                  Ver Demo
-                </a>
-              )}
+              <DemoButton 
+              url_demo={producto.url_demo} 
+              className="mr-3" 
+              productId={producto.id}
+              productTitle={producto.titulo}
+            />
               {producto.url_full && (
                 <a
                   href={producto.url_full}

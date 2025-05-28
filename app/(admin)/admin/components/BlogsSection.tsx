@@ -8,6 +8,9 @@ import { deleteBlog } from "@/app/action/blogs/deleteBlog";
 import { changeVisibilityBlog } from "@/app/action/blogs/changeVisibilityBlog";
 import { Blog, FormToCreateBlog } from "@/app/interfaces/blog";
 import { MediaUploader } from "./MediaUploader";
+import { useToast } from "@/app/components/ToastProvider";
+import { AddHistorial } from "@/app/action/historial/addHistorial";
+import { useAdmin } from "../context/AdminContext";
 
 interface BlogModalProps {
   isOpen: boolean;
@@ -162,6 +165,8 @@ const BlogModal: React.FC<BlogModalProps> = ({ isOpen, onClose, blog, onSave }) 
 
 export const BlogsSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const { showToast } = useToast();
+  const { createBlogTriggered, resetTriggers } = useAdmin();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
@@ -186,6 +191,14 @@ export const BlogsSection = () => {
 
     loadBlogs();
   }, []);
+
+  // Efecto para manejar el trigger de crear blog desde acciones rápidas
+  useEffect(() => {
+    if (createBlogTriggered) {
+      openCreateModal();
+      resetTriggers();
+    }
+  }, [createBlogTriggered, resetTriggers]);
 
   const handleSaveBlog = async (blogData: FormToCreateBlog) => {
     if (selectedBlog) {

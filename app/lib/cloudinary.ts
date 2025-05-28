@@ -24,10 +24,9 @@ export const uploadToCloudinary = async (
         img.onload = async () => {
           const aspectRatio = img.width / img.height;
           
-          // Validar relación de aspecto (permitir entre 1:2 y 2:1)
+          // Advertencia sobre relación de aspecto (recomendado entre 1:2 y 2:1)
           if (aspectRatio < 0.5 || aspectRatio > 2) {
-            reject(new Error('La imagen debe tener una relación de aspecto entre 1:2 y 2:1 para ser responsive'));
-            return;
+            console.warn('⚠️ Advertencia: La imagen tiene una relación de aspecto inusual. Se recomienda entre 1:2 y 2:1 para mejor visualización responsive.');
           }
           
           // Si la imagen es muy grande, redimensionarla
@@ -120,10 +119,9 @@ export const validateImageFile = (file: File): Promise<boolean> => {
     img.onload = () => {
       const aspectRatio = img.width / img.height;
       
-      // Validar relación de aspecto responsive (entre 1:2 y 2:1)
+      // Advertencia sobre relación de aspecto (recomendado entre 1:2 y 2:1)
       if (aspectRatio < 0.5 || aspectRatio > 2) {
-        reject(new Error('La imagen debe tener una relación de aspecto entre 1:2 y 2:1 para ser responsive'));
-        return;
+        console.warn('⚠️ Advertencia: La imagen tiene una relación de aspecto inusual. Se recomienda entre 1:2 y 2:1 para mejor visualización responsive.');
       }
       
       // Validar resolución mínima

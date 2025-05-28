@@ -15,7 +15,7 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div 
+    <div
       ref={cardRef}
       className="nosotros-card w-full flex flex-col h-full bg-white rounded-xl mt-3 p-8 shadow-md relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl group"
     >
@@ -25,7 +25,11 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
       <div className="flex-grow flex flex-col relative z-10">
         {/* Imagen con efectos de carga */}
         <div className="relative mx-auto mb-4 transition-all duration-300">
-          <div className={`transition-all duration-500 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <div
+            className={`transition-all duration-500 ${
+              imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
             <Image
               src={image}
               alt={`${name} image`}
@@ -37,10 +41,13 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
           </div>
           {/* Glow effect */}
           <div className="absolute -inset-0.5 rounded-full blur-sm bg-gradient-to-r from-blue-200 to-indigo-200 opacity-30 -z-10 transition-opacity duration-300 group-hover:opacity-50"></div>
-          
+
           {/* Loading placeholder */}
           {!imageLoaded && (
-            <div className="absolute inset-0 bg-gray-200 rounded-full animate-pulse mx-auto" style={{width: 160, height: 160}}></div>
+            <div
+              className="absolute inset-0 bg-gray-200 rounded-full animate-pulse mx-auto"
+              style={{ width: 160, height: 160 }}
+            ></div>
           )}
         </div>
 
@@ -61,7 +68,7 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
               key={index}
               className="bg-blue-50 text-[#2563EB] text-sm px-3 py-1 rounded-md transition-all duration-300 hover:bg-blue-100 hover:scale-105"
               style={{
-                animationDelay: `${index * 100}ms`
+                animationDelay: `${index * 100}ms`,
               }}
             >
               {role}
@@ -70,14 +77,13 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
         </div>
       </div>
 
-      {/* Botón con efectos mejorados */}
-      <div className="mt-auto pt-3">
+      {/* <div className="mt-auto pt-3">
         <button className="bg-[#2563EB] hover:bg-[#1E40AF] text-white py-2 px-4 rounded-lg w-full transition-all duration-300 text-base font-medium hover:scale-105 hover:shadow-lg active:scale-95 relative overflow-hidden group/btn">
-          {/* Efecto de brillo en hover */}
+         
           <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300"></div>
           <span className="relative z-10">Ver perfil</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

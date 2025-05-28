@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getStats } from "@/app/action/stats/getStats";
 import { RecentActivity } from "@/app/components/RecentActivity";
+import { useAdmin } from "../context/AdminContext";
 
 interface StatsData {
   productos: string;
@@ -18,6 +19,7 @@ interface PercentageChanges {
 }
 
 export const Dashboard = () => {
+  const { setActiveSection, triggerCreateProduct, triggerCreateBlog } = useAdmin();
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<StatsData>({
@@ -160,6 +162,19 @@ export const Dashboard = () => {
     return "→";
   };
 
+  // Funciones para manejar las acciones rápidas
+  const handleAddProduct = () => {
+    triggerCreateProduct();
+  };
+
+  const handleCreateBlog = () => {
+    triggerCreateBlog();
+  };
+
+  const handleViewConsultas = () => {
+    setActiveSection('consultas');
+  };
+
   // No renderizar nada hasta que esté montado
   if (!mounted) {
     return null;
@@ -263,19 +278,28 @@ export const Dashboard = () => {
           Acciones Rápidas
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          <button className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+          <button 
+            onClick={handleAddProduct}
+            className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors hover:shadow-md"
+          >
             <span className="text-blue-600 text-lg sm:text-xl">➕</span>
             <span className="font-medium text-blue-600 text-sm sm:text-base">
               Agregar Producto
             </span>
           </button>
-          <button className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+          <button 
+            onClick={handleCreateBlog}
+            className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors hover:shadow-md"
+          >
             <span className="text-purple-600 text-lg sm:text-xl">✏️</span>
             <span className="font-medium text-purple-600 text-sm sm:text-base">
               Crear Blog
             </span>
           </button>
-          <button className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors sm:col-span-2 lg:col-span-1">
+          <button 
+            onClick={handleViewConsultas}
+            className="flex items-center space-x-2 sm:space-x-3 p-3 sm:p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors sm:col-span-2 lg:col-span-1 hover:shadow-md"
+          >
             <span className="text-orange-600 text-lg sm:text-xl">👁️</span>
             <span className="font-medium text-orange-600 text-sm sm:text-base">
               Ver Consultas

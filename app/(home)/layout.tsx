@@ -3,6 +3,7 @@ import "./globals.css";
 import { Navbar } from "./components/navbar";
 import { initializeMonthlyStats } from "../action/stats/initializeMonthlyStats";
 import { VisitorTracker } from "../components/VisitorTracker";
+import { AuthProvider } from "../lib/auth/AuthContext";
 
 export const metadata: Metadata = {
   title: "Piramide Soft - Soluciones Tecnológicas",
@@ -18,13 +19,13 @@ export default async function HomeLayout({
   await initializeMonthlyStats();
 
   return (
-    <>
+    <AuthProvider>
       <Navbar />
       <VisitorTracker>
         <main>
           {children}
         </main>
       </VisitorTracker>
-    </>
+    </AuthProvider>
   );
 }

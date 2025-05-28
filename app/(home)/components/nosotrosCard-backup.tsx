@@ -46,11 +46,11 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
         </div>
       </div>
 
-      <div className="mt-auto pt-3">
+      {/* <div className="mt-auto pt-3">
         <button className="bg-[#2563EB] hover:bg-[#1E40AF] text-white py-2 px-4 rounded-lg w-full transition-all duration-200 text-base font-medium hover:scale-105">
           Ver perfil
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

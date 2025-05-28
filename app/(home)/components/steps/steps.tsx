@@ -309,7 +309,7 @@ export const Steps: React.FC = () => {
               Seguimos una metodología probada que garantiza{" "}
               <span className="font-bold text-[#2563EB]">calidad</span>,{" "}
               <span className="font-bold text-[#2563EB]">transparencia</span> y{" "}
-              <span className="font-bold text-[#2563EB]">resultados</span>
+              <span className="font-bold text-[#2563EB]">resultados</span>{" "}
               exitosos para cada proyecto.
             </p>
             <div className="flex justify-center">

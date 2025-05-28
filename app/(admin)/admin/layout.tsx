@@ -1,6 +1,7 @@
 import { checkAdminSession } from "@/app/action/session/checkSession";
 import { redirect } from "next/navigation";
 import { AdminLayoutClient } from "./components/AdminLayoutClient";
+import { ToastProvider } from "@/app/components/ToastProvider";
 import "../../(home)/globals.css";
 import "./styles/admin.css";
 import "./styles/admin-override.css";
@@ -24,8 +25,10 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="admin-layout bg-gray-50 min-h-screen">
-      <AdminLayoutClient user={user}>{children}</AdminLayoutClient>
-    </div>
+    <ToastProvider>
+      <div className="admin-layout bg-gray-50 min-h-screen">
+        <AdminLayoutClient user={user}>{children}</AdminLayoutClient>
+      </div>
+    </ToastProvider>
   );
 }

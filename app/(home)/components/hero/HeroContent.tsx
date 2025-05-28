@@ -79,7 +79,7 @@ export default function HeroContent() {
     <div className="w-full md:w-1/2 gap-y-2 md:mb-0 ">
       <h1
         ref={titleRef}
-        className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-7 md:mt-9 text-3xl text-center md:text-left mb-4 text-[#2563EB] claseConFuenteFea"
+        className="xl:text-7xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-7 md:mt-9 text-3xl text-center md:text-left mb-4 text-[#2563EB] claseConFuenteFea"
       >
         PIRAMIDE SOFT
       </h1>

@@ -10,6 +10,8 @@ import { changeVisibility } from "@/app/action/products/changeVisibility";
 import { deleteProduct } from "@/app/action/products/deleteProducts";
 import { MediaUploader } from "./MediaUploader";
 import { AddHistorial } from "@/app/action/historial/addHistorial";
+import { useToast } from "@/app/components/ToastProvider";
+import { useAdmin } from "../context/AdminContext";
 
 interface ProductModalProps {
   isOpen: boolean;
@@ -25,6 +27,8 @@ const ProductModal: React.FC<ProductModalProps> = ({
   onSave,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { showToast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     titulo: "",
     descripcion: "",
@@ -83,32 +87,34 @@ const ProductModal: React.FC<ProductModalProps> = ({
     }
   }, [isOpen]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isSubmitting) return; // Prevenir múltiples envíos
 
     // Validaciones básicas
     if (!formData.titulo.trim()) {
-      alert("El título es requerido");
+      showToast("El título es requerido", "error");
       return;
     }
 
     if (!formData.descripcion.trim()) {
-      alert("La descripción es requerida");
+      showToast("La descripción es requerida", "error");
       return;
     }
 
     if (!formData.precioAhora || parseFloat(formData.precioAhora) <= 0) {
-      alert("El precio actual debe ser mayor a 0");
+      showToast("El precio actual debe ser mayor a 0", "error");
       return;
     }
 
     if (!formData.tipoId) {
-      alert("Debe seleccionar un tipo de producto");
+      showToast("Debe seleccionar un tipo de producto", "error");
       return;
     }
 
     if (!formData.video.trim()) {
-      alert("El video es requerido");
+      showToast("El video es requerido", "error");
       return;
     }
 
@@ -117,7 +123,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       (img) => img.trim() !== ""
     );
     if (imagenesValidas.length === 0) {
-      alert("Debe agregar al menos una imagen");
+      showToast("Debe agregar al menos una imagen", "error");
       return;
     }
 
@@ -128,30 +134,35 @@ const ProductModal: React.FC<ProductModalProps> = ({
         mod.subtitulos.some((sub) => sub.trim() !== "")
     );
     if (modulosValidos.length === 0) {
-      alert("Debe agregar al menos un módulo con título y subtitulos");
+      showToast("Debe agregar al menos un módulo con título y subtitulos", "error");
       return;
     }
 
-    console.log("Formulario válido, enviando datos:", {
-      ...formData,
-      precioAntes: formData.precioAntes
-        ? parseFloat(formData.precioAntes)
-        : null,
-      precioAhora: parseFloat(formData.precioAhora),
-      imagenes: imagenesValidas,
-      modulos: modulosValidos,
-    });
+    setIsSubmitting(true);
+    
+    try {
+      const productData = {
+        ...formData,
+        precioAntes: formData.precioAntes
+          ? parseFloat(formData.precioAntes)
+          : null,
+        precioAhora: parseFloat(formData.precioAhora),
+        imagenes: imagenesValidas,
+        modulos: modulosValidos,
+      };
 
-    onSave({
-      ...formData,
-      precioAntes: formData.precioAntes
-        ? parseFloat(formData.precioAntes)
-        : null,
-      precioAhora: parseFloat(formData.precioAhora),
-      imagenes: imagenesValidas,
-      modulos: modulosValidos,
-    });
-    onClose();
+      console.log("Formulario válido, enviando datos:", productData);
+      
+      await onSave(productData);
+      
+      // La notificación de éxito se mostrará en handleSaveProduct
+      // onClose(); // Se cierra en handleSaveProduct si es exitoso
+    } catch (error) {
+      console.error("Error en handleSubmit:", error);
+      showToast("Error inesperado al procesar el formulario", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const addImagen = () => {
@@ -584,9 +595,36 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              disabled={isSubmitting}
+              className={`px-6 py-2 text-white rounded-lg transition-colors flex items-center space-x-2 ${
+                isSubmitting 
+                  ? "bg-gray-400 cursor-not-allowed" 
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
             >
-              {product ? "Actualizar" : "Crear"} Producto
+              {isSubmitting && (
+                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+              )}
+              <span>
+                {isSubmitting 
+                  ? (product ? "Actualizando..." : "Creando...") 
+                  : (product ? "Actualizar" : "Crear")
+                } Producto
+              </span>
             </button>
           </div>
         </form>
@@ -608,6 +646,8 @@ const formatDateString = (date: string | Date | null | undefined): string => {
 
 export const ProductosSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const { showToast } = useToast();
+  const { createProductTriggered, resetTriggers } = useAdmin();
   const [products, setProducts] = useState<Products[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Products | null>(null);
@@ -645,6 +685,14 @@ export const ProductosSection = () => {
     asynFunction();
   }, []);
 
+  // Efecto para manejar el trigger de crear producto desde acciones rápidas
+  useEffect(() => {
+    if (createProductTriggered) {
+      openCreateModal();
+      resetTriggers();
+    }
+  }, [createProductTriggered, resetTriggers]);
+
   const handleSaveProduct = async (productData: FormToCreateProducts) => {
     try {
       if (selectedProduct && selectedProduct.id) {
@@ -666,9 +714,13 @@ export const ProductosSection = () => {
                 : p
             )
           );
-          console.log("Producto actualizado exitosamente");
+          showToast(`Producto "${productData.titulo}" actualizado exitosamente`, "success");
+          await AddHistorial(`Se actualizó el producto "${productData.titulo}"`);
+          setIsModalOpen(false);
+          setSelectedProduct(null);
         } else {
           console.error("Error al actualizar producto:", data.msg);
+          showToast(data.msg || "Error al actualizar el producto", "error");
         }
       } else {
         // Crear nuevo producto
@@ -687,22 +739,22 @@ export const ProductosSection = () => {
             updatedAt: formatDateString(data.data.updatedAt),
           };
           setProducts((prev) => [newProduct, ...prev]);
-          console.log("Producto creado exitosamente");
+          showToast(`Producto "${productData.titulo}" creado exitosamente`, "success");
+          await AddHistorial(`Se creó el producto "${productData.titulo}"`);
+          setIsModalOpen(false);
+          setSelectedProduct(null);
         } else {
           console.error("Error al crear producto:", data.msg || data.error);
-          alert(
-            "Error al crear el producto: " +
-              (data.msg || data.error || "Error desconocido")
+          showToast(
+            data.msg || data.error || "Error al crear el producto",
+            "error"
           );
         }
       }
     } catch (error) {
       console.error("Error en handleSaveProduct:", error);
-      alert("Error inesperado al guardar el producto");
+      showToast("Error inesperado al guardar el producto", "error");
     }
-
-    // Cerrar modal solo si todo salió bien
-    setSelectedProduct(null);
   };
 
   const handleEditProduct = (product: Products) => {
@@ -711,32 +763,58 @@ export const ProductosSection = () => {
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (confirm("¿Estás seguro de que quieres eliminar este producto?")) {
-      const resp = await deleteProduct(productId);
-      console.log({ resp });
-      if (resp.ok) {
-        setProducts((prev) => prev.filter((p) => p.id !== productId));
+    const product = products.find(p => p.id === productId);
+    const productName = product?.titulo || "el producto";
+    
+    if (confirm(`¿Estás seguro de que quieres eliminar "${productName}"?`)) {
+      try {
+        const resp = await deleteProduct(productId);
+        console.log({ resp });
+        if (resp.ok) {
+          setProducts((prev) => prev.filter((p) => p.id !== productId));
+          showToast(`Producto "${productName}" eliminado exitosamente`, "success");
+          await AddHistorial(`Se eliminó el producto "${productName}"`);
+        } else {
+          showToast(resp.msg || "Error al eliminar el producto", "error");
+        }
+      } catch (error) {
+        console.error("Error al eliminar producto:", error);
+        showToast("Error inesperado al eliminar el producto", "error");
       }
     }
   };
 
   const toggleProductVisibility = async (productId: string) => {
-    const data = await changeVisibility(productId);
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    
+    try {
+      const data = await changeVisibility(productId);
 
-    if (data.ok) {
-      setProducts((prev) =>
-        prev.map((p) =>
-          p.id === productId
-            ? { ...p, visible: !p.visible, updatedAt: new Date().toISOString() }
-            : p
-        )
-      );
-      const producto = products.filter((p) => p.id === productId);
-      await AddHistorial(
-        `Se configuro ${producto[0].titulo} a ${
-          producto[0].visible ? "visible" : "invisible"
-        }`
-      );
+      if (data.ok) {
+        const newVisibility = !product.visible;
+        setProducts((prev) =>
+          prev.map((p) =>
+            p.id === productId
+              ? { ...p, visible: newVisibility, updatedAt: new Date().toISOString() }
+              : p
+          )
+        );
+        
+        const statusText = newVisibility ? "visible" : "invisible";
+        showToast(
+          `Producto "${product.titulo}" configurado como ${statusText}`, 
+          "success"
+        );
+        await AddHistorial(
+          `Se configuró ${product.titulo} a ${statusText}`
+        );
+      } else {
+        showToast(data.msg || "Error al cambiar la visibilidad", "error");
+      }
+    } catch (error) {
+      console.error("Error al cambiar visibilidad:", error);
+      showToast("Error inesperado al cambiar la visibilidad", "error");
     }
   };
 

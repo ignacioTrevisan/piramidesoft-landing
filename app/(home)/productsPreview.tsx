@@ -20,10 +20,10 @@ const ProductsPreview = () => {
     const loadProducts = async () => {
       const response = await getProducts();
       if (response.ok && response.data) {
-        // Filtrar solo productos visibles y tomar los primeros 6
+        // Filtrar solo productos visibles y tomar los primeros 3
         const visibleProducts = response.data
           .filter((product) => product.visible)
-          .slice(0, 6)
+          .slice(0, 3)
           .map((product) => ({
             ...product,
             createdAt:
@@ -141,8 +141,8 @@ const ProductsPreview = () => {
           Nuestros Productos
         </h2>
 
-        {/* Contenedor de las cartas - usamos grid para dos filas de tres columnas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Contenedor de las cartas - vista previa con máximo 3 productos */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
             <div
               key={product.id}

@@ -344,7 +344,7 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
           {type === 'image' ? (
             <>
               <p>• <strong>Subida a Cloudinary:</strong> JPG, PNG, WebP (máx. 10MB)</p>
-              <p>• <strong>Validaciones:</strong> Relación de aspecto 1:2 a 2:1 (responsive)</p>
+              <p>• <strong>Recomendación:</strong> Relación de aspecto 1:2 a 2:1 (responsive)</p>
               <p>• <strong>Optimización:</strong> Automática al subir</p>
             </>
           ) : (
