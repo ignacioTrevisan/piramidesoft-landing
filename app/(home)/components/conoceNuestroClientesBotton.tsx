@@ -81,35 +81,37 @@ export default function ClientLogosSection() {
         <div className="w-full xl:w-auto">
           <div
             ref={logoRowOneRef}
-            className="flex justify-center xl:justify-start -space-x-1 sm:-space-x-2 md:-space-x-3"
+            className="flex justify-center xl:justify-start gap-1 sm:gap-2 xl:-space-x-3 xl:gap-0 flex-wrap xl:flex-nowrap w-full"
           >
             {logos.slice(0, 5).map((src, i) => (
-              <Image
-                key={i}
-                src={src}
-                alt={`Logo ${i + 1}`}
-                width={40}
-                height={40}
-                className="rounded-full border border-gray-200 bg-white p-1 w-10 h-10 sm:w-12 sm:h-12"
-                loading={i > 1 ? "lazy" : "eager"}
-              />
+              <div key={i} className="flex-shrink-0">
+                <Image
+                  src={src}
+                  alt={`Logo ${i + 1}`}
+                  width={40}
+                  height={40}
+                  className="rounded-full border border-gray-200 bg-white p-1 w-12 h-12 sm:w-14 sm:h-14 xl:w-12 xl:h-12 object-cover"
+                  loading={i > 1 ? "lazy" : "eager"}
+                />
+              </div>
             ))}
           </div>
 
           <div
             ref={logoRowTwoRef}
-            className="flex justify-center xl:justify-start -space-x-1 sm:-space-x-2 md:-space-x-3 mt-2 ml-0 xl:ml-6"
+            className="flex justify-center xl:justify-start gap-1 sm:gap-2 xl:-space-x-3 xl:gap-0 flex-wrap xl:flex-nowrap w-full mt-2 xl:ml-6"
           >
             {logos.slice(5).map((src, i) => (
-              <Image
-                key={i + 5}
-                src={src}
-                alt={`Logo ${i + 6}`}
-                width={40}
-                height={40}
-                className="rounded-full border border-gray-200 bg-white p-1 w-10 h-10 sm:w-12 sm:h-12"
-                loading="lazy"
-              />
+              <div key={i + 5} className="flex-shrink-0">
+                <Image
+                  src={src}
+                  alt={`Logo ${i + 6}`}
+                  width={40}
+                  height={40}
+                  className="rounded-full border border-gray-200 bg-white p-1 w-12 h-12 sm:w-14 sm:h-14 xl:w-12 xl:h-12 object-cover"
+                  loading="lazy"
+                />
+              </div>
             ))}
           </div>
         </div>
