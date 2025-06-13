@@ -187,12 +187,14 @@ export default async function ProductoDetalle({ params }: Props) {
               {producto.video.includes("youtube.com") ||
               producto.video.includes("youtu.be") ? (
                 <iframe
-                  src={producto.video.replace("watch?v=", "embed/")}
-                  title="Video demostrativo"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-96"
-                ></iframe>
+  src={producto.video
+    .replace("watch?v=", "embed/")
+    .split("&")[0]} // Elimina parámetros extra
+  title="Video demostrativo"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+  className="w-full h-96"
+/>
               ) : (
                 <video
                   controls
