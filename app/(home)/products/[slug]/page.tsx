@@ -54,7 +54,7 @@ export default async function ProductoDetalle({ params }: Props) {
 
   // Obtener el producto por ID (usando slug como ID)
   const producto = await getProductById(slug);
-  console.log({producto})
+  console.log({producto});
   if (!producto) {
     notFound();
   }
@@ -64,7 +64,7 @@ export default async function ProductoDetalle({ params }: Props) {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* Galería de Imágenes */}
-          <div className="md:order-1 order-2">
+          <div className="md:order-1 order-2 ">
             <ImagesSelected
               imagenes={producto.imagenes}
               titulo={producto.titulo}
