@@ -46,6 +46,8 @@ export async function updateProduct(
     await AddHistorial(`Producto actualizado: "${product.titulo}"`);
 
     revalidatePath("/admin");
+    revalidatePath("/");
+    revalidatePath("/products");
     return {
       ok: true,
       data: {

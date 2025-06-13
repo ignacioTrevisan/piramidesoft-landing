@@ -133,10 +133,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
         mod.titulo.trim() !== "" &&
         mod.subtitulos.some((sub) => sub.trim() !== "")
     );
-    if (modulosValidos.length === 0) {
-      showToast("Debe agregar al menos un módulo con título y subtitulos", "error");
-      return;
-    }
+   
 
     setIsSubmitting(true);
     
@@ -518,7 +515,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     type="button"
                     onClick={() => removeModulo(moduloIndex)}
                     className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                    disabled={formData.modulos.length === 1}
+                    // disabled={formData.modulos.length === 1}
                   >
                     ×
                   </button>
@@ -559,7 +556,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                           removeSubtitulo(moduloIndex, subtituloIndex)
                         }
                         className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                        disabled={modulo.subtitulos.length === 1}
+                        // disabled={modulo.subtitulos.length === 1}
                       >
                         ×
                       </button>

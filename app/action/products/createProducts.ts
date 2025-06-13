@@ -39,7 +39,9 @@ export async function createProduct(
     // Registrar en historial
     await AddHistorial(`Producto creado: "${product.titulo}"`);
     
-    revalidatePath("/admin");
+revalidatePath("/admin");
+    revalidatePath("/");
+    revalidatePath("/products");    
     return {
       ok: true,
       data: {
