@@ -194,7 +194,7 @@ export default async function ProductoDetalle({ params }: Props) {
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowFullScreen
   className="w-full h-96"
-/>
+/> //comentario
               ) : (
                 <video
                   controls
