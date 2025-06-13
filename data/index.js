@@ -234,7 +234,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Trabajos\\piramide-soft-landing\\data",
+      "value": "C:\\Users\\luggr\\OneDrive\\Escritorio\\Nacho\\piramideSoft\\piramidesoft-landing\\data",
       "fromEnvVar": null
     },
     "config": {
@@ -252,7 +252,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "E:\\Trabajos\\piramide-soft-landing\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\luggr\\OneDrive\\Escritorio\\Nacho\\piramideSoft\\piramidesoft-landing\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -54,7 +54,7 @@ export default async function ProductoDetalle({ params }: Props) {
 
   // Obtener el producto por ID (usando slug como ID)
   const producto = await getProductById(slug);
-
+  console.log({producto})
   if (!producto) {
     notFound();
   }
