@@ -3,7 +3,6 @@
 import prisma from "@/app/lib/prisma";
 import { ApiResponse } from "@/app/interfaces/apiResponse";
 import { revalidatePath } from "next/cache";
-import { Products } from "@/app/interfaces/products";
 
 // Interface para las actualizaciones de orden
 interface ProductOrderUpdate {
