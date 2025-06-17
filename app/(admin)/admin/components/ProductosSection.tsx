@@ -103,11 +103,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
       return;
     }
 
-    if (!formData.precioAhora || parseFloat(formData.precioAhora) <= 0) {
-      showToast("El precio actual debe ser mayor a 0", "error");
-      return;
-    }
-
     if (!formData.tipoId) {
       showToast("Debe seleccionar un tipo de producto", "error");
       return;

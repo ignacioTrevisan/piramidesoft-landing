@@ -87,7 +87,7 @@ export default async function ProductoDetalle({ params }: Props) {
 
             {/* Precios */}
             <div className="mb-8">
-              {producto.precioAntes && (
+              {producto.precioAntes && producto.precioAntes>0 && (
                 <span className="text-gray-500 line-through mr-3 text-lg">
                   ${producto.precioAntes.toLocaleString()}
                 </span>
