@@ -3,6 +3,7 @@
 import prisma from "@/app/lib/prisma";
 import { ApiResponse } from "@/app/interfaces/apiResponse";
 import { revalidatePath } from "next/cache";
+import { Products } from "@/app/interfaces/products";
 
 // Interface para las actualizaciones de orden
 interface ProductOrderUpdate {
@@ -196,7 +197,13 @@ export async function normalizeProductOrder(): Promise<ApiResponse<ProductOrderU
 /**
  * Función para obtener productos ordenados (útil para verificación)
  */
-export async function getProductsWithOrder(): Promise<ApiResponse<any[]>> {
+export async function getProductsWithOrder(): Promise<ApiResponse<{id: string;
+    titulo: string;
+    orden: number;
+    tipo: {
+        id: string;
+        titulo: string;
+    };}[]>> {
   try {
     const products = await prisma.product.findMany({
       where: { visible: true },
