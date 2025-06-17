@@ -93,7 +93,7 @@ export default async function ProductoDetalle({ params }: Props) {
                 </span>
               )}
               <span className="text-blue-600 font-bold text-3xl">
-                ${producto.precioAhora.toLocaleString()}
+                {producto.precioAhora >0 && `$${producto.precioAhora.toLocaleString()}`}
               </span>
             </div>
 

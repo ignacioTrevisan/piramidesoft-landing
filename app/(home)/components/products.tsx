@@ -152,7 +152,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               </span>
             )}
             <span className="text-lg font-bold text-[#2563EB]">
-              ${product.precioAhora.toLocaleString()}
+              {product.precioAhora > 0 && `$${product.precioAhora.toLocaleString()}`}
             </span>
           </div>
 
