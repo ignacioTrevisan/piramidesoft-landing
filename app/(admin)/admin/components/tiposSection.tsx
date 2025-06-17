@@ -85,7 +85,7 @@ const TipoModal: React.FC<TipoModalProps> = ({
 
       console.log("Formulario válido, enviando datos:", tipoData);
       
-      await onSave(tipoData);
+      onSave(tipoData);
       
     } catch (error) {
       console.error("Error en handleSubmit:", error);

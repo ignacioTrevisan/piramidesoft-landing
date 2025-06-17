@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function deleteTipos(id:string):Promise<ApiResponse> {
   try {
-    const tipos = await prisma.tipo.delete({where:{id}})
+    await prisma.tipo.delete({where:{id}})
       revalidatePath("/");
         revalidatePath("/products");  
     return { ok:true};
