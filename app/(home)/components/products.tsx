@@ -229,24 +229,30 @@ export function Products() {
         // Cargar productos
         const productsResponse = await getProducts();
         if (productsResponse.ok && productsResponse.data) {
-          // Filtrar solo productos visibles
-          const visibleProducts = productsResponse.data.filter(
-            (product) => product.visible
-          );
-          // Convertir fechas a string para que coincidan con ProductType
-          const normalizedProducts = visibleProducts.map((product) => ({
-            ...product,
-            createdAt:
-              product.createdAt instanceof Date
-                ? product.createdAt.toISOString()
-                : product.createdAt,
-            updatedAt:
-              product.updatedAt instanceof Date
-                ? product.updatedAt.toISOString()
-                : product.updatedAt,
-          }));
-          setProducts(normalizedProducts);
-          setFilteredProducts(normalizedProducts);
+          // Filtrar solo productos visibles y ordenarlos por el campo 'orden'
+          const visibleProducts = productsResponse.data
+            .filter((product) => product.visible)
+            .map((product) => ({
+              ...product,
+              createdAt:
+                product.createdAt instanceof Date
+                  ? product.createdAt.toISOString()
+                  : product.createdAt,
+              updatedAt:
+                product.updatedAt instanceof Date
+                  ? product.updatedAt.toISOString()
+                  : product.updatedAt,
+            }))
+            .sort((a, b) => {
+              // Ordenar por campo 'orden' ascendente
+              // Si no tienen orden asignado, usar 0 como valor por defecto
+              const ordenA = a.orden || 0;
+              const ordenB = b.orden || 0;
+              return ordenA - ordenB;
+            });
+            
+          setProducts(visibleProducts);
+          setFilteredProducts(visibleProducts);
         }
       } catch (error) {
         console.error("Error loading data:", error);
@@ -258,14 +264,17 @@ export function Products() {
     loadData();
   }, []);
 
-  // Efecto para filtrar productos
+  // Efecto para filtrar productos manteniendo el orden
   useEffect(() => {
     if (selectedFilter === "Todos") {
+      // Mostrar todos los productos ya ordenados
       setFilteredProducts(products);
     } else {
+      // Filtrar por tipo manteniendo el orden original
       const filtered = products.filter(
         (product) => product.tipo.titulo === selectedFilter
       );
+      // Los productos ya están ordenados, no necesitamos volver a ordenar
       setFilteredProducts(filtered);
     }
   }, [selectedFilter, products]);

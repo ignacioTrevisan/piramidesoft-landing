@@ -2013,11 +2013,13 @@ export namespace Prisma {
   export type ProductAvgAggregateOutputType = {
     precioAntes: Decimal | null
     precioAhora: Decimal | null
+    orden: number | null
   }
 
   export type ProductSumAggregateOutputType = {
     precioAntes: Decimal | null
     precioAhora: Decimal | null
+    orden: number | null
   }
 
   export type ProductMinAggregateOutputType = {
@@ -2031,6 +2033,7 @@ export namespace Prisma {
     url_full: string | null
     tipoId: string | null
     visible: boolean | null
+    orden: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2046,6 +2049,7 @@ export namespace Prisma {
     url_full: string | null
     tipoId: string | null
     visible: boolean | null
+    orden: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2062,6 +2066,7 @@ export namespace Prisma {
     url_full: number
     tipoId: number
     visible: number
+    orden: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2071,11 +2076,13 @@ export namespace Prisma {
   export type ProductAvgAggregateInputType = {
     precioAntes?: true
     precioAhora?: true
+    orden?: true
   }
 
   export type ProductSumAggregateInputType = {
     precioAntes?: true
     precioAhora?: true
+    orden?: true
   }
 
   export type ProductMinAggregateInputType = {
@@ -2089,6 +2096,7 @@ export namespace Prisma {
     url_full?: true
     tipoId?: true
     visible?: true
+    orden?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2104,6 +2112,7 @@ export namespace Prisma {
     url_full?: true
     tipoId?: true
     visible?: true
+    orden?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2120,6 +2129,7 @@ export namespace Prisma {
     url_full?: true
     tipoId?: true
     visible?: true
+    orden?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2223,6 +2233,7 @@ export namespace Prisma {
     url_full: string | null
     tipoId: string
     visible: boolean
+    orden: number
     createdAt: Date
     updatedAt: Date
     _count: ProductCountAggregateOutputType | null
@@ -2258,6 +2269,7 @@ export namespace Prisma {
     url_full?: boolean
     tipoId?: boolean
     visible?: boolean
+    orden?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     modulos?: boolean | Product$modulosArgs<ExtArgs>
@@ -2278,6 +2290,7 @@ export namespace Prisma {
     url_full?: boolean
     tipoId?: boolean
     visible?: boolean
+    orden?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tipo?: boolean | TipoDefaultArgs<ExtArgs>
@@ -2295,6 +2308,7 @@ export namespace Prisma {
     url_full?: boolean
     tipoId?: boolean
     visible?: boolean
+    orden?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     tipo?: boolean | TipoDefaultArgs<ExtArgs>
@@ -2312,11 +2326,12 @@ export namespace Prisma {
     url_full?: boolean
     tipoId?: boolean
     visible?: boolean
+    orden?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "precioAntes" | "precioAhora" | "imagenes" | "video" | "url_demo" | "url_full" | "tipoId" | "visible" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "precioAntes" | "precioAhora" | "imagenes" | "video" | "url_demo" | "url_full" | "tipoId" | "visible" | "orden" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     modulos?: boolean | Product$modulosArgs<ExtArgs>
     tipo?: boolean | TipoDefaultArgs<ExtArgs>
@@ -2349,6 +2364,7 @@ export namespace Prisma {
       url_full: string | null
       tipoId: string
       visible: boolean
+      orden: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["product"]>
@@ -2788,6 +2804,7 @@ export namespace Prisma {
     readonly url_full: FieldRef<"Product", 'String'>
     readonly tipoId: FieldRef<"Product", 'String'>
     readonly visible: FieldRef<"Product", 'Boolean'>
+    readonly orden: FieldRef<"Product", 'Int'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
     readonly updatedAt: FieldRef<"Product", 'DateTime'>
   }
@@ -13965,6 +13982,7 @@ export namespace Prisma {
     url_full: 'url_full',
     tipoId: 'tipoId',
     visible: 'visible',
+    orden: 'orden',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -14144,6 +14162,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -14186,20 +14218,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -14231,6 +14249,7 @@ export namespace Prisma {
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
     visible?: BoolFilter<"Product"> | boolean
+    orden?: IntFilter<"Product"> | number
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     modulos?: ModuloListRelationFilter
@@ -14250,6 +14269,7 @@ export namespace Prisma {
     url_full?: SortOrderInput | SortOrder
     tipoId?: SortOrder
     visible?: SortOrder
+    orden?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     modulos?: ModuloOrderByRelationAggregateInput
@@ -14272,6 +14292,7 @@ export namespace Prisma {
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
     visible?: BoolFilter<"Product"> | boolean
+    orden?: IntFilter<"Product"> | number
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     modulos?: ModuloListRelationFilter
@@ -14291,6 +14312,7 @@ export namespace Prisma {
     url_full?: SortOrderInput | SortOrder
     tipoId?: SortOrder
     visible?: SortOrder
+    orden?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ProductCountOrderByAggregateInput
@@ -14315,6 +14337,7 @@ export namespace Prisma {
     url_full?: StringNullableWithAggregatesFilter<"Product"> | string | null
     tipoId?: StringWithAggregatesFilter<"Product"> | string
     visible?: BoolWithAggregatesFilter<"Product"> | boolean
+    orden?: IntWithAggregatesFilter<"Product"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
   }
@@ -14883,6 +14906,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloCreateNestedManyWithoutProductInput
@@ -14902,6 +14926,7 @@ export namespace Prisma {
     url_full?: string | null
     tipoId: string
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
@@ -14919,6 +14944,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUpdateManyWithoutProductNestedInput
@@ -14938,6 +14964,7 @@ export namespace Prisma {
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
@@ -14956,6 +14983,7 @@ export namespace Prisma {
     url_full?: string | null
     tipoId: string
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14971,6 +14999,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14987,6 +15016,7 @@ export namespace Prisma {
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15615,6 +15645,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -15668,6 +15709,7 @@ export namespace Prisma {
     url_full?: SortOrder
     tipoId?: SortOrder
     visible?: SortOrder
+    orden?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15675,6 +15717,7 @@ export namespace Prisma {
   export type ProductAvgOrderByAggregateInput = {
     precioAntes?: SortOrder
     precioAhora?: SortOrder
+    orden?: SortOrder
   }
 
   export type ProductMaxOrderByAggregateInput = {
@@ -15688,6 +15731,7 @@ export namespace Prisma {
     url_full?: SortOrder
     tipoId?: SortOrder
     visible?: SortOrder
+    orden?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15703,6 +15747,7 @@ export namespace Prisma {
     url_full?: SortOrder
     tipoId?: SortOrder
     visible?: SortOrder
+    orden?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -15710,6 +15755,7 @@ export namespace Prisma {
   export type ProductSumOrderByAggregateInput = {
     precioAntes?: SortOrder
     precioAhora?: SortOrder
+    orden?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -15786,6 +15832,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -16011,17 +16073,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type UserViewListRelationFilter = {
     every?: UserViewWhereInput
     some?: UserViewWhereInput
@@ -16058,22 +16109,6 @@ export namespace Prisma {
   export type StatsSumOrderByAggregateInput = {
     cantidadDeProductos?: SortOrder
     cantidadDeBlogs?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type UserViewCountOrderByAggregateInput = {
@@ -16241,6 +16276,14 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -16610,14 +16653,6 @@ export namespace Prisma {
     connect?: ConsultasWhereUniqueInput | ConsultasWhereUniqueInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserViewUpdateManyWithoutStatsNestedInput = {
     create?: XOR<UserViewCreateWithoutStatsInput, UserViewUncheckedCreateWithoutStatsInput> | UserViewCreateWithoutStatsInput[] | UserViewUncheckedCreateWithoutStatsInput[]
     connectOrCreate?: UserViewCreateOrConnectWithoutStatsInput | UserViewCreateOrConnectWithoutStatsInput[]
@@ -16799,6 +16834,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -16825,17 +16871,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16906,6 +16941,33 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -16952,33 +17014,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumConsultaStatusFilter<$PrismaModel>
     _max?: NestedEnumConsultaStatusFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type ModuloCreateWithoutProductInput = {
@@ -17142,6 +17177,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     tipo: TipoCreateNestedOneWithoutProductosInput
@@ -17160,6 +17196,7 @@ export namespace Prisma {
     url_full?: string | null
     tipoId: string
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     consultas?: ConsultasUncheckedCreateNestedManyWithoutProductInput
@@ -17192,6 +17229,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tipo?: TipoUpdateOneRequiredWithoutProductosNestedInput
@@ -17210,6 +17248,7 @@ export namespace Prisma {
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     consultas?: ConsultasUncheckedUpdateManyWithoutProductNestedInput
@@ -17226,6 +17265,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloCreateNestedManyWithoutProductInput
@@ -17243,6 +17283,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
@@ -17290,6 +17331,7 @@ export namespace Prisma {
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
     visible?: BoolFilter<"Product"> | boolean
+    orden?: IntFilter<"Product"> | number
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
   }
@@ -17404,6 +17446,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloCreateNestedManyWithoutProductInput
@@ -17422,6 +17465,7 @@ export namespace Prisma {
     url_full?: string | null
     tipoId: string
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     modulos?: ModuloUncheckedCreateNestedManyWithoutProductInput
@@ -17473,6 +17517,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUpdateManyWithoutProductNestedInput
@@ -17491,6 +17536,7 @@ export namespace Prisma {
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
@@ -18053,6 +18099,7 @@ export namespace Prisma {
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
+    orden?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18068,6 +18115,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUpdateManyWithoutProductNestedInput
@@ -18085,6 +18133,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     modulos?: ModuloUncheckedUpdateManyWithoutProductNestedInput
@@ -18102,6 +18151,7 @@ export namespace Prisma {
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
+    orden?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

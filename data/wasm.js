@@ -132,6 +132,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   url_full: 'url_full',
   tipoId: 'tipoId',
   visible: 'visible',
+  orden: 'orden',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

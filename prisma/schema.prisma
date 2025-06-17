@@ -29,9 +29,13 @@ model Product {
   tipoId       String
   tipo         Tipo        @relation(fields: [tipoId], references: [id])
   visible      Boolean     @default(true)
+  orden        Int         @default(0) // Campo agregado para el orden
   consultas    Consultas[] // Relación con consultas
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+
+  @@index([orden]) // Índice para optimizar consultas de ordenamiento
+  @@index([visible, orden]) // Índice compuesto para productos visibles ordenados
 }
 
 model Modulo {

@@ -7,6 +7,7 @@ import { ConsultasSection } from "./components/ConsultasSection";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { TiposSection } from "./components/tiposSection";
+import { ProductOrderSection } from "./components/toogleProductsOrder";
 
 export default function AdminPage() {
   const { activeSection } = useAdmin();
@@ -28,6 +29,8 @@ export default function AdminPage() {
         return <Dashboard />;
       case "productos":
         return <ProductosSection />;
+      case "productosOrden":
+        return <ProductOrderSection />;
       case "blogs":
         return <BlogsSection />;
       case "consultas":
