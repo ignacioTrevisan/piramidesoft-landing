@@ -6,6 +6,7 @@ import { BlogsSection } from "./components/BlogsSection";
 import { ConsultasSection } from "./components/ConsultasSection";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { TiposSection } from "./components/tiposSection";
 
 export default function AdminPage() {
   const { activeSection } = useAdmin();
@@ -31,6 +32,8 @@ export default function AdminPage() {
         return <BlogsSection />;
       case "consultas":
         return <ConsultasSection />;
+      case "tipos":
+        return <TiposSection />;
       default:
         return <Dashboard />;
     }

@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { getProducts } from "@/app/action/products/products";
 import { Products as ProductType } from "@/app/interfaces/products";
+import { getTipos } from "@/app/action/tipos/getTipos";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {
@@ -23,6 +24,12 @@ const ensureElementsVisible = () => {
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+// Interface para los tipos de productos
+interface TipoProduct {
+  id: string;
+  titulo: string;
 }
 
 interface ProductCardProps {
@@ -198,8 +205,12 @@ export function Products() {
   const descriptionRef = useRef<HTMLDivElement>(null);
   const customSolutionRef = useRef<HTMLDivElement>(null);
   const productsGridRef = useRef<HTMLDivElement>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
 
   const [products, setProducts] = useState<ProductType[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<string>("Todos");
+  const [tipos, setTipos] = useState<TipoProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
   const [animationsCreated, setAnimationsCreated] = useState(false);
@@ -207,32 +218,57 @@ export function Products() {
   useEffect(() => {
     setIsClient(true);
 
-    const loadProducts = async () => {
-      const response = await getProducts();
-      if (response.ok && response.data) {
-        // Filtrar solo productos visibles
-        const visibleProducts = response.data.filter(
-          (product) => product.visible
-        );
-        // Convertir fechas a string para que coincidan con ProductType
-        const normalizedProducts = visibleProducts.map((product) => ({
-          ...product,
-          createdAt:
-            product.createdAt instanceof Date
-              ? product.createdAt.toISOString()
-              : product.createdAt,
-          updatedAt:
-            product.updatedAt instanceof Date
-              ? product.updatedAt.toISOString()
-              : product.updatedAt,
-        }));
-        setProducts(normalizedProducts);
+    const loadData = async () => {
+      try {
+        // Cargar tipos de productos
+        const tiposResponse = await getTipos();
+        if (tiposResponse.data) {
+          setTipos(tiposResponse.data);
+        }
+
+        // Cargar productos
+        const productsResponse = await getProducts();
+        if (productsResponse.ok && productsResponse.data) {
+          // Filtrar solo productos visibles
+          const visibleProducts = productsResponse.data.filter(
+            (product) => product.visible
+          );
+          // Convertir fechas a string para que coincidan con ProductType
+          const normalizedProducts = visibleProducts.map((product) => ({
+            ...product,
+            createdAt:
+              product.createdAt instanceof Date
+                ? product.createdAt.toISOString()
+                : product.createdAt,
+            updatedAt:
+              product.updatedAt instanceof Date
+                ? product.updatedAt.toISOString()
+                : product.updatedAt,
+          }));
+          setProducts(normalizedProducts);
+          setFilteredProducts(normalizedProducts);
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    loadProducts();
+    loadData();
   }, []);
+
+  // Efecto para filtrar productos
+  useEffect(() => {
+    if (selectedFilter === "Todos") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter(
+        (product) => product.tipo.titulo === selectedFilter
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [selectedFilter, products]);
 
   // Efecto adicional para garantizar que los productos sean visibles
   useEffect(() => {
@@ -258,7 +294,8 @@ export function Products() {
           st.vars.trigger === titleRef.current ||
           st.vars.trigger === subtitleRef.current ||
           st.vars.trigger === descriptionRef.current ||
-          st.vars.trigger === customSolutionRef.current
+          st.vars.trigger === customSolutionRef.current ||
+          st.vars.trigger === filterRef.current
         ) {
           st.kill();
         }
@@ -272,6 +309,8 @@ export function Products() {
         gsap.set(descriptionRef.current, { clearProps: "all" });
       if (customSolutionRef.current)
         gsap.set(customSolutionRef.current, { clearProps: "all" });
+      if (filterRef.current)
+        gsap.set(filterRef.current, { clearProps: "all" });
     };
 
     cleanup();
@@ -281,7 +320,8 @@ export function Products() {
       !titleRef.current ||
       !subtitleRef.current ||
       !descriptionRef.current ||
-      !customSolutionRef.current
+      !customSolutionRef.current ||
+      !filterRef.current
     ) {
       return;
     }
@@ -308,6 +348,12 @@ export function Products() {
             { y: -10, opacity: 0 },
             { y: 0, opacity: 1, duration: 0.7 },
             "-=0.4"
+          )
+          .fromTo(
+            filterRef.current,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7 },
+            "-=0.3"
           );
 
         const customSolutionAnimation = gsap.fromTo(
@@ -361,6 +407,10 @@ export function Products() {
     return () => clearTimeout(refreshTimer);
   }, [isClient, animationsCreated, products]);
 
+  const handleFilterChange = (filter: string) => {
+    setSelectedFilter(filter);
+  };
+
   if (loading) {
     return (
       <div className="w-full py-16 px-4 md:px-10 mt-16 md:mt-20 max-w-[100vw]">
@@ -411,13 +461,62 @@ export function Products() {
           </div>
         </div>
 
+        {/* Filter Section */}
+        <div
+          ref={filterRef}
+          className="mb-12"
+          style={{
+            opacity: 0,
+            transform: "translateY(20px)",
+          }}
+        >
+          <div className="flex flex-wrap justify-center gap-3 mb-4">
+            {/* Botón "Todos" */}
+            <button
+              onClick={() => handleFilterChange("Todos")}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                selectedFilter === "Todos"
+                  ? "bg-[#2563EB] text-white shadow-md transform scale-105"
+                  : "bg-white text-gray-600 border border-gray-200 hover:border-[#2563EB] hover:text-[#2563EB] hover:shadow-sm"
+              }`}
+            >
+              Todos
+            </button>
+            
+            {/* Botones dinámicos de tipos */}
+            {tipos.map((tipo) => (
+              <button
+                key={tipo.id}
+                onClick={() => handleFilterChange(tipo.titulo)}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  selectedFilter === tipo.titulo
+                    ? "bg-[#2563EB] text-white shadow-md transform scale-105"
+                    : "bg-white text-gray-600 border border-gray-200 hover:border-[#2563EB] hover:text-[#2563EB] hover:shadow-sm"
+                }`}
+              >
+                {tipo.titulo}
+              </button>
+            ))}
+          </div>
+          
+          {/* Results counter */}
+          <div className="text-center text-gray-600">
+            <span className="text-sm">
+              {selectedFilter === "Todos" 
+                ? `Mostrando ${filteredProducts.length} productos` 
+                : `${filteredProducts.length} producto${filteredProducts.length !== 1 ? 's' : ''} de tipo "${selectedFilter}"`
+              }
+            </span>
+          </div>
+        </div>
+
         {/* Products Grid */}
-        {products.length > 0 ? (
+        {filteredProducts.length > 0 ? (
           <div
             ref={productsGridRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -434,16 +533,21 @@ export function Products() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                  d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.291-1.1-5.291-2.709M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Productos en preparación
+              {selectedFilter === "Todos" 
+                ? "Productos en preparación" 
+                : `No hay productos de tipo "${selectedFilter}"`
+              }
             </h3>
             <p className="text-gray-600">
-              Estamos finalizando nuestro catálogo de productos. ¡Pronto estará
-              disponible!
+              {selectedFilter === "Todos" 
+                ? "Estamos finalizando nuestro catálogo de productos. ¡Pronto estará disponible!" 
+                : "Prueba seleccionando otro tipo de producto o 'Todos' para ver todos los productos disponibles."
+              }
             </p>
           </div>
         )}
