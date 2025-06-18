@@ -128,10 +128,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
    
 
     setIsSubmitting(true);
-    let video:string|null=null; 
-    if (formData.video && formData.video.length>0){
-      video = formData.video.trim();
-    }
+    
     try {
       const productData = {
         ...formData,
@@ -141,7 +138,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
         precioAhora: parseFloat(formData.precioAhora),
         imagenes: imagenesValidas,
         modulos: modulosValidos,
-        video: video, 
+        video: formData.video.trim() || "", // Permitir video vacío
       };
 
       console.log("Formulario válido, enviando datos:", productData);
@@ -374,14 +371,41 @@ const ProductModal: React.FC<ProductModalProps> = ({
           {/* Video con MediaUploader - Ahora opcional */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <MediaUploader
-                type="video"
-                label="Video del Producto (opcional)"
-                currentUrl={formData.video}
-                onUpload={(url) =>
-                  setFormData((prev) => ({ ...prev, video: url }))
-                }
-              />
+              <div className="relative">
+                <MediaUploader
+                  type="video"
+                  label="Video del Producto (opcional)"
+                  currentUrl={formData.video}
+                  onUpload={(url) =>
+                    setFormData((prev) => ({ ...prev, video: url }))
+                  }
+                />
+                {/* Botón para quitar video */}
+                {formData.video && formData.video.trim() !== "" && (
+                  <div className="mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, video: "" }))}
+                      className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 hover:border-red-300 transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4 mr-1.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Quitar video
+                    </button>
+                  </div>
+                )}
+              </div>
               <p className="text-xs text-gray-500 mt-1">
                 El video es opcional. Puedes agregarlo más tarde si lo deseas.
               </p>
