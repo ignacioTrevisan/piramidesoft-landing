@@ -22,7 +22,7 @@ model Product {
   precioAntes  Decimal?
   precioAhora  Decimal
   imagenes     String[]
-  video        String
+  video        String?
   modulos      Modulo[]    // Relación uno a muchos
   url_demo     String?
   url_full     String?

@@ -2228,7 +2228,7 @@ export namespace Prisma {
     precioAntes: Decimal | null
     precioAhora: Decimal
     imagenes: string[]
-    video: string
+    video: string | null
     url_demo: string | null
     url_full: string | null
     tipoId: string
@@ -2359,7 +2359,7 @@ export namespace Prisma {
       precioAntes: Prisma.Decimal | null
       precioAhora: Prisma.Decimal
       imagenes: string[]
-      video: string
+      video: string | null
       url_demo: string | null
       url_full: string | null
       tipoId: string
@@ -14244,7 +14244,7 @@ export namespace Prisma {
     precioAntes?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFilter<"Product"> | Decimal | DecimalJsLike | number | string
     imagenes?: StringNullableListFilter<"Product">
-    video?: StringFilter<"Product"> | string
+    video?: StringNullableFilter<"Product"> | string | null
     url_demo?: StringNullableFilter<"Product"> | string | null
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
@@ -14264,7 +14264,7 @@ export namespace Prisma {
     precioAntes?: SortOrderInput | SortOrder
     precioAhora?: SortOrder
     imagenes?: SortOrder
-    video?: SortOrder
+    video?: SortOrderInput | SortOrder
     url_demo?: SortOrderInput | SortOrder
     url_full?: SortOrderInput | SortOrder
     tipoId?: SortOrder
@@ -14287,7 +14287,7 @@ export namespace Prisma {
     precioAntes?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFilter<"Product"> | Decimal | DecimalJsLike | number | string
     imagenes?: StringNullableListFilter<"Product">
-    video?: StringFilter<"Product"> | string
+    video?: StringNullableFilter<"Product"> | string | null
     url_demo?: StringNullableFilter<"Product"> | string | null
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
@@ -14307,7 +14307,7 @@ export namespace Prisma {
     precioAntes?: SortOrderInput | SortOrder
     precioAhora?: SortOrder
     imagenes?: SortOrder
-    video?: SortOrder
+    video?: SortOrderInput | SortOrder
     url_demo?: SortOrderInput | SortOrder
     url_full?: SortOrderInput | SortOrder
     tipoId?: SortOrder
@@ -14332,7 +14332,7 @@ export namespace Prisma {
     precioAntes?: DecimalNullableWithAggregatesFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalWithAggregatesFilter<"Product"> | Decimal | DecimalJsLike | number | string
     imagenes?: StringNullableListFilter<"Product">
-    video?: StringWithAggregatesFilter<"Product"> | string
+    video?: StringNullableWithAggregatesFilter<"Product"> | string | null
     url_demo?: StringNullableWithAggregatesFilter<"Product"> | string | null
     url_full?: StringNullableWithAggregatesFilter<"Product"> | string | null
     tipoId?: StringWithAggregatesFilter<"Product"> | string
@@ -14902,7 +14902,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -14921,7 +14921,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     tipoId: string
@@ -14940,7 +14940,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -14959,7 +14959,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
@@ -14978,7 +14978,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     tipoId: string
@@ -14995,7 +14995,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -15011,7 +15011,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
@@ -17173,7 +17173,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -17191,7 +17191,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     tipoId: string
@@ -17225,7 +17225,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -17243,7 +17243,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
@@ -17261,7 +17261,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -17279,7 +17279,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -17326,7 +17326,7 @@ export namespace Prisma {
     precioAntes?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFilter<"Product"> | Decimal | DecimalJsLike | number | string
     imagenes?: StringNullableListFilter<"Product">
-    video?: StringFilter<"Product"> | string
+    video?: StringNullableFilter<"Product"> | string | null
     url_demo?: StringNullableFilter<"Product"> | string | null
     url_full?: StringNullableFilter<"Product"> | string | null
     tipoId?: StringFilter<"Product"> | string
@@ -17442,7 +17442,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -17460,7 +17460,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     tipoId: string
@@ -17513,7 +17513,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -17531,7 +17531,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     tipoId?: StringFieldUpdateOperationsInput | string
@@ -18095,7 +18095,7 @@ export namespace Prisma {
     precioAntes?: Decimal | DecimalJsLike | number | string | null
     precioAhora: Decimal | DecimalJsLike | number | string
     imagenes?: ProductCreateimagenesInput | string[]
-    video: string
+    video?: string | null
     url_demo?: string | null
     url_full?: string | null
     visible?: boolean
@@ -18111,7 +18111,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -18129,7 +18129,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean
@@ -18147,7 +18147,7 @@ export namespace Prisma {
     precioAntes?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     precioAhora?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     imagenes?: ProductUpdateimagenesInput | string[]
-    video?: StringFieldUpdateOperationsInput | string
+    video?: NullableStringFieldUpdateOperationsInput | string | null
     url_demo?: NullableStringFieldUpdateOperationsInput | string | null
     url_full?: NullableStringFieldUpdateOperationsInput | string | null
     visible?: BoolFieldUpdateOperationsInput | boolean

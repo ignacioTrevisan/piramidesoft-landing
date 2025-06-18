@@ -53,7 +53,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
         precioAntes: product.precioAntes?.toString() || "",
         precioAhora: product.precioAhora.toString(),
         imagenes: product.imagenes,
-        video: product.video,
+        video: product.video ?? "",
         url_demo: product.url_demo || "",
         url_full: product.url_full || "",
         visible: product.visible,
@@ -108,10 +108,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       return;
     }
 
-    if (!formData.video.trim()) {
-      showToast("El video es requerido", "error");
-      return;
-    }
+    // Video ya no es requerido - se removió esta validación
 
     // Verificar que al menos una imagen tenga URL
     const imagenesValidas = formData.imagenes.filter(
@@ -131,7 +128,10 @@ const ProductModal: React.FC<ProductModalProps> = ({
    
 
     setIsSubmitting(true);
-    
+    let video:string|null=null; 
+    if (formData.video && formData.video.length>0){
+      video = formData.video.trim();
+    }
     try {
       const productData = {
         ...formData,
@@ -141,6 +141,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
         precioAhora: parseFloat(formData.precioAhora),
         imagenes: imagenesValidas,
         modulos: modulosValidos,
+        video: video, 
       };
 
       console.log("Formulario válido, enviando datos:", productData);
@@ -370,17 +371,20 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </div>
           </div>
 
-          {/* Video con MediaUploader */}
+          {/* Video con MediaUploader - Ahora opcional */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <MediaUploader
                 type="video"
-                label="Video del Producto"
+                label="Video del Producto (opcional)"
                 currentUrl={formData.video}
                 onUpload={(url) =>
                   setFormData((prev) => ({ ...prev, video: url }))
                 }
               />
+              <p className="text-xs text-gray-500 mt-1">
+                El video es opcional. Puedes agregarlo más tarde si lo deseas.
+              </p>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -953,6 +957,24 @@ export const ProductosSection = () => {
                 <div className="text-sm text-gray-500">
                   <div>Módulos: {product.modulos.length}</div>
                   <div>Imágenes: {product.imagenes.length}</div>
+                  <div className="flex items-center space-x-1">
+                    <span>Video:</span>
+                    {product.video && product.video.trim() !== "" ? (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs bg-green-100 text-green-800">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        Disponible
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs bg-gray-100 text-gray-600">
+                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                        Sin video
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex space-x-2 pt-4 border-t border-gray-100">

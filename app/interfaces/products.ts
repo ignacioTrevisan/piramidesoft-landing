@@ -5,7 +5,7 @@ export interface Products {
   precioAntes: number | null;
   precioAhora: number;
   imagenes: string[];
-  video: string;
+  video: string | null;
   url_demo: string | null;
   url_full: string | null;
   visible: boolean;
@@ -33,7 +33,7 @@ export interface FormToCreateProducts {
   precioAntes: number | null;
   precioAhora: number;
   imagenes: string[];
-  video: string;
+  video: string | null;
   url_demo: string | null;
   url_full: string | null;
   visible: boolean;

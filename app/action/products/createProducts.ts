@@ -17,7 +17,7 @@ export async function createProduct(
         precioAntes: data.precioAntes ? data.precioAntes : null,
         precioAhora: data.precioAhora,
         imagenes: data.imagenes,
-        video: data.video,
+        video: data.video ? data.video : null,
         url_demo: data.url_demo || null,
         url_full: data.url_full || null,
         visible: data.visible,
@@ -46,6 +46,7 @@ revalidatePath("/admin");
       ok: true,
       data: {
         ...product,
+        video: product.video ? product.video : null,
         precioAntes:
           product.precioAntes !== null ? Number(product.precioAntes) : null,
         precioAhora: Number(product.precioAhora),
