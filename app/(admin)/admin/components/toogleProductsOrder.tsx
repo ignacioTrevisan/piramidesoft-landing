@@ -20,185 +20,33 @@ interface ProductWithOrder {
   imagenes: string[];
 }
 
-interface OrderChangeModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  product: ProductWithOrder | null;
-  currentOrder: number;
-  maxOrder: number;
-  onSave: (productId: string, newOrder: number) => void;
+interface DragState {
+  isDragging: boolean;
+  draggedId: string | null;
+  draggedIndex: number | null;
+  dragOverIndex: number | null;
 }
-
-const OrderChangeModal: React.FC<OrderChangeModalProps> = ({
-  isOpen,
-  onClose,
-  product,
-  currentOrder,
-  maxOrder,
-  onSave,
-}) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const { showToast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [newOrder, setNewOrder] = useState(currentOrder);
-
-  useEffect(() => {
-    setNewOrder(currentOrder);
-  }, [currentOrder]);
-
-  useEffect(() => {
-    if (isOpen && modalRef.current) {
-      gsap.fromTo(
-        modalRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
-      );
-    }
-  }, [isOpen]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (isSubmitting || !product) return;
-
-    if (newOrder === currentOrder) {
-      showToast("El orden no ha cambiado", "warning");
-      return;
-    }
-
-    if (newOrder < 1 || newOrder > maxOrder) {
-      showToast(`El orden debe estar entre 1 y ${maxOrder}`, "error");
-      return;
-    }
-
-    setIsSubmitting(true);
-    
-    try {
-      await onSave(product.id, newOrder);
-    } catch (error) {
-      console.error("Error en handleSubmit:", error);
-      showToast("Error inesperado al cambiar el orden", "error");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  if (!isOpen || !product) return null;
-
-  return (
-    <div className="modal-overlay admin-container">
-      <div
-        ref={modalRef}
-        className="admin-modal modal-content bg-white rounded-xl max-w-md w-full"
-      >
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">
-            Cambiar Orden
-          </h2>
-        </div>
-
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="font-medium text-gray-800 mb-2">{product.titulo}</h3>
-            <p className="text-sm text-gray-600">
-              Orden actual: <span className="font-medium">{currentOrder}</span>
-            </p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Nuevo Orden
-            </label>
-            <input
-              type="number"
-              value={newOrder}
-              onChange={(e) => setNewOrder(parseInt(e.target.value) || 1)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              min={1}
-              max={maxOrder}
-              required
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Rango válido: 1 - {maxOrder}
-            </p>
-          </div>
-
-          <div className="bg-blue-50 p-3 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <span className="font-medium">Nota:</span> Los demás productos se ajustarán automáticamente para evitar conflictos de orden.
-            </p>
-          </div>
-
-          {/* Vista previa del cambio */}
-          {newOrder !== currentOrder && (
-            <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg">
-              <p className="text-sm text-amber-800">
-                <span className="font-medium">Vista previa:</span><br />
-                {newOrder < currentOrder ? (
-                  <>Los productos del orden {newOrder} al {currentOrder - 1} subirán una posición.</>
-                ) : (
-                  <>Los productos del orden {currentOrder + 1} al {newOrder} bajarán una posición.</>
-                )}
-              </p>
-            </div>
-          )}
-
-          {/* Botones */}
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting || newOrder === currentOrder}
-              className={`px-6 py-2 text-white rounded-lg transition-colors flex items-center space-x-2 ${
-                isSubmitting || newOrder === currentOrder
-                  ? "bg-gray-400 cursor-not-allowed" 
-                  : "bg-blue-600 hover:bg-blue-700"
-              }`}
-            >
-              {isSubmitting && (
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-              )}
-              <span>
-                {isSubmitting ? "Actualizando..." : "Cambiar Orden"}
-              </span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 export const ProductOrderSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const { showToast } = useToast();
   const [products, setProducts] = useState<ProductWithOrder[]>([]);
-  const [originalProducts, setOriginalProducts] = useState<ProductWithOrder[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductWithOrder | null>(null);
+  const [originalProducts, setOriginalProducts] = useState<ProductWithOrder[]>(
+    []
+  );
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
+  const [dragState, setDragState] = useState<DragState>({
+    isDragging: false,
+    draggedId: null,
+    draggedIndex: null,
+    dragOverIndex: null,
+  });
+
+  // Referencias para el auto-scroll
+  const containerRef = useRef<HTMLDivElement>(null);
+  const autoScrollRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (titleRef.current) {
@@ -208,8 +56,15 @@ export const ProductOrderSection = () => {
         { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
       );
     }
-    
+
     loadProducts();
+
+    // Cleanup del auto-scroll al desmontar
+    return () => {
+      if (autoScrollRef.current) {
+        cancelAnimationFrame(autoScrollRef.current);
+      }
+    };
   }, []);
 
   const loadProducts = async () => {
@@ -242,74 +97,11 @@ export const ProductOrderSection = () => {
     }
   };
 
-  const handleChangeOrder = (productId: string, newOrder: number) => {
-    // Actualizar el orden localmente sin enviar al servidor
-    const updatedProducts = [...products];
-    const productIndex = updatedProducts.findIndex(p => p.id === productId);
-    const product = updatedProducts[productIndex];
-    const oldOrder = product.orden;
-
-    // Remover el producto de su posición actual
-    updatedProducts.splice(productIndex, 1);
-
-    // Ajustar los órdenes de los productos afectados
-    if (newOrder < oldOrder) {
-      // Moviendo hacia arriba - incrementar orden de productos entre newOrder y oldOrder
-      updatedProducts.forEach(p => {
-        if (p.orden >= newOrder && p.orden < oldOrder) {
-          p.orden += 1;
-        }
-      });
-    } else {
-      // Moviendo hacia abajo - decrementar orden de productos entre oldOrder y newOrder
-      updatedProducts.forEach(p => {
-        if (p.orden > oldOrder && p.orden <= newOrder) {
-          p.orden -= 1;
-        }
-      });
-    }
-
-    // Actualizar el producto movido
-    product.orden = newOrder;
-
-    // Insertar el producto en su nueva posición
-    updatedProducts.push(product);
-
-    // Reordenar y actualizar estado
-    const sortedProducts = updatedProducts.sort((a, b) => a.orden - b.orden);
-    setProducts(sortedProducts);
-    
-    // Verificar si hay cambios
-    checkForChanges(sortedProducts);
-    
-    setIsModalOpen(false);
-    setSelectedProduct(null);
-  };
-
   const checkForChanges = (currentProducts: ProductWithOrder[]) => {
-    const hasChanges = currentProducts.some((product, index) => 
-      product.orden !== originalProducts[index]?.orden || 
-      product.id !== originalProducts[index]?.id
+    const hasChanges = currentProducts.some(
+      (product, index) => product.id !== originalProducts[index]?.id
     );
     setHasChanges(hasChanges);
-  };
-
-  const handleQuickMove = (productId: string, direction: 'up' | 'down') => {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-
-    const currentOrder = product.orden;
-    let newOrder;
-
-    if (direction === 'up' && currentOrder > 1) {
-      newOrder = currentOrder - 1;
-    } else if (direction === 'down' && currentOrder < products.length) {
-      newOrder = currentOrder + 1;
-    } else {
-      return; // No se puede mover
-    }
-
-    handleChangeOrder(productId, newOrder);
   };
 
   const handleSaveChanges = async () => {
@@ -319,18 +111,25 @@ export const ProductOrderSection = () => {
     }
 
     setUpdating(true);
-    
+
     try {
-      // Preparar array de actualizaciones
-      const updates = products.map(product => ({
+      // Preparar array de actualizaciones con nuevo orden
+      const updates = products.map((product, index) => ({
         id: product.id,
-        orden: product.orden
+        orden: index + 1, // El orden es basado en la posición en el array
       }));
 
       const response = await updateProductsOrder(updates);
-      
+
       if (response.ok) {
-        setOriginalProducts([...products]); // Actualizar la referencia original
+        // Actualizar el orden en los productos
+        const updatedProducts = products.map((product, index) => ({
+          ...product,
+          orden: index + 1,
+        }));
+
+        setProducts(updatedProducts);
+        setOriginalProducts([...updatedProducts]); // Actualizar la referencia original
         setHasChanges(false);
         showToast("Orden de productos actualizado exitosamente", "success");
         await AddHistorial("Se actualizó el orden de los productos");
@@ -348,13 +147,159 @@ export const ProductOrderSection = () => {
   const handleDiscardChanges = () => {
     setProducts([...originalProducts]);
     setHasChanges(false);
+    setDragState({
+      isDragging: false,
+      draggedId: null,
+      draggedIndex: null,
+      dragOverIndex: null,
+    });
     showToast("Cambios descartados", "info");
   };
 
-  const openOrderModal = (product: ProductWithOrder) => {
-    setSelectedProduct(product);
-    setIsModalOpen(true);
+  // Auto-scroll durante drag
+  const handleAutoScroll = (clientY: number) => {
+    if (!containerRef.current || !dragState.isDragging) return;
+
+    const container = containerRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const scrollThreshold = 100; // Píxeles desde el borde para iniciar scroll
+    const scrollSpeed = 8; // Velocidad de scroll
+
+    // Calcular distancia desde los bordes
+    const distanceFromTop = clientY - containerRect.top;
+    const distanceFromBottom = containerRect.bottom - clientY;
+
+    let shouldScroll = false;
+    let scrollDirection = 0;
+
+    // Scroll hacia arriba
+    if (distanceFromTop < scrollThreshold && container.scrollTop > 0) {
+      scrollDirection = -scrollSpeed;
+      shouldScroll = true;
+    }
+    // Scroll hacia abajo
+    else if (
+      distanceFromBottom < scrollThreshold &&
+      container.scrollTop < container.scrollHeight - container.clientHeight
+    ) {
+      scrollDirection = scrollSpeed;
+      shouldScroll = true;
+    }
+
+    if (shouldScroll) {
+      container.scrollTop += scrollDirection;
+
+      // Continuar el auto-scroll
+      autoScrollRef.current = requestAnimationFrame(() => {
+        handleAutoScroll(clientY);
+      });
+    } else {
+      // Detener auto-scroll
+      if (autoScrollRef.current) {
+        cancelAnimationFrame(autoScrollRef.current);
+        autoScrollRef.current = null;
+      }
+    }
   };
+
+  // Drag and Drop handlers
+  const handleDragStart = (
+    e: React.DragEvent,
+    productId: string,
+    index: number
+  ) => {
+    setDragState({
+      isDragging: true,
+      draggedId: productId,
+      draggedIndex: index,
+      dragOverIndex: null,
+    });
+
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html", "");
+
+    // Agregar clase visual al elemento arrastrado
+    const target = e.target as HTMLElement;
+    target.style.opacity = "0.5";
+  };
+
+  const handleDragEnd = (e: React.DragEvent) => {
+    const target = e.target as HTMLElement;
+    target.style.opacity = "1";
+
+    setDragState({
+      isDragging: false,
+      draggedId: null,
+      draggedIndex: null,
+      dragOverIndex: null,
+    });
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+
+    if (dragState.draggedIndex !== null && dragState.draggedIndex !== index) {
+      setDragState((prev) => ({
+        ...prev,
+        dragOverIndex: index,
+      }));
+    }
+  };
+
+  const handleDragLeave = () => {
+    setDragState((prev) => ({
+      ...prev,
+      dragOverIndex: null,
+    }));
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+
+    const { draggedIndex } = dragState;
+
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDragState({
+        isDragging: false,
+        draggedId: null,
+        draggedIndex: null,
+        dragOverIndex: null,
+      });
+      return;
+    }
+
+    // Crear nueva lista reordenada
+    const newProducts = [...products];
+    const draggedProduct = newProducts[draggedIndex];
+
+    // Remover el producto de su posición original
+    newProducts.splice(draggedIndex, 1);
+
+    // Insertar en la nueva posición
+    newProducts.splice(dropIndex, 0, draggedProduct);
+
+    setProducts(newProducts);
+    checkForChanges(newProducts);
+
+    setDragState({
+      isDragging: false,
+      draggedId: null,
+      draggedIndex: null,
+      dragOverIndex: null,
+    });
+  };
+
+  // Organizar productos en filas de 3 columnas
+  const organizeInRows = (products: ProductWithOrder[]) => {
+    const rows = [];
+    for (let i = 0; i < products.length; i += 3) {
+      rows.push(products.slice(i, i + 3));
+    }
+    return rows;
+  };
+
+  const productRows = organizeInRows(products);
 
   if (loading) {
     return (
@@ -367,7 +312,7 @@ export const ProductOrderSection = () => {
   return (
     <div className="space-y-6" style={{ fontSize: "14px" }}>
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
         <div>
           <h1
             ref={titleRef}
@@ -377,18 +322,26 @@ export const ProductOrderSection = () => {
             Orden de Productos
           </h1>
           <p className="text-gray-600" style={{ fontSize: "14px" }}>
-            Administra el orden en que aparecen los productos en el sitio web
+            Arrastra las tarjetas para reordenar los productos
             {hasChanges && (
               <span className="ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                <svg
+                  className="w-3 h-3 mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 Cambios pendientes
               </span>
             )}
           </p>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex flex-wrap gap-3">
           {hasChanges && (
             <>
               <button
@@ -396,8 +349,18 @@ export const ProductOrderSection = () => {
                 disabled={updating}
                 className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
                 <span>Descartar</span>
               </button>
@@ -411,7 +374,11 @@ export const ProductOrderSection = () => {
                 }`}
               >
                 {updating && (
-                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -427,9 +394,7 @@ export const ProductOrderSection = () => {
                     />
                   </svg>
                 )}
-                <span>
-                  {updating ? "Guardando..." : "Guardar Cambios"}
-                </span>
+                <span>{updating ? "Guardando..." : "Guardar Orden"}</span>
               </button>
             </>
           )}
@@ -456,141 +421,183 @@ export const ProductOrderSection = () => {
         </div>
       </div>
 
-      {products.length > 0 ? (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          {/* Header de la tabla */}
-          <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-            <div className="grid grid-cols-12 gap-4 items-center text-sm font-medium text-gray-700">
-              <div className="col-span-2 text-center">Orden</div>
-              <div className="col-span-1">Imagen</div>
-              <div className="col-span-4">Producto</div>
-              <div className="col-span-2">Tipo</div>
-              <div className="col-span-3 text-center">Acciones</div>
-            </div>
+      {/* Instrucciones */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="flex items-start">
+          <svg
+            className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <div>
+            <h3 className="text-sm font-medium text-blue-800 mb-1">
+              ¿Cómo funciona?
+            </h3>
+            <p className="text-sm text-blue-700">
+              Arrastra las tarjetas hacia arriba o hacia abajo para cambiar el
+              orden. Los productos se mostrarán en tu sitio web en el orden que
+              establezcas aquí. Recuerda hacer clic en "Guardar Orden" para
+              aplicar los cambios.
+            </p>
           </div>
+        </div>
+      </div>
 
-          {/* Contenido de la tabla */}
+      {/* Tabla de productos */}
+      {products.length > 0 ? (
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          {/* Filas de productos */}
           <div className="divide-y divide-gray-200">
-            {products.map((product) => (
+            {productRows.map((row, rowIndex) => (
               <div
-                key={product.id}
-                className={`px-6 py-4 hover:bg-gray-50 transition-colors ${
-                  updating === true ? 'bg-blue-50' : ''
-                }`}
+                key={rowIndex}
+                className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-gray-200"
               >
-                <div className="grid grid-cols-12 gap-4 items-center">
-                  {/* Orden */}
-                  <div className="col-span-2 text-center">
-                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full font-bold text-lg ${
-                      // Verificar si este producto ha cambiado de orden
-                      originalProducts.find(op => op.id === product.id)?.orden !== product.orden
-                        ? 'bg-amber-100 text-amber-800 ring-2 ring-amber-300'
-                        : 'bg-blue-100 text-blue-800'
-                    }`}>
-                      {product.orden}
+                {row.map((product, colIndex) => {
+                  const globalIndex = rowIndex * 3 + colIndex;
+                  return (
+                    <div
+                      key={product.id}
+                      draggable={!updating}
+                      onDragStart={(e) =>
+                        handleDragStart(e, product.id, globalIndex)
+                      }
+                      onDragEnd={handleDragEnd}
+                      onDragOver={(e) => handleDragOver(e, globalIndex)}
+                      onDragLeave={handleDragLeave}
+                      onDrop={(e) => handleDrop(e, globalIndex)}
+                      className={`
+                        p-6 transition-all duration-200 cursor-move
+                        ${
+                          dragState.dragOverIndex === globalIndex &&
+                          dragState.draggedIndex !== globalIndex
+                            ? "bg-blue-50 border-blue-400"
+                            : dragState.isDragging &&
+                              dragState.draggedIndex === globalIndex
+                            ? "bg-gray-50"
+                            : "hover:bg-gray-50"
+                        }
+                        ${updating ? "cursor-not-allowed opacity-60" : ""}
+                      `}
+                    >
+                      <div className="space-y-4">
+                        {/* Header con orden y drag handle */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-blue-100 text-blue-800 rounded-full flex items-center justify-center font-bold text-sm">
+                              {globalIndex + 1}
+                            </div>
+                            {originalProducts.findIndex(
+                              (op) => op.id === product.id
+                            ) !== globalIndex && (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                <svg
+                                  className="w-3 h-3 mr-1"
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                    clipRule="evenodd"
+                                  />
+                                </svg>
+                                Movido
+                              </span>
+                            )}
+                          </div>
+                          <svg
+                            className="w-5 h-5 text-gray-400"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                          </svg>
+                        </div>
+
+                        {/* Imagen del producto */}
+                        <div className="flex justify-center">
+                          {product.imagenes && product.imagenes.length > 0 ? (
+                            <img
+                              src={product.imagenes[0]}
+                              alt={product.titulo}
+                              className="w-20 h-20 lg:w-24 lg:h-24 rounded-lg object-cover border border-gray-200"
+                              draggable={false}
+                            />
+                          ) : (
+                            <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-200 rounded-lg flex items-center justify-center">
+                              <svg
+                                className="w-8 h-8 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Información del producto */}
+                        <div className="text-center space-y-2">
+                          <h3 className="font-semibold text-gray-800 text-sm lg:text-base line-clamp-2">
+                            {product.titulo}
+                          </h3>
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {product.tipo.titulo}
+                          </span>
+                          <p className="text-xs lg:text-sm text-gray-600 line-clamp-3">
+                            {product.descripcion}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    {originalProducts.find(op => op.id === product.id)?.orden !== product.orden && (
-                      <div className="text-xs text-amber-600 mt-1">
-                        Era: {originalProducts.find(op => op.id === product.id)?.orden}
-                      </div>
-                    )}
-                  </div>
+                  );
+                })}
 
-                  {/* Imagen */}
-                  <div className="col-span-1">
-                    {product.imagenes && product.imagenes.length > 0 ? (
-                      <img
-                        src={product.imagenes[0]}
-                        alt={product.titulo}
-                        className="w-12 h-12 rounded-lg object-cover border border-gray-200"
-                      />
-                    ) : (
-                      <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                        <svg
-                          className="w-6 h-6 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                {/* Rellenar celdas vacías en la última fila */}
+                {row.length < 3 && (
+                  <>
+                    {Array.from({ length: 3 - row.length }).map(
+                      (_, emptyIndex) => (
+                        <div
+                          key={`empty-${rowIndex}-${emptyIndex}`}
+                          className="hidden lg:block p-6"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                      </div>
+                          <div className="h-full flex items-center justify-center text-gray-400">
+                            <div className="text-center">
+                              <svg
+                                className="w-8 h-8 mx-auto mb-2 opacity-50"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                />
+                              </svg>
+                              <p className="text-sm">Celda vacía</p>
+                            </div>
+                          </div>
+                        </div>
+                      )
                     )}
-                  </div>
-
-                  {/* Información del producto */}
-                  <div className="col-span-4">
-                    <h3 className="font-semibold text-gray-800 mb-1">
-                      {product.titulo}
-                    </h3>
-                    <p className="text-sm text-gray-600 line-clamp-2">
-                      {product.descripcion}
-                    </p>
-                  </div>
-
-                  {/* Tipo */}
-                  <div className="col-span-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {product.tipo.titulo}
-                    </span>
-                  </div>
-
-                  {/* Acciones */}
-                  <div className="col-span-3 flex justify-center space-x-2">
-                    {/* Mover arriba */}
-                    <button
-                      onClick={() => handleQuickMove(product.id, 'up')}
-                      disabled={product.orden === 1 || updating}
-                      className={`p-2 rounded-lg transition-colors ${
-                        product.orden === 1 || updating
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-green-50 text-green-600 hover:bg-green-100'
-                      }`}
-                      title="Mover arriba"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 14l5-5 5 5" />
-                      </svg>
-                    </button>
-
-                    {/* Mover abajo */}
-                    <button
-                      onClick={() => handleQuickMove(product.id, 'down')}
-                      disabled={product.orden === products.length || updating}
-                      className={`p-2 rounded-lg transition-colors ${
-                        product.orden === products.length || updating
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-green-50 text-green-600 hover:bg-green-100'
-                      }`}
-                      title="Mover abajo"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 10l-5 5-5-5" />
-                      </svg>
-                    </button>
-
-                    {/* Cambiar orden específico */}
-                    <button
-                      onClick={() => openOrderModal(product)}
-                      disabled={updating}
-                      className={`p-2 rounded-lg transition-colors ${
-                        updating
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
-                      }`}
-                      title="Cambiar orden específico"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -616,20 +623,11 @@ export const ProductOrderSection = () => {
             No hay productos visibles
           </h3>
           <p className="text-gray-500 mb-6">
-            No se encontraron productos visibles para ordenar. Asegúrate de que haya productos marcados como visibles.
+            No se encontraron productos visibles para ordenar. Asegúrate de que
+            haya productos marcados como visibles.
           </p>
         </div>
       )}
-
-      {/* Modal de cambio de orden */}
-      <OrderChangeModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        product={selectedProduct}
-        currentOrder={selectedProduct?.orden || 1}
-        maxOrder={products.length}
-        onSave={handleChangeOrder}
-      />
     </div>
   );
 };
