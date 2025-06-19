@@ -45,7 +45,6 @@ export const ProductOrderSection = () => {
   });
 
   // Referencias para el auto-scroll
-  const containerRef = useRef<HTMLDivElement>(null);
   const autoScrollRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -154,52 +153,6 @@ export const ProductOrderSection = () => {
       dragOverIndex: null,
     });
     showToast("Cambios descartados", "info");
-  };
-
-  // Auto-scroll durante drag
-  const handleAutoScroll = (clientY: number) => {
-    if (!containerRef.current || !dragState.isDragging) return;
-
-    const container = containerRef.current;
-    const containerRect = container.getBoundingClientRect();
-    const scrollThreshold = 100; // Píxeles desde el borde para iniciar scroll
-    const scrollSpeed = 8; // Velocidad de scroll
-
-    // Calcular distancia desde los bordes
-    const distanceFromTop = clientY - containerRect.top;
-    const distanceFromBottom = containerRect.bottom - clientY;
-
-    let shouldScroll = false;
-    let scrollDirection = 0;
-
-    // Scroll hacia arriba
-    if (distanceFromTop < scrollThreshold && container.scrollTop > 0) {
-      scrollDirection = -scrollSpeed;
-      shouldScroll = true;
-    }
-    // Scroll hacia abajo
-    else if (
-      distanceFromBottom < scrollThreshold &&
-      container.scrollTop < container.scrollHeight - container.clientHeight
-    ) {
-      scrollDirection = scrollSpeed;
-      shouldScroll = true;
-    }
-
-    if (shouldScroll) {
-      container.scrollTop += scrollDirection;
-
-      // Continuar el auto-scroll
-      autoScrollRef.current = requestAnimationFrame(() => {
-        handleAutoScroll(clientY);
-      });
-    } else {
-      // Detener auto-scroll
-      if (autoScrollRef.current) {
-        cancelAnimationFrame(autoScrollRef.current);
-        autoScrollRef.current = null;
-      }
-    }
   };
 
   // Drag and Drop handlers
@@ -439,12 +392,12 @@ export const ProductOrderSection = () => {
             <h3 className="text-sm font-medium text-blue-800 mb-1">
               ¿Cómo funciona?
             </h3>
-            <p className="text-sm text-blue-700">
+            <span className="text-sm text-blue-700">
               Arrastra las tarjetas hacia arriba o hacia abajo para cambiar el
               orden. Los productos se mostrarán en tu sitio web en el orden que
-              establezcas aquí. Recuerda hacer clic en "Guardar Orden" para
-              aplicar los cambios.
-            </p>
+              establezcas aquí. Recuerda hacer clic en &quot;Guardar Orden&quot;
+              para aplicar los cambios.
+            </span>
           </div>
         </div>
       </div>

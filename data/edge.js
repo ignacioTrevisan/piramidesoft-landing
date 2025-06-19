@@ -234,7 +234,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\luggr\\OneDrive\\Escritorio\\Nacho\\piramideSoft\\piramidesoft-landing\\data",
+      "value": "E:\\Trabajos\\piramide-soft-landing\\data",
       "fromEnvVar": null
     },
     "config": {
@@ -252,7 +252,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\luggr\\OneDrive\\Escritorio\\Nacho\\piramideSoft\\piramidesoft-landing\\prisma\\schema.prisma",
+    "sourceFilePath": "E:\\Trabajos\\piramide-soft-landing\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -266,6 +266,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
