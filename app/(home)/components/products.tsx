@@ -159,7 +159,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
               </span>
             )}
             <span className="text-lg font-bold text-[#2563EB]">
-              {product.precioAhora > 0 && `$${product.precioAhora.toLocaleString()}`}
+              {product.precioAhora > 0 &&
+                `$${product.precioAhora.toLocaleString()}`}
             </span>
           </div>
 
@@ -250,7 +251,7 @@ export function Products() {
               const ordenB = b.orden || 0;
               return ordenA - ordenB;
             });
-            
+
           setProducts(visibleProducts);
           setFilteredProducts(visibleProducts);
         }
@@ -318,8 +319,7 @@ export function Products() {
         gsap.set(descriptionRef.current, { clearProps: "all" });
       if (customSolutionRef.current)
         gsap.set(customSolutionRef.current, { clearProps: "all" });
-      if (filterRef.current)
-        gsap.set(filterRef.current, { clearProps: "all" });
+      if (filterRef.current) gsap.set(filterRef.current, { clearProps: "all" });
     };
 
     cleanup();
@@ -491,7 +491,7 @@ export function Products() {
             >
               Todos
             </button>
-            
+
             {/* Botones dinámicos de tipos */}
             {tipos.map((tipo) => (
               <button
@@ -507,14 +507,15 @@ export function Products() {
               </button>
             ))}
           </div>
-          
+
           {/* Results counter */}
           <div className="text-center text-gray-600">
             <span className="text-sm">
-              {selectedFilter === "Todos" 
-                ? `Mostrando ${filteredProducts.length} productos` 
-                : `${filteredProducts.length} producto${filteredProducts.length !== 1 ? 's' : ''} de tipo "${selectedFilter}"`
-              }
+              {selectedFilter === "Todos"
+                ? `Mostrando ${filteredProducts.length} productos`
+                : `${filteredProducts.length} producto${
+                    filteredProducts.length !== 1 ? "s" : ""
+                  } de tipo "${selectedFilter}"`}
             </span>
           </div>
         </div>
@@ -547,16 +548,14 @@ export function Products() {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              {selectedFilter === "Todos" 
-                ? "Productos en preparación" 
-                : `No hay productos de tipo "${selectedFilter}"`
-              }
+              {selectedFilter === "Todos"
+                ? "Productos en preparación"
+                : `No hay productos de tipo "${selectedFilter}"`}
             </h3>
             <p className="text-gray-600">
-              {selectedFilter === "Todos" 
-                ? "Estamos finalizando nuestro catálogo de productos. ¡Pronto estará disponible!" 
-                : "Prueba seleccionando otro tipo de producto o 'Todos' para ver todos los productos disponibles."
-              }
+              {selectedFilter === "Todos"
+                ? "Estamos finalizando nuestro catálogo de productos. ¡Pronto estará disponible!"
+                : "Prueba seleccionando otro tipo de producto o 'Todos' para ver todos los productos disponibles."}
             </p>
           </div>
         )}
@@ -596,7 +595,7 @@ export function Products() {
             </div>
             <div className="md:w-1/3 relative h-56 md:h-64">
               <Image
-                src="/custom-solution.jpg"
+                src="https://res.cloudinary.com/nachotrevisan/image/upload/v1750680858/custom-solution_pptjao.svg"
                 alt="Soluciones a medida"
                 fill
                 className="rounded-lg object-cover"
