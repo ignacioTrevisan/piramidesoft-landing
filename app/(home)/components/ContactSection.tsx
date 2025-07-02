@@ -253,6 +253,8 @@ export const ContactSection = () => {
                   >
                     piramide_soft@gmail.com
                   </Link>
+                </div>
+                <div className="flex items-center text-gray-400">
                   <svg
                     className="w-4 h-4 mr-2"
                     fill="none"
