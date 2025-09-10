@@ -20,7 +20,7 @@ export async function SendMessage({
   titulo,
 }: Props): Promise<ApiResponse> {
   try {
-    const resp = await fetch("http://149.50.142.58:3101/api/whatsapp", {
+    const resp = await fetch("https://149.50.142.58:3101/api/whatsapp", {
       method: "post",
       body: JSON.stringify({ consulta, email, nombre, numero, titulo }),
       headers: {
