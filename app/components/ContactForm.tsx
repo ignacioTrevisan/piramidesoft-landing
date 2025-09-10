@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createConsulta } from "@/app/action/consultas";
 import { CreateConsultaData } from "@/app/interfaces/consulta";
+import { SendMessage } from "../action/wspConnection/sendMessage";
 
 interface ContactFormProps {
   productId?: string;
@@ -33,8 +34,16 @@ export const ContactForm = ({
     setError("");
 
     const response = await createConsulta(formData);
-
     if (response.ok) {
+      await SendMessage({
+        consulta: formData.descripcion,
+        email: formData.email,
+        nombre: formData.nombre,
+        numero: formData.numero,
+        titulo:
+          response.data?.product?.titulo ||
+          "No se pudo obtener el titulo del producto",
+      });
       setShowSuccess(true);
       setTimeout(() => {
         if (onClose) onClose();
