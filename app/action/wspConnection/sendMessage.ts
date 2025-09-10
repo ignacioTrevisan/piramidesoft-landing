@@ -27,7 +27,9 @@ export async function SendMessage({
         "Content-Type": "application/json",
       },
     });
+    console.log({ resp });
     const data = (await resp.json()) as wspResponse;
+    console.log({ data });
     return {
       ok: true,
       msg: data.mensaje,
