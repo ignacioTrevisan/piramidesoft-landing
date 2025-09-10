@@ -20,13 +20,16 @@ export async function SendMessage({
   titulo,
 }: Props): Promise<ApiResponse> {
   try {
-    const resp = await fetch("https://149.50.142.58:3101/api/whatsapp", {
-      method: "post",
-      body: JSON.stringify({ consulta, email, nombre, numero, titulo }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const resp = await fetch(
+      "https://distribuidoraorganica.com.ar/whatsapp/whatsapp",
+      {
+        method: "post",
+        body: JSON.stringify({ consulta, email, nombre, numero, titulo }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log({ resp });
     const data = (await resp.json()) as wspResponse;
     console.log({ data });
