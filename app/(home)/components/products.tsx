@@ -8,6 +8,7 @@ import Link from "next/link";
 import { getProducts } from "@/app/action/products/products";
 import { Products as ProductType } from "@/app/interfaces/products";
 import { getTipos } from "@/app/action/tipos/getTipos";
+import { ContactButton } from "@/app/components/ContactButton";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {
@@ -589,9 +590,13 @@ export function Products() {
                   ofrece personalización completa para necesidades específicas.
                 </p>
               </div>
-              <button className="bg-[#2563EB] hover:bg-[#1E40AF] transition-all text-white py-3 px-8 rounded-lg cursor-pointer shadow-sm hover:shadow-md text-base font-medium">
+              <ContactButton
+                productId={"Ninguno en particular"}
+                productTitle={"Consulta general"}
+                className="mb-8 w-full md:w-auto"
+              >
                 Solicitar Consulta
-              </button>
+              </ContactButton>
             </div>
             <div className="md:w-1/3 relative h-56 md:h-64">
               <Image
