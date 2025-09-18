@@ -22,10 +22,10 @@ export const Navbar_elements = () => {
 
   const [elementHovered, setElementHovered] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   // Función para agregar refs
-  const addToItemRefs = (el: HTMLDivElement | null, index: number) => {
+  const addToItemRefs = (el: HTMLAnchorElement | null, index: number) => {
     itemRefs.current[index] = el;
   };
 
@@ -92,7 +92,7 @@ export const Navbar_elements = () => {
         <Link
           key={elemento.titulo}
           href={elemento.url}
-          ref={(el) => addToItemRefs(el as any, index)}
+          ref={(el) => addToItemRefs(el, index)}
           onMouseEnter={() => setElementHovered(elemento.titulo)}
           onMouseLeave={() => setElementHovered("")}
           className={`

@@ -21,11 +21,6 @@ export default function HeroContent() {
   ];
 
   // Create refs for each highlight span
-  const addToHighlightRefs = (el: HTMLSpanElement | null) => {
-    if (el && !highlightRefs.current.includes(el)) {
-      highlightRefs.current.push(el);
-    }
-  };
 
   // Función para renderizar texto con negritas
   const renderTextWithBold = (text: string) => {
@@ -136,7 +131,6 @@ export default function HeroContent() {
   // Función para generar el texto mostrado con formato
   const getFormattedDisplayText = () => {
     const currentFullText = texts[currentTextIndex];
-    const cleanCurrentText = currentFullText.replace(/\*\*/g, "");
 
     if (displayedText.length === 0) return "";
 
@@ -153,7 +147,6 @@ export default function HeroContent() {
 
         // Buscar el cierre de la negrita
         let boldContent = "";
-        let boldStart = i;
 
         while (
           i < currentFullText.length &&
