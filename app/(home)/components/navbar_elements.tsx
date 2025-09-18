@@ -1,6 +1,5 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import styles from "./navbar.module.css";
 import { gsap } from "gsap";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

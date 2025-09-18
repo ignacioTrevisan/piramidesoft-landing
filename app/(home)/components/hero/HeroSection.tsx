@@ -1,5 +1,4 @@
 import HeroContent from "./HeroContent";
-import HeroImage from "./HeroImage";
 
 export default function HeroSection() {
   return (

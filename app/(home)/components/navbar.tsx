@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import styles from "./navbar.module.css";
 import { Navbar_elements } from "./navbar_elements";
 import { SessionButton } from "./SessionButton";
 import { gsap } from "gsap";
