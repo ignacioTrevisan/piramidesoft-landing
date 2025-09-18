@@ -13,6 +13,8 @@ const ProductsPreview = () => {
   const [mounted, setMounted] = useState(false);
   const [products, setProducts] = useState<Products[]>([]);
   const [loading, setLoading] = useState(true);
+  // Referencia para guardar los ScrollTriggers de este componente
+  const scrollTriggersRef = useRef<ScrollTrigger[]>([]);
 
   useEffect(() => {
     setMounted(true);
@@ -49,8 +51,9 @@ const ProductsPreview = () => {
     // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
 
-    // Limpiar animaciones previas
-    ScrollTrigger.killAll();
+    // Limpiar SOLO los ScrollTriggers de este componente
+    scrollTriggersRef.current.forEach((st) => st.kill());
+    scrollTriggersRef.current = [];
 
     // Timeout para asegurar que el DOM esté listo
     const timer = setTimeout(() => {
@@ -66,8 +69,8 @@ const ProductsPreview = () => {
             scale: 0.95,
           });
 
-          // Crear animación
-          gsap.to(validCards, {
+          // Crear animación y guardar la referencia del ScrollTrigger
+          const tl = gsap.to(validCards, {
             opacity: 1,
             y: 0,
             scale: 1,
@@ -81,6 +84,11 @@ const ProductsPreview = () => {
             },
           });
 
+          // Guardar la referencia del ScrollTrigger
+          if (tl.scrollTrigger) {
+            scrollTriggersRef.current.push(tl.scrollTrigger);
+          }
+
           // Refresh ScrollTrigger
           ScrollTrigger.refresh();
         }
@@ -89,7 +97,9 @@ const ProductsPreview = () => {
 
     return () => {
       clearTimeout(timer);
-      ScrollTrigger.killAll();
+      // Limpiar SOLO los ScrollTriggers de este componente
+      scrollTriggersRef.current.forEach((st) => st.kill());
+      scrollTriggersRef.current = [];
     };
   }, [mounted, loading, products]);
 
@@ -207,7 +217,8 @@ const ProductsPreview = () => {
                   </span>
                 )}
                 <span className="text-lg font-bold text-[#2563EB]">
-                  {product.precioAhora >0 && `$${product.precioAhora.toLocaleString()}`}
+                  {product.precioAhora > 0 &&
+                    `$${product.precioAhora.toLocaleString()}`}
                 </span>
               </div>
 

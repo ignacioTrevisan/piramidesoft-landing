@@ -33,6 +33,7 @@
 
 .stickyCardIndex {
   flex: 2;
+  color: #2563eb;
 }
 
 .stickyCardContent {
@@ -49,7 +50,10 @@
 
 .stickyCardHeader {
   width: 75%;
+  color: #2563eb;
+  font-size: xx-large;
 }
+
 .stickyCardImg img {
   aspect-ratio: 5/3;
 }
