@@ -3,13 +3,15 @@ import Steps from "./components/steps/steps";
 import ProductsPreview from "./productsPreview";
 import { SobreNosotros } from "./sobreNosotros";
 import { ContactSection } from "./components/ContactSection";
+import NewSteps from "./components/newSteps/newSteps";
 
 export default function Home() {
   return (
     <>
       <HeroSection />
+      <NewSteps />
+      {/* <Steps /> */}
       <SobreNosotros />
-      <Steps />
       <ProductsPreview />
       {/* <BlogsSection /> */}
       <ContactSection />

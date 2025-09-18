@@ -7,7 +7,8 @@ import { AuthProvider } from "../lib/auth/AuthContext";
 
 export const metadata: Metadata = {
   title: "Piramide Soft - Soluciones Tecnológicas",
-  description: "Desarrollamos soluciones tecnológicas innovadoras para tu negocio",
+  description:
+    "Desarrollamos soluciones tecnológicas innovadoras para tu negocio",
 };
 
 export default async function HomeLayout({
@@ -22,9 +23,7 @@ export default async function HomeLayout({
     <AuthProvider>
       <Navbar />
       <VisitorTracker>
-        <main>
-          {children}
-        </main>
+        <main>{children}</main>
       </VisitorTracker>
     </AuthProvider>
   );

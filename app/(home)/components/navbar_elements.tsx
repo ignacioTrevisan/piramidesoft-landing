@@ -3,108 +3,115 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./navbar.module.css";
 import { gsap } from "gsap";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-interface elementos_navbar {
+interface ElementoNavbar {
   titulo: string;
   isFocus: boolean;
   url: string;
 }
 
 export const Navbar_elements = () => {
-  const elementos: elementos_navbar[] = [
+  const elementos: ElementoNavbar[] = [
     { titulo: "Inicio", isFocus: true, url: "/" },
     { titulo: "Blogs", isFocus: true, url: "/blogs" },
-    { titulo: "Productos", isFocus: true, url: "/products" },
+    { titulo: "Productos", isFocus: true, url: "/productos" },
   ];
+
+  const pathname = usePathname();
+  const currentSection = pathname === "/" ? "inicio" : pathname.split("/")[1];
+
   const [elementHovered, setElementHovered] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Reset itemRefs array
-  itemRefs.current = [];
-
-  // Add or update ref in the array
+  // Función para agregar refs
   const addToItemRefs = (el: HTMLDivElement | null, index: number) => {
-    if (el && !itemRefs.current[index]) {
-      itemRefs.current[index] = el;
-    }
+    itemRefs.current[index] = el;
   };
 
   useEffect(() => {
-    if (!containerRef.current || itemRefs.current.length === 0) return;
+    // Asegurar que el array tenga el tamaño correcto
+    itemRefs.current = itemRefs.current.slice(0, elementos.length);
 
-    // Initial animation for navbar items
+    if (!containerRef.current || itemRefs.current.some((item) => !item)) return;
+
+    // Animación inicial para los elementos del navbar
     gsap.fromTo(
-      itemRefs.current,
-      { y: -20, opacity: 0 },
+      itemRefs.current.filter(Boolean), // Solo elementos que existen
+      {
+        y: -20,
+        opacity: 0,
+      },
       {
         y: 0,
         opacity: 1,
         duration: 0.5,
-        stagger: 0.1,
+        stagger: 0.05,
         delay: 0.3,
         ease: "power2.out",
       }
     );
+  }, [elementos.length]);
 
-    // Add hover animation for each item
-    itemRefs.current.forEach((item) => {
-      if (!item) return;
+  // Función para determinar si la sección está activa
+  const isActiveSection = (titulo: string): boolean => {
+    return currentSection.toLowerCase() === titulo.toLowerCase();
+  };
 
-      item.addEventListener("mouseenter", () => {
-        gsap.to(item, {
-          y: -2,
-          duration: 0.2,
-          ease: "power1.out",
-        });
-      });
+  // Función para obtener las clases de color del texto
+  const getTextColorClasses = (titulo: string): string => {
+    const isActive = isActiveSection(titulo);
+    const isHovered = elementHovered === titulo;
 
-      item.addEventListener("mouseleave", () => {
-        gsap.to(item, {
-          y: 0,
-          duration: 0.2,
-          ease: "power1.out",
-        });
-      });
-    });
+    if (isHovered && isActive) {
+      return "text-[#2563eb]"; // Azul si está activo y hover
+    } else if (isHovered) {
+      return "text-white"; // Blanco si solo hover
+    } else if (isActive) {
+      return "text-[#2563eb]"; // Azul si solo activo
+    }
+    return "text-white/80"; // Blanco semi-transparente por defecto
+  };
 
-    return () => {
-      // Cleanup event listeners
-      itemRefs.current.forEach((item) => {
-        if (!item) return;
-        item.removeEventListener("mouseenter", () => {});
-        item.removeEventListener("mouseleave", () => {});
-      });
-    };
-  }, []);
+  // Función para obtener las clases de background
+  const getBackgroundClasses = (titulo: string): string => {
+    const isActive = isActiveSection(titulo);
+    const isHovered = elementHovered === titulo;
+
+    if (isActive) {
+      return "bg-white shadow-sm"; // Fondo blanco para sección activa
+    } else if (isHovered) {
+      return "bg-white/10"; // Fondo semi-transparente en hover
+    }
+    return ""; // Sin fondo por defecto
+  };
 
   return (
-    <div ref={containerRef} className="flex h-full gap-8 items-center">
-      {elementos.map((e, i) => (
-        <div
-          ref={(el) => addToItemRefs(el, i)}
-          className="relative"
-          key={e.titulo}
+    <div ref={containerRef} className="flex h-full gap-4 items-center">
+      {elementos.map((elemento, index) => (
+        <Link
+          key={elemento.titulo}
+          href={elemento.url}
+          ref={(el) => addToItemRefs(el as any, index)}
+          onMouseEnter={() => setElementHovered(elemento.titulo)}
+          onMouseLeave={() => setElementHovered("")}
+          className={`
+            relative rounded-full px-3 py-1.5 transition-all duration-200 block
+            ${getBackgroundClasses(elemento.titulo)}
+            ${getTextColorClasses(elemento.titulo)}
+          `}
+          style={{
+            outline: "none !important",
+            boxShadow: "none !important",
+            border: "none !important",
+            textDecoration: "none",
+          }}
         >
-          <Link href={e.url}>
-            <div
-              className="cursor-pointer"
-              onMouseEnter={() => setElementHovered(e.titulo)}
-              onMouseLeave={() => setElementHovered("")}
-            >
-              <span className="text-gray-800 text-lg font-medium transition-colors duration-300 hover:text-[#2563EB]">
-                {e.titulo}
-              </span>
-            </div>
-          </Link>
-          <div className="absolute w-full h-[2px] bottom-[-4px]">
-            <div
-              className={`bg-[#2563EB] ${
-                elementHovered === e.titulo ? "w-full" : "w-0"
-              } ${styles.hr} transition-all duration-300 h-full`}
-            />
-          </div>
-        </div>
+          <span className="text-sm font-medium transition-colors duration-200">
+            {elemento.titulo}
+          </span>
+        </Link>
       ))}
     </div>
   );

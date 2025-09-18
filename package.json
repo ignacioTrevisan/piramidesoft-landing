@@ -13,6 +13,7 @@
     "test-auth": "npx tsx scripts/test-auth.ts"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@prisma/client": "^6.8.2",
     "bcryptjs": "^2.4.3",
     "gsap": "^3.13.0",

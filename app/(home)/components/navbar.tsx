@@ -16,15 +16,15 @@ if (typeof window !== "undefined") {
 const MobileNavbarElements = () => {
   const elementos = [
     { titulo: "Inicio", url: "/" },
-    { titulo: "Blogs", url: "/blogs" }, // Corregido de /blog a /blogs
+    { titulo: "Blogs", url: "/blogs" },
     { titulo: "Productos", url: "/products" },
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       {elementos.map((e) => (
         <Link key={e.titulo} href={e.url}>
-          <div className="cursor-pointer py-2 border-b border-gray-100 text-gray-800 hover:text-gray-600">
+          <div className="cursor-pointer py-1.5 border-b border-gray-100 text-sm text-gray-800 hover:text-gray-600">
             {e.titulo}
           </div>
         </Link>
@@ -37,13 +37,20 @@ export const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navbarRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
+  const navElementsRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
   const ticking = useRef(false);
 
   useEffect(() => {
-    if (!navbarRef.current || !logoRef.current || !buttonRef.current) return;
+    if (
+      !navbarRef.current ||
+      !logoRef.current ||
+      !navElementsRef.current ||
+      !buttonRef.current
+    )
+      return;
 
     // Initial animation
     const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
@@ -54,13 +61,19 @@ export const Navbar = () => {
     )
       .fromTo(
         logoRef.current,
-        { scale: 0.8, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.4 },
+        { x: -20, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4 },
+        "-=0.3"
+      )
+      .fromTo(
+        navElementsRef.current,
+        { y: -10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4 },
         "-=0.3"
       )
       .fromTo(
         buttonRef.current,
-        { x: 10, opacity: 0 },
+        { x: 20, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.4 },
         "-=0.3"
       );
@@ -129,7 +142,7 @@ export const Navbar = () => {
         currentButtonRef.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
-  }, []); // Dependencias vacías para evitar conflictos
+  }, []);
 
   // Efecto para animar la navbar basado en isVisible
   useEffect(() => {
@@ -143,60 +156,76 @@ export const Navbar = () => {
   }, [isVisible]);
 
   return (
-    <div
-      ref={navbarRef}
-      className={`w-full fixed flex items-center justify-between md:justify-around top-0 py-4 px-6 md:px-10 ${styles.navbar} navbar-glass border-b border-gray-100 z-50`}
-    >
-      <Link href="/">
-        <div ref={logoRef} className="cursor-pointer relative group">
-          <Image
-            src={"/logo_2.png"}
-            height={60}
-            width={60}
-            alt="logo de piramide soft"
-            className="transition-all duration-300 group-hover:scale-110"
-          />
-          <div className="absolute -inset-2 rounded-full blur-sm bg-gray-100 opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+    <div ref={navbarRef} className="w-full fixed top-0 py-3 px-4 md:px-6 z-50">
+      <div className="w-full flex items-center">
+        {/* Logo - Izquierda */}
+        <div className="flex-shrink-0">
+          <Link href="/">
+            <div ref={logoRef} className="cursor-pointer relative group">
+              <Image
+                src={"/logo_2.png"}
+                height={40}
+                width={40}
+                alt="logo de piramide soft"
+                className="transition-all duration-300 group-hover:scale-110"
+              />
+              <div className="absolute -inset-1 rounded-full blur-sm bg-gray-100 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+            </div>
+          </Link>
         </div>
-      </Link>
 
-      <div className="hidden md:block">
-        <Navbar_elements />
-      </div>
-
-      <div className="block md:hidden">
-        <button
-          className="p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
+        {/* Navbar Elements - Centro absoluto */}
+        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
+          <div
+            ref={navElementsRef}
+            className="bg-[#2563eb] px-2 py-1 rounded-full"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </button>
-        {mobileMenuOpen && (
-          <div className="absolute top-full left-0 right-0 bg-white shadow-md py-4 px-4">
-            <MobileNavbarElements />
-            <div className="mt-4">
-              <SessionButton isMobile={true} />
+            <Navbar_elements />
+          </div>
+        </div>
+
+        {/* Session Button - Derecha */}
+        <div className="ml-auto flex-shrink-0">
+          <div className="hidden md:block">
+            <div ref={buttonRef}>
+              <SessionButton />
             </div>
           </div>
-        )}
+
+          {/* Mobile Menu Button */}
+          <div className="block md:hidden">
+            <button
+              className="p-1.5"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div ref={buttonRef} className="hidden md:block">
-        <SessionButton />
-      </div>
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-md py-3 px-4 mx-2 rounded-lg mt-1">
+          <MobileNavbarElements />
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <SessionButton isMobile={true} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
