@@ -65,12 +65,12 @@ const StickyCard = () => {
               const progress = self.progress;
               const scale = 1 - progress * 0.5;
               const rotation = (index % 2 === 0 ? 5 : -5) * progress;
-              const afterOpacity = progress;
+              const afterOpacity = 1 - progress;
 
               gsap.set(card, {
                 scale: scale,
                 rotation: rotation,
-                // "--after-opacity": 100,
+                opacity: afterOpacity,
               });
             },
           });
