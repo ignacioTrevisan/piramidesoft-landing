@@ -3,12 +3,24 @@ import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+// Tipos para GSAP
+interface GSAPTween {
+  kill: () => void;
+}
+
+interface GSAP {
+  set: (target: Element | null, vars: Record<string, any>) => void;
+  to: (target: Element | null, vars: Record<string, any>) => GSAPTween;
+  killTweensOf: (target: Element | null) => void;
+  getTweensOf: (target: Element | null) => GSAPTween[];
+}
+
 export default function ClientLogosSection() {
   const router = useRouter();
   const sliderRef1 = useRef<HTMLDivElement>(null);
   const sliderRef2 = useRef<HTMLDivElement>(null);
-  const [isAnimationReady, setIsAnimationReady] = useState(false);
-  const animationsRef = useRef<any[]>([]);
+  const [isAnimationReady, setIsAnimationReady] = useState<boolean>(false);
+  const animationsRef = useRef<GSAPTween[]>([]);
 
   const handleClientesClick = () => {
     router.push("/clientes");
@@ -72,13 +84,13 @@ export default function ClientLogosSection() {
   const firstRowClients = clientsData.slice(0, 25);
 
   useEffect(() => {
-    let gsap: any;
-    let mounted = true;
+    let gsap: GSAP;
+    let mounted: boolean = true;
 
-    const initializeAnimations = async () => {
+    const initializeAnimations = async (): Promise<void> => {
       try {
         const gsapModule = await import("gsap");
-        gsap = gsapModule.gsap;
+        gsap = gsapModule.gsap as GSAP;
 
         if (!mounted || !sliderRef1.current) return;
 
@@ -96,7 +108,7 @@ export default function ClientLogosSection() {
         });
 
         // Crear animación para primera fila
-        const anim1 = gsap.to(sliderRef1.current, {
+        const anim1: GSAPTween = gsap.to(sliderRef1.current, {
           x: "-50%",
           duration: 30,
           repeat: -1,
@@ -128,7 +140,7 @@ export default function ClientLogosSection() {
 
       // Limpiar animaciones
       if (gsap && animationsRef.current.length > 0) {
-        animationsRef.current.forEach((anim) => {
+        animationsRef.current.forEach((anim: GSAPTween) => {
           if (anim && anim.kill) {
             anim.kill();
           }
@@ -148,17 +160,20 @@ export default function ClientLogosSection() {
   useEffect(() => {
     if (!isAnimationReady) return;
 
-    const checkAnimation = () => {
+    const checkAnimation = (): void => {
       if (!sliderRef1.current) return;
 
       // Verificar si la animación sigue activa
       import("gsap").then(({ gsap }) => {
-        const tweens = gsap.getTweensOf(sliderRef1.current);
+        const gsapInstance = gsap as GSAP;
+        const tweens: GSAPTween[] = gsapInstance.getTweensOf(
+          sliderRef1.current
+        );
         if (tweens.length === 0) {
           console.log("Restarting animation...");
           // Reiniciar animación si se detuvo
-          gsap.set(sliderRef1.current, { x: 0 });
-          gsap.to(sliderRef1.current, {
+          gsapInstance.set(sliderRef1.current, { x: 0 });
+          gsapInstance.to(sliderRef1.current, {
             x: "-50%",
             duration: 30,
             repeat: -1,
@@ -170,7 +185,7 @@ export default function ClientLogosSection() {
     };
 
     // Verificar cada 5 segundos
-    const interval = setInterval(checkAnimation, 5000);
+    const interval: NodeJS.Timeout = setInterval(checkAnimation, 5000);
 
     return () => clearInterval(interval);
   }, [isAnimationReady]);
