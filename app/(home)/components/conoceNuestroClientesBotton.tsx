@@ -8,9 +8,24 @@ interface GSAPTween {
   kill: () => void;
 }
 
+interface GSAPSetVars {
+  x?: number | string;
+  force3D?: boolean;
+  will?: string;
+}
+
+interface GSAPToVars {
+  x?: number | string;
+  duration?: number;
+  repeat?: number;
+  ease?: string;
+  force3D?: boolean;
+  onRepeat?: () => void;
+}
+
 interface GSAP {
-  set: (target: Element | null, vars: Record<string, any>) => void;
-  to: (target: Element | null, vars: Record<string, any>) => GSAPTween;
+  set: (target: Element | null, vars: GSAPSetVars) => void;
+  to: (target: Element | null, vars: GSAPToVars) => GSAPTween;
   killTweensOf: (target: Element | null) => void;
   getTweensOf: (target: Element | null) => GSAPTween[];
 }
