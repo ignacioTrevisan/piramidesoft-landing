@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function ClientLogosSection() {
   const router = useRouter();
   const sliderRef1 = useRef<HTMLDivElement>(null);
   const sliderRef2 = useRef<HTMLDivElement>(null);
+  const [isAnimationReady, setIsAnimationReady] = useState(false);
+  const animationsRef = useRef<any[]>([]);
 
   const handleClientesClick = () => {
     router.push("/clientes");
@@ -16,123 +18,53 @@ export default function ClientLogosSection() {
   const clientsData = [
     {
       logo: "/logos_clientes/1.jpeg",
+      name: "Nombre de negocio",
+      description: "Soluciones tecnológicas",
     },
     {
       logo: "/logos_clientes/2.jpeg",
+      name: "Nombre de negocio",
+      description: "Software empresarial",
     },
     {
       logo: "/logos_clientes/3.jpeg",
+      name: "Nombre de negocio",
+      description: "Análisis de datos",
     },
     {
       logo: "/logos_clientes/4.jpeg",
+      name: "Nombre de negocio",
+      description: "Servicios en la nube",
     },
     {
       logo: "/logos_clientes/5.jpeg",
+      name: "Nombre de negocio",
+      description: "Desarrollo web",
     },
     {
       logo: "/logos_clientes/6.jpeg",
+      name: "Nombre de negocio",
+      description: "Apps móviles",
     },
     {
       logo: "/logos_clientes/7.jpeg",
+      name: "Nombre de negocio",
+      description: "Marketing digital",
     },
     {
       logo: "/logos_clientes/8.jpeg",
+      name: "Nombre de negocio",
+      description: "Sistemas inteligentes",
     },
     {
       logo: "/logos_clientes/9.jpeg",
+      name: "NetWork Nombre de negocio",
+      description: "Redes y conectividad",
     },
     {
       logo: "/logos_clientes/10.jpeg",
-    },
-    {
-      logo: "/logos_clientes/1.jpeg",
-    },
-    {
-      logo: "/logos_clientes/2.jpeg",
-    },
-    {
-      logo: "/logos_clientes/3.jpeg",
-    },
-    {
-      logo: "/logos_clientes/4.jpeg",
-    },
-    {
-      logo: "/logos_clientes/5.jpeg",
-    },
-    {
-      logo: "/logos_clientes/6.jpeg",
-    },
-    {
-      logo: "/logos_clientes/7.jpeg",
-    },
-    {
-      logo: "/logos_clientes/8.jpeg",
-    },
-    {
-      logo: "/logos_clientes/9.jpeg",
-    },
-    {
-      logo: "/logos_clientes/10.jpeg",
-    },
-    {
-      logo: "/logos_clientes/1.jpeg",
-    },
-    {
-      logo: "/logos_clientes/2.jpeg",
-    },
-    {
-      logo: "/logos_clientes/3.jpeg",
-    },
-    {
-      logo: "/logos_clientes/4.jpeg",
-    },
-    {
-      logo: "/logos_clientes/5.jpeg",
-    },
-    {
-      logo: "/logos_clientes/6.jpeg",
-    },
-    {
-      logo: "/logos_clientes/7.jpeg",
-    },
-    {
-      logo: "/logos_clientes/8.jpeg",
-    },
-    {
-      logo: "/logos_clientes/9.jpeg",
-    },
-    {
-      logo: "/logos_clientes/10.jpeg",
-    },
-    {
-      logo: "/logos_clientes/1.jpeg",
-    },
-    {
-      logo: "/logos_clientes/2.jpeg",
-    },
-    {
-      logo: "/logos_clientes/3.jpeg",
-    },
-    {
-      logo: "/logos_clientes/4.jpeg",
-    },
-    {
-      logo: "/logos_clientes/5.jpeg",
-    },
-    {
-      logo: "/logos_clientes/6.jpeg",
-    },
-    {
-      logo: "/logos_clientes/7.jpeg",
-    },
-    {
-      logo: "/logos_clientes/8.jpeg",
-    },
-    {
-      logo: "/logos_clientes/9.jpeg",
-    },
-    {
-      logo: "/logos_clientes/10.jpeg",
+      name: "Nombre de negocio",
+      description: "Desarrollo de software",
     },
   ];
 
@@ -140,39 +72,108 @@ export default function ClientLogosSection() {
   const firstRowClients = clientsData.slice(0, 25);
 
   useEffect(() => {
-    const loadAnimations = async () => {
-      const { gsap } = await import("gsap");
+    let gsap: any;
+    let mounted = true;
 
-      if (!sliderRef1.current || !sliderRef2.current) return;
+    const initializeAnimations = async () => {
+      try {
+        const gsapModule = await import("gsap");
+        gsap = gsapModule.gsap;
 
-      // Animación infinita para la primera fila (derecha a izquierda)
-      gsap.set(sliderRef1.current, { x: 0 });
-      gsap.to(sliderRef1.current, {
-        x: "-50%",
-        duration: 25,
-        repeat: -1,
-        ease: "none",
-      });
+        if (!mounted || !sliderRef1.current) return;
 
-      // Animación infinita para la segunda fila (izquierda a derecha)
-      gsap.set(sliderRef2.current, { x: "-50%" });
-      gsap.to(sliderRef2.current, {
-        x: "0%",
-        duration: 25,
-        repeat: -1,
-        ease: "none",
-      });
+        // Limpiar animaciones anteriores
+        gsap.killTweensOf(sliderRef1.current);
+        if (sliderRef2.current) {
+          gsap.killTweensOf(sliderRef2.current);
+        }
+
+        // Configurar posición inicial sin transición
+        gsap.set(sliderRef1.current, {
+          x: 0,
+          force3D: true,
+          will: "transform",
+        });
+
+        // Crear animación para primera fila
+        const anim1 = gsap.to(sliderRef1.current, {
+          x: "-50%",
+          duration: 30,
+          repeat: -1,
+          ease: "none",
+          force3D: true,
+          onRepeat: () => {
+            // Resetear posición suavemente al repetir
+            if (!mounted) return;
+            gsap.set(sliderRef1.current, { x: 0 });
+          },
+        });
+
+        // Guardar referencia a la animación
+        animationsRef.current = [anim1];
+
+        if (mounted) {
+          setIsAnimationReady(true);
+        }
+      } catch (error) {
+        console.error("Error loading GSAP:", error);
+      }
     };
 
-    loadAnimations();
+    initializeAnimations();
 
     return () => {
-      import("gsap").then(({ gsap }) => {
-        gsap.killTweensOf(sliderRef1.current);
-        gsap.killTweensOf(sliderRef2.current);
-      });
+      mounted = false;
+      setIsAnimationReady(false);
+
+      // Limpiar animaciones
+      if (gsap && animationsRef.current.length > 0) {
+        animationsRef.current.forEach((anim) => {
+          if (anim && anim.kill) {
+            anim.kill();
+          }
+        });
+        animationsRef.current = [];
+      }
+
+      // Limpiar todas las animaciones de GSAP en estos elementos
+      if (gsap) {
+        if (sliderRef1.current) gsap.killTweensOf(sliderRef1.current);
+        if (sliderRef2.current) gsap.killTweensOf(sliderRef2.current);
+      }
     };
   }, []);
+
+  // Reiniciar animaciones si se detienen
+  useEffect(() => {
+    if (!isAnimationReady) return;
+
+    const checkAnimation = () => {
+      if (!sliderRef1.current) return;
+
+      // Verificar si la animación sigue activa
+      import("gsap").then(({ gsap }) => {
+        const tweens = gsap.getTweensOf(sliderRef1.current);
+        if (tweens.length === 0) {
+          console.log("Restarting animation...");
+          // Reiniciar animación si se detuvo
+          gsap.set(sliderRef1.current, { x: 0 });
+          gsap.to(sliderRef1.current, {
+            x: "-50%",
+            duration: 30,
+            repeat: -1,
+            ease: "none",
+            force3D: true,
+          });
+        }
+      });
+    };
+
+    // Verificar cada 5 segundos
+    const interval = setInterval(checkAnimation, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAnimationReady]);
 
   const renderClientCard = (client: (typeof clientsData)[0], key: string) => (
     <div
@@ -182,7 +183,7 @@ export default function ClientLogosSection() {
       <div className="flex-shrink-0">
         <Image
           src={client.logo}
-          alt={`${client.logo} image`}
+          alt={client.name}
           width={40}
           height={40}
           className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-200 bg-white p-1 object-cover"
@@ -213,8 +214,13 @@ export default function ClientLogosSection() {
         <div className="overflow-hidden mb-2 sm:mb-4">
           <div
             ref={sliderRef1}
-            className="flex gap-2 sm:gap-3 md:gap-4"
-            style={{ width: "calc(200% + 16px)" }}
+            className={`flex gap-2 sm:gap-3 md:gap-4 transition-opacity duration-500 ${
+              isAnimationReady ? "opacity-100" : "opacity-50"
+            }`}
+            style={{
+              width: "calc(200% + 16px)",
+              willChange: "transform",
+            }}
           >
             {/* Primera copia */}
             {firstRowClients.map((client, index) =>
@@ -226,25 +232,6 @@ export default function ClientLogosSection() {
             )}
           </div>
         </div>
-
-        {/* Segunda fila de slider
-        <div className="overflow-hidden">
-          <div
-            ref={sliderRef2}
-            className="flex gap-2 sm:gap-3 md:gap-4"
-            style={{ width: "calc(200% + 16px)" }}
-          >
-           
-            {secondRowClients.map((client, index) =>
-              renderClientCard(client, `second-${index}`)
-            )}
-           
-            {secondRowClients.map((client, index) =>
-              renderClientCard(client, `second-copy-${index}`)
-            )}
-          </div>
-        </div>
-         */}
       </div>
 
       {/* Indicador adicional en móvil */}
