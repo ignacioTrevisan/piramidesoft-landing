@@ -5,7 +5,7 @@ export default function NewSteps() {
   return (
     <div className={`global_styles_for_sticky_cards`}>
       <section className="intro">
-        <h1>Titulo de seccion</h1>
+        <h1>Nuestro trabajo</h1>
       </section>
       <StickyCard />
     </div>

@@ -10,8 +10,7 @@ const data = [
   {
     index: "1",
     title: "Sistemas de Gestión",
-    image:
-      "https://res.cloudinary.com/nachotrevisan/image/upload/v1756992134/hsygoyjvyw4sicampjza.jpg",
+    image: "/newSteps/facilidad-uso.jpg",
     description:
       "Desarrollamos software de escritorio y movil personalizado para almacenes, talleres, restaurantes y pequeñas empresas de la zona para optimizar sus procesos.",
   },

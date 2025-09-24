@@ -16,59 +16,128 @@ export default function ClientLogosSection() {
   const clientsData = [
     {
       logo: "/logos_clientes/1.jpeg",
-      name: "Nombre de negocio",
-      description: "Soluciones tecnológicas",
     },
     {
       logo: "/logos_clientes/2.jpeg",
-      name: "Nombre de negocio",
-      description: "Software empresarial",
     },
     {
       logo: "/logos_clientes/3.jpeg",
-      name: "Nombre de negocio",
-      description: "Análisis de datos",
     },
     {
       logo: "/logos_clientes/4.jpeg",
-      name: "Nombre de negocio",
-      description: "Servicios en la nube",
     },
     {
       logo: "/logos_clientes/5.jpeg",
-      name: "Nombre de negocio",
-      description: "Desarrollo web",
     },
     {
       logo: "/logos_clientes/6.jpeg",
-      name: "Nombre de negocio",
-      description: "Apps móviles",
     },
     {
       logo: "/logos_clientes/7.jpeg",
-      name: "Nombre de negocio",
-      description: "Marketing digital",
     },
     {
       logo: "/logos_clientes/8.jpeg",
-      name: "Nombre de negocio",
-      description: "Sistemas inteligentes",
     },
     {
       logo: "/logos_clientes/9.jpeg",
-      name: "NetWork Nombre de negocio",
-      description: "Redes y conectividad",
     },
     {
       logo: "/logos_clientes/10.jpeg",
-      name: "Nombre de negocio",
-      description: "Desarrollo de software",
+    },
+    {
+      logo: "/logos_clientes/1.jpeg",
+    },
+    {
+      logo: "/logos_clientes/2.jpeg",
+    },
+    {
+      logo: "/logos_clientes/3.jpeg",
+    },
+    {
+      logo: "/logos_clientes/4.jpeg",
+    },
+    {
+      logo: "/logos_clientes/5.jpeg",
+    },
+    {
+      logo: "/logos_clientes/6.jpeg",
+    },
+    {
+      logo: "/logos_clientes/7.jpeg",
+    },
+    {
+      logo: "/logos_clientes/8.jpeg",
+    },
+    {
+      logo: "/logos_clientes/9.jpeg",
+    },
+    {
+      logo: "/logos_clientes/10.jpeg",
+    },
+    {
+      logo: "/logos_clientes/1.jpeg",
+    },
+    {
+      logo: "/logos_clientes/2.jpeg",
+    },
+    {
+      logo: "/logos_clientes/3.jpeg",
+    },
+    {
+      logo: "/logos_clientes/4.jpeg",
+    },
+    {
+      logo: "/logos_clientes/5.jpeg",
+    },
+    {
+      logo: "/logos_clientes/6.jpeg",
+    },
+    {
+      logo: "/logos_clientes/7.jpeg",
+    },
+    {
+      logo: "/logos_clientes/8.jpeg",
+    },
+    {
+      logo: "/logos_clientes/9.jpeg",
+    },
+    {
+      logo: "/logos_clientes/10.jpeg",
+    },
+    {
+      logo: "/logos_clientes/1.jpeg",
+    },
+    {
+      logo: "/logos_clientes/2.jpeg",
+    },
+    {
+      logo: "/logos_clientes/3.jpeg",
+    },
+    {
+      logo: "/logos_clientes/4.jpeg",
+    },
+    {
+      logo: "/logos_clientes/5.jpeg",
+    },
+    {
+      logo: "/logos_clientes/6.jpeg",
+    },
+    {
+      logo: "/logos_clientes/7.jpeg",
+    },
+    {
+      logo: "/logos_clientes/8.jpeg",
+    },
+    {
+      logo: "/logos_clientes/9.jpeg",
+    },
+    {
+      logo: "/logos_clientes/10.jpeg",
     },
   ];
 
   // Dividir clientes en dos grupos
-  const firstRowClients = clientsData.slice(0, 5);
-  const secondRowClients = clientsData.slice(5);
+  const firstRowClients = clientsData.slice(0, 25);
 
   useEffect(() => {
     const loadAnimations = async () => {
@@ -108,25 +177,17 @@ export default function ClientLogosSection() {
   const renderClientCard = (client: (typeof clientsData)[0], key: string) => (
     <div
       key={key}
-      className="flex items-center gap-2 sm:gap-3 md:gap-4 p-2 sm:p-3 md:p-4 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] flex-shrink-0"
+      className="flex items-center gap-2 sm:gap-3 md:gap-4 p-2 sm:p-3 md:p-4 w-[40px] sm:w-[60px] md:w-[80px] lg:w-[100px] flex-shrink-0"
     >
       <div className="flex-shrink-0">
         <Image
           src={client.logo}
-          alt={client.name}
+          alt={`${client.logo} image`}
           width={40}
           height={40}
           className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-200 bg-white p-1 object-cover"
           loading="lazy"
         />
-      </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-gray-900 text-xs sm:text-sm md:text-base truncate">
-          {client.name}
-        </h3>
-        <p className="text-gray-600 text-xs sm:text-xs md:text-sm truncate hidden sm:block">
-          {client.description}
-        </p>
       </div>
     </div>
   );
@@ -166,23 +227,24 @@ export default function ClientLogosSection() {
           </div>
         </div>
 
-        {/* Segunda fila de slider */}
+        {/* Segunda fila de slider
         <div className="overflow-hidden">
           <div
             ref={sliderRef2}
             className="flex gap-2 sm:gap-3 md:gap-4"
             style={{ width: "calc(200% + 16px)" }}
           >
-            {/* Primera copia */}
+           
             {secondRowClients.map((client, index) =>
               renderClientCard(client, `second-${index}`)
             )}
-            {/* Segunda copia para continuidad */}
+           
             {secondRowClients.map((client, index) =>
               renderClientCard(client, `second-copy-${index}`)
             )}
           </div>
         </div>
+         */}
       </div>
 
       {/* Indicador adicional en móvil */}
