@@ -1,12 +1,9 @@
-import React from "react";
 import PiramideSoftPage from "./Clientes-modeClient";
 
-export const page = () => {
+export default async function ClientPage() {
   return (
     <div>
       <PiramideSoftPage />{" "}
     </div>
   );
-};
-
-export default page;
+}
