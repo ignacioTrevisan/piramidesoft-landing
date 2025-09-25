@@ -130,7 +130,7 @@ const ProductsPreview = () => {
               Estamos preparando nuestro catálogo de productos.
             </p>
             <Link
-              href="/products"
+              href="/productos"
               className="inline-block text-white  font-bold py-3 px-6 rounded-lg transition-all"
             >
               Ver más información
