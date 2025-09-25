@@ -247,7 +247,7 @@ const ProductsPreview = () => {
               )}
 
               <Link
-                href={`/products/${product.id}`}
+                href={`/productos/${product.id}`}
                 className="inline-block w-full text-center bg-[#2563EB] hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors"
               >
                 Conoce más
@@ -261,7 +261,7 @@ const ProductsPreview = () => {
             Explora nuestra gama completa de productos
           </p>
           <Link
-            href="/products"
+            href="/productos"
             className="inline-block bg-transparent border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white font-bold py-3 px-6 rounded-lg transition-all"
           >
             Ver todos los productos
