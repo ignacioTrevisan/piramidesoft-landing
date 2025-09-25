@@ -103,7 +103,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }, [isCardMounted]);
 
   return (
-    <Link href={`/products/${product.id}`} legacyBehavior={false}>
+    <Link href={`/productos/${product.id}`} legacyBehavior={false}>
       <div
         ref={cardRef}
         className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 group"
