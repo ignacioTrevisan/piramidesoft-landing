@@ -154,7 +154,22 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  role: 'role'
+  role: 'role',
+  cuit: 'cuit',
+  fechaNacimiento: 'fechaNacimiento',
+  phone: 'phone'
+};
+
+exports.Prisma.CategoryClientScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  value: 'value'
+};
+
+exports.Prisma.UserCategoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  categoryClientId: 'categoryClientId'
 };
 
 exports.Prisma.ConsultasScalarFieldEnum = {
@@ -243,6 +258,8 @@ exports.Prisma.ModelName = {
   Modulo: 'Modulo',
   Tipo: 'Tipo',
   User: 'User',
+  CategoryClient: 'CategoryClient',
+  UserCategory: 'UserCategory',
   Consultas: 'Consultas',
   Blog: 'Blog',
   Stats: 'Stats',

@@ -65,14 +65,36 @@ enum Role {
 
 
 model User{
-  id          String       @id @default(uuid())
-  name        String
-  email       String       @unique
-  password    String
-  role        Role         @default(user)
-  comentarios BlogComment[]
-  likes       BlogLike[]
+  id                String       @id @default(uuid())
+  name              String
+  email             String       @unique
+  password          String
+  role              Role         @default(user)
+  comentarios       BlogComment[]
+  likes             BlogLike[]
+  cuit              String?
+  fechaNacimiento   DateTime?
+  phone             String?
+  userCategory      UserCategory?
 }
+
+
+model CategoryClient{
+  id              String          @id @default(uuid())
+  name            String
+  value           Float
+  UserCategory    UserCategory[]
+}
+
+model UserCategory{
+  id                String          @id @default(uuid())
+  user              User            @relation(fields:[userId], references: [id])
+  userId            String          @unique
+  categoryClient    CategoryClient  @relation(fields:[categoryClientId], references:[id])
+  categoryClientId  String
+}
+
+
 
 model Consultas {
   id          String         @id @default(uuid())
@@ -152,3 +174,5 @@ model Historial{
   descripcion String
   createdAt   DateTime @default(now())
 }
+
+
