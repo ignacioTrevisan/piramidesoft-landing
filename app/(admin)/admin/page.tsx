@@ -9,6 +9,7 @@ import { gsap } from "gsap";
 import { TiposSection } from "./components/tiposSection";
 import { ProductOrderSection } from "./components/toogleProductsOrder";
 import { CategoriasSection } from "./components/categoriasSection";
+import { ClientesSection } from "./components/clientesSection";
 
 export default function AdminPage() {
   const { activeSection } = useAdmin();
@@ -40,6 +41,8 @@ export default function AdminPage() {
         return <TiposSection />;
       case "Categorias":
         return <CategoriasSection />;
+      case "Clientes":
+        return <ClientesSection />;
       default:
         return <Dashboard />;
     }
