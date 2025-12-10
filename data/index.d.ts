@@ -5571,7 +5571,6 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     cuit: string | null
-    fechaNacimiento: Date | null
     phone: string | null
   }
 
@@ -5582,7 +5581,6 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     cuit: string | null
-    fechaNacimiento: Date | null
     phone: string | null
   }
 
@@ -5593,7 +5591,6 @@ export namespace Prisma {
     password: number
     role: number
     cuit: number
-    fechaNacimiento: number
     phone: number
     _all: number
   }
@@ -5606,7 +5603,6 @@ export namespace Prisma {
     password?: true
     role?: true
     cuit?: true
-    fechaNacimiento?: true
     phone?: true
   }
 
@@ -5617,7 +5613,6 @@ export namespace Prisma {
     password?: true
     role?: true
     cuit?: true
-    fechaNacimiento?: true
     phone?: true
   }
 
@@ -5628,7 +5623,6 @@ export namespace Prisma {
     password?: true
     role?: true
     cuit?: true
-    fechaNacimiento?: true
     phone?: true
     _all?: true
   }
@@ -5712,7 +5706,6 @@ export namespace Prisma {
     password: string
     role: $Enums.Role
     cuit: string | null
-    fechaNacimiento: Date | null
     phone: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -5740,7 +5733,6 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     cuit?: boolean
-    fechaNacimiento?: boolean
     phone?: boolean
     comentarios?: boolean | User$comentariosArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
@@ -5755,7 +5747,6 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     cuit?: boolean
-    fechaNacimiento?: boolean
     phone?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -5766,7 +5757,6 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     cuit?: boolean
-    fechaNacimiento?: boolean
     phone?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -5777,11 +5767,10 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     cuit?: boolean
-    fechaNacimiento?: boolean
     phone?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "cuit" | "fechaNacimiento" | "phone", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "cuit" | "phone", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comentarios?: boolean | User$comentariosArgs<ExtArgs>
     likes?: boolean | User$likesArgs<ExtArgs>
@@ -5805,7 +5794,6 @@ export namespace Prisma {
       password: string
       role: $Enums.Role
       cuit: string | null
-      fechaNacimiento: Date | null
       phone: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -6239,7 +6227,6 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly cuit: FieldRef<"User", 'String'>
-    readonly fechaNacimiento: FieldRef<"User", 'DateTime'>
     readonly phone: FieldRef<"User", 'String'>
   }
     
@@ -16408,7 +16395,6 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     cuit: 'cuit',
-    fechaNacimiento: 'fechaNacimiento',
     phone: 'phone'
   };
 
@@ -16856,7 +16842,6 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     cuit?: StringNullableFilter<"User"> | string | null
-    fechaNacimiento?: DateTimeNullableFilter<"User"> | Date | string | null
     phone?: StringNullableFilter<"User"> | string | null
     comentarios?: BlogCommentListRelationFilter
     likes?: BlogLikeListRelationFilter
@@ -16870,7 +16855,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     cuit?: SortOrderInput | SortOrder
-    fechaNacimiento?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     comentarios?: BlogCommentOrderByRelationAggregateInput
     likes?: BlogLikeOrderByRelationAggregateInput
@@ -16887,7 +16871,6 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     cuit?: StringNullableFilter<"User"> | string | null
-    fechaNacimiento?: DateTimeNullableFilter<"User"> | Date | string | null
     phone?: StringNullableFilter<"User"> | string | null
     comentarios?: BlogCommentListRelationFilter
     likes?: BlogLikeListRelationFilter
@@ -16901,7 +16884,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     cuit?: SortOrderInput | SortOrder
-    fechaNacimiento?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -16918,7 +16900,6 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     cuit?: StringNullableWithAggregatesFilter<"User"> | string | null
-    fechaNacimiento?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     phone?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
@@ -17642,7 +17623,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentCreateNestedManyWithoutUserInput
     likes?: BlogLikeCreateNestedManyWithoutUserInput
@@ -17656,7 +17636,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentUncheckedCreateNestedManyWithoutUserInput
     likes?: BlogLikeUncheckedCreateNestedManyWithoutUserInput
@@ -17670,7 +17649,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUpdateManyWithoutUserNestedInput
     likes?: BlogLikeUpdateManyWithoutUserNestedInput
@@ -17684,7 +17662,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: BlogLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -17698,7 +17675,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
   }
 
@@ -17709,7 +17685,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -17720,7 +17695,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -18558,17 +18532,6 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type BlogCommentListRelationFilter = {
     every?: BlogCommentWhereInput
     some?: BlogCommentWhereInput
@@ -18601,7 +18564,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     cuit?: SortOrder
-    fechaNacimiento?: SortOrder
     phone?: SortOrder
   }
 
@@ -18612,7 +18574,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     cuit?: SortOrder
-    fechaNacimiento?: SortOrder
     phone?: SortOrder
   }
 
@@ -18623,7 +18584,6 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     cuit?: SortOrder
-    fechaNacimiento?: SortOrder
     phone?: SortOrder
   }
 
@@ -18635,20 +18595,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type FloatFilter<$PrismaModel = never> = {
@@ -19224,10 +19170,6 @@ export namespace Prisma {
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type BlogCommentUpdateManyWithoutUserNestedInput = {
@@ -19866,17 +19808,6 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -19885,20 +19816,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -20441,7 +20358,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentCreateNestedManyWithoutUserInput
     likes?: BlogLikeCreateNestedManyWithoutUserInput
@@ -20454,7 +20370,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentUncheckedCreateNestedManyWithoutUserInput
     likes?: BlogLikeUncheckedCreateNestedManyWithoutUserInput
@@ -20500,7 +20415,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUpdateManyWithoutUserNestedInput
     likes?: BlogLikeUpdateManyWithoutUserNestedInput
@@ -20513,7 +20427,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUncheckedUpdateManyWithoutUserNestedInput
     likes?: BlogLikeUncheckedUpdateManyWithoutUserNestedInput
@@ -20927,7 +20840,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     likes?: BlogLikeCreateNestedManyWithoutUserInput
     userCategory?: UserCategoryCreateNestedOneWithoutUserInput
@@ -20940,7 +20852,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     likes?: BlogLikeUncheckedCreateNestedManyWithoutUserInput
     userCategory?: UserCategoryUncheckedCreateNestedOneWithoutUserInput
@@ -21004,7 +20915,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: BlogLikeUpdateManyWithoutUserNestedInput
     userCategory?: UserCategoryUpdateOneWithoutUserNestedInput
@@ -21017,7 +20927,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     likes?: BlogLikeUncheckedUpdateManyWithoutUserNestedInput
     userCategory?: UserCategoryUncheckedUpdateOneWithoutUserNestedInput
@@ -21059,7 +20968,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentCreateNestedManyWithoutUserInput
     userCategory?: UserCategoryCreateNestedOneWithoutUserInput
@@ -21072,7 +20980,6 @@ export namespace Prisma {
     password: string
     role?: $Enums.Role
     cuit?: string | null
-    fechaNacimiento?: Date | string | null
     phone?: string | null
     comentarios?: BlogCommentUncheckedCreateNestedManyWithoutUserInput
     userCategory?: UserCategoryUncheckedCreateNestedOneWithoutUserInput
@@ -21136,7 +21043,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUpdateManyWithoutUserNestedInput
     userCategory?: UserCategoryUpdateOneWithoutUserNestedInput
@@ -21149,7 +21055,6 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     cuit?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     comentarios?: BlogCommentUncheckedUpdateManyWithoutUserNestedInput
     userCategory?: UserCategoryUncheckedUpdateOneWithoutUserNestedInput

@@ -73,7 +73,7 @@ model User{
   comentarios       BlogComment[]
   likes             BlogLike[]
   cuit              String?
-  fechaNacimiento   DateTime?
+ 
   phone             String?
   userCategory      UserCategory?
 }

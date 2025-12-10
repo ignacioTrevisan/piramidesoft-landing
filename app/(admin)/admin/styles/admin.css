@@ -1,7 +1,7 @@
 /* Importar Tailwind CSS */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Reset y base */
 * {
@@ -10,8 +10,10 @@
   padding: 0;
 }
 
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   color: #374151;
@@ -152,8 +154,12 @@ html, body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Badge styles */
@@ -206,7 +212,7 @@ html, body {
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
   }
-  
+
   .sidebar-mobile.open {
     transform: translateX(0);
   }
@@ -219,7 +225,8 @@ html, body {
 
 .hover-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* Fixes para emojis y elementos grandes */
@@ -262,7 +269,9 @@ button {
 }
 
 /* Inputs consistentes */
-input, textarea, select {
+input,
+textarea,
+select {
   font-size: 0.875rem !important;
 }
 
@@ -287,15 +296,15 @@ input, textarea, select {
   .main-content {
     padding: 1rem !important;
   }
-  
+
   h1 {
     font-size: 1.5rem !important;
   }
-  
+
   h2 {
     font-size: 1.25rem !important;
   }
-  
+
   .modal-content {
     max-width: 95vw;
     margin: 0.5rem;
@@ -308,36 +317,36 @@ input, textarea, select {
   .sidebar {
     z-index: 50 !important;
   }
-  
+
   /* Overlay para móvil */
   .mobile-overlay {
     z-index: 40;
   }
-  
+
   /* Botón de menú móvil */
   .mobile-menu-button {
     z-index: 60 !important;
   }
-  
+
   /* Prevenir scroll cuando el sidebar está abierto */
   body.sidebar-open {
     overflow: hidden !important;
     position: fixed !important;
     width: 100% !important;
   }
-  
+
   /* Main content ajuste en móvil */
   .main-content {
     margin-left: 0 !important;
     padding: 1rem !important;
     padding-top: 4rem !important; /* Espacio para el botón del menú */
   }
-  
+
   /* Container admin en móvil */
   .admin-container {
     padding-top: 0;
   }
-  
+
   /* Sidebar debe ocupar toda la altura en móvil */
   .sidebar {
     height: 100vh !important;

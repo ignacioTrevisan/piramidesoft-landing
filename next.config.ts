@@ -1,11 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb", // Aumenta si es necesario
+    },
+  },
+  api: {
+    bodyParser: {
+      sizeLimit: "5mb",
+    },
+  },
   images: {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // Usar unoptimized para evitar problemas en producción con imágenes externas
-    unoptimized: process.env.NODE_ENV === 'production',
+    unoptimized: process.env.NODE_ENV === "production",
     remotePatterns: [
       {
         protocol: "https",

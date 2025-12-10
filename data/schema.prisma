@@ -63,17 +63,17 @@ enum Role {
 }
 
 model User {
-  id              String        @id @default(uuid())
-  name            String
-  email           String        @unique
-  password        String
-  role            Role          @default(user)
-  comentarios     BlogComment[]
-  likes           BlogLike[]
-  cuit            String?
-  fechaNacimiento DateTime?
-  phone           String?
-  userCategory    UserCategory?
+  id          String        @id @default(uuid())
+  name        String
+  email       String        @unique
+  password    String
+  role        Role          @default(user)
+  comentarios BlogComment[]
+  likes       BlogLike[]
+  cuit        String?
+
+  phone        String?
+  userCategory UserCategory?
 }
 
 model CategoryClient {

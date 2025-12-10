@@ -10,6 +10,7 @@ import { TiposSection } from "./components/tiposSection";
 import { ProductOrderSection } from "./components/toogleProductsOrder";
 import { CategoriasSection } from "./components/categoriasSection";
 import { ClientesSection } from "./components/clientesSection";
+import { UsuariosSection } from "./components/usuariosSection";
 
 export default function AdminPage() {
   const { activeSection } = useAdmin();
@@ -43,6 +44,8 @@ export default function AdminPage() {
         return <CategoriasSection />;
       case "Clientes":
         return <ClientesSection />;
+      case "Usuarios":
+        return <UsuariosSection />;
       default:
         return <Dashboard />;
     }

@@ -9,6 +9,9 @@ import { GetAllUsers } from "@/app/action/session/getAllUser";
 import { UserInterface } from "@/app/interfaces/userInterface";
 import { GetAllUserCategory } from "@/app/action/UserCategory/getAllUserCategory";
 import { UserCategoryInterface } from "@/app/interfaces/userCategory";
+import { createNewUserCategory } from "@/app/action/UserCategory/createNewUserCategory";
+import { RemoveClientToCategory } from "@/app/action/UserCategory/removeClientToCategory";
+import { generarTicketCliente } from "./ticketGenerator";
 
 // Interfaces
 interface User {
@@ -38,7 +41,7 @@ interface AssignCategoryModalProps {
   onClose: () => void;
   user: UserWithCategory | null;
   categories: categoryInterface[];
-  onSave: (userId: string, categoryId: string | null) => void;
+  onSave: (userId: string, categoryId: string) => void;
 }
 
 // Modal para asignar/modificar categoría
@@ -50,6 +53,7 @@ const AssignCategoryModal: React.FC<AssignCategoryModalProps> = ({
   onSave,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -62,13 +66,30 @@ const AssignCategoryModal: React.FC<AssignCategoryModalProps> = ({
   }, [user]);
 
   useEffect(() => {
-    if (isOpen && modalRef.current) {
-      gsap.fromTo(
-        modalRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
-      );
+    if (isOpen) {
+      // Bloquear scroll del body
+      document.body.style.overflow = "hidden";
+
+      if (overlayRef.current && modalRef.current) {
+        gsap.fromTo(
+          overlayRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2 }
+        );
+        gsap.fromTo(
+          modalRef.current,
+          { opacity: 0, scale: 0.95, y: 20 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "power2.out" }
+        );
+      }
+    } else {
+      // Restaurar scroll del body
+      document.body.style.overflow = "unset";
     }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -77,30 +98,86 @@ const AssignCategoryModal: React.FC<AssignCategoryModalProps> = ({
 
     setIsSubmitting(true);
     try {
-      onSave(user.id, selectedCategoryId || null);
+      onSave(user.id, selectedCategoryId);
       onClose();
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   if (!isOpen || !user) return null;
 
   return (
-    <div className="modal-overlay admin-container">
+    <div
+      ref={overlayRef}
+      onClick={handleOverlayClick}
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 9999,
+        padding: "1rem",
+        overflowY: "auto",
+      }}
+    >
       <div
         ref={modalRef}
-        className="admin-modal modal-content bg-white rounded-xl max-w-md w-full"
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: "white",
+          borderRadius: "1rem",
+          maxWidth: "500px",
+          width: "100%",
+          maxHeight: "90vh",
+          overflowY: "auto",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+          margin: "auto",
+        }}
       >
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">
-            {user.userCategory
-              ? "Modificar Categoría de Cliente"
-              : "Asignar Categoría de Cliente"}
-          </h2>
-          <p className="text-sm text-gray-600 mt-2">
-            Cliente: <span className="font-medium">{user.name}</span>
-          </p>
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">
+                {user.userCategory
+                  ? "Modificar Categoría de Cliente"
+                  : "Asignar Categoría de Cliente"}
+              </h2>
+              <p className="text-sm text-gray-600 mt-2">
+                Cliente: <span className="font-medium">{user.name}</span>
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+              type="button"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -196,9 +273,9 @@ export const ClientesSection = () => {
   const { showToast } = useToast();
   const [users, setUsers] = useState<UserInterface[]>([]);
   const [categories, setCategories] = useState<categoryInterface[]>([]);
-  const [userCategory, setUserCategory] = useState<UserCategoryInterface[]>([]); //Tabla intermedia
+  const [userCategory, setUserCategory] = useState<UserCategoryInterface[]>([]);
   const [tablaIntermediaEnLimpio, setTablaIntermediaEnLimpio] = useState<
-    { id: string; categoria: string }[]
+    { id: string; categoriaId: string | null; categoriaNombre: string }[]
   >([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -218,8 +295,9 @@ export const ClientesSection = () => {
 
     loadData();
   }, []);
+
   useEffect(() => {
-    if (users.length > 0 && categories.length > 0 && userCategory.length > 0) {
+    if (users.length > 0) {
       cargarTablaIntermediaEnLimpio();
     }
   }, [users, categories, userCategory]);
@@ -229,24 +307,24 @@ export const ClientesSection = () => {
       const userCategorie = userCategory.find((uc) => uc.userId === u.id);
       const categoria = userCategorie
         ? categories.find((c) => c.id === userCategorie.categoryClientId)
-            ?.name || "Sin categoria"
-        : "Sin categoria";
+        : null;
 
       return {
         id: u.id,
-        categoria: categoria,
+        categoriaId: categoria?.id || null,
+        categoriaNombre: categoria?.name || "Sin categoria",
       };
     });
 
     setTablaIntermediaEnLimpio(tablaLimpia);
-    console.log({ tablaIntermediaEnLimpio: tablaLimpia });
   };
+
   const loadData = async () => {
     try {
       const dataCategorias = await GetCategorias();
       const dataUsers = await GetAllUsers();
-
       const dataUserCategory = await GetAllUserCategory();
+
       if (
         dataCategorias.data &&
         dataCategorias.ok &&
@@ -270,14 +348,9 @@ export const ClientesSection = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveCategory = async (
-    userId: string,
-    categoryId: string | null
-  ) => {
+  const handleSaveCategory = async (userId: string, categoryId: string) => {
     try {
-      // Aquí deberías llamar a tu función de servidor para asignar/actualizar la categoría
-      // const response = await AssignUserCategory(userId, categoryId);
-
+      await createNewUserCategory(userId, categoryId);
       const user = users.find((u) => u.id === userId);
       const category = categories.find((c) => c.id === categoryId);
 
@@ -293,7 +366,6 @@ export const ClientesSection = () => {
         );
       }
 
-      // Recargar datos
       await loadData();
     } catch (error) {
       console.error("Error al asignar categoría:", error);
@@ -311,14 +383,11 @@ export const ClientesSection = () => {
       )
     ) {
       try {
-        // Aquí deberías llamar a tu función de servidor para eliminar la categoría
-        // await RemoveUserCategory(userId);
-
+        await RemoveClientToCategory(userId);
         showToast(`Categoría eliminada del cliente ${user.name}`, "success");
         await AddHistorial(
           `Se eliminó la categoría del cliente "${user.name}"`
         );
-
         await loadData();
       } catch (error) {
         console.error("Error al eliminar categoría:", error);
@@ -327,32 +396,183 @@ export const ClientesSection = () => {
     }
   };
 
-  const handleEmitTicket = (userId: string) => {
-    const user = users.find((u) => u.id === userId);
-    showToast(
-      `Emitir ticket para ${user?.name} - Funcionalidad pendiente`,
-      "info"
-    );
+  const handleEmitTicket = async (
+    userId: string,
+    sendEmail: boolean = false
+  ) => {
+    try {
+      const user = users.find((u) => u.id === userId);
+      const userTableData = tablaIntermediaEnLimpio.find(
+        (ti) => ti.id === userId
+      );
+
+      if (!user || !userTableData?.categoriaId) {
+        showToast("No se puede emitir ticket sin categoría asignada", "error");
+        return false;
+      }
+
+      const categoria = categories.find(
+        (c) => c.id === userTableData.categoriaId
+      );
+
+      if (!categoria) {
+        showToast("Error: categoría no encontrada", "error");
+        return false;
+      }
+
+      const numeroRecibo = `${Date.now().toString().slice(-6)}`;
+      const periodo = new Date()
+        .toLocaleString("es-AR", {
+          month: "short",
+          year: "numeric",
+        })
+        .toUpperCase();
+
+      showToast(
+        sendEmail ? "Generando y enviando ticket..." : "Generando ticket...",
+        "info"
+      );
+
+      // Generar el ticket
+      const ticketBlob = await generarTicketCliente(
+        { name: user.name, cuit: user.cuit },
+        { name: categoria.name, value: categoria.value },
+        numeroRecibo,
+        periodo
+      );
+
+      // Descargar el archivo localmente
+      if (!sendEmail) {
+        const url = window.URL.createObjectURL(ticketBlob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Recibo_${user.name.replace(
+          /\s+/g,
+          "_"
+        )}_${numeroRecibo}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        showToast(`Ticket generado para ${user.name}`, "success");
+        await AddHistorial(
+          `Se emitió ticket para el cliente "${user.name}" - Categoría: "${categoria.name}"`
+        );
+        return true;
+      }
+
+      // Si se requiere enviar email
+      if (sendEmail && user.email) {
+        // Convertir Blob a base64
+        const arrayBuffer = await ticketBlob.arrayBuffer();
+        const uint8Array = new Uint8Array(arrayBuffer);
+        let binary = "";
+        for (let i = 0; i < uint8Array.byteLength; i++) {
+          binary += String.fromCharCode(uint8Array[i]);
+        }
+        const pdfBase64 = btoa(binary);
+
+        // Enviar a la API Route
+        const response = await fetch("/api/send-ticket-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            to: user.email,
+            userName: user.name,
+            categoryName: categoria.name,
+            amount: categoria.value,
+            pdfBase64: pdfBase64,
+            numeroRecibo,
+            periodo,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          showToast(`Ticket enviado a ${user.email}`, "success");
+          await AddHistorial(
+            `Se emitió y envió ticket por email para el cliente "${user.name}" - Categoría: "${categoria.name}"`
+          );
+          return true;
+        } else {
+          showToast(`Error al enviar el email a ${user.email}`, "error");
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error al emitir ticket:", error);
+      showToast("Error al generar/enviar el ticket", "error");
+      return false;
+    }
   };
 
-  //   const handleEmitAllTickets = () => {
-  //     const usersWithCategory = users.filter((u) => u.userCategory);
-  //     if (usersWithCategory.length === 0) {
-  //       showToast("No hay clientes con categoría asignada", "error");
-  //       return;
-  //     }
+  const handleEmitAllTickets = async (sendEmails: boolean = false) => {
+    const usersWithCategory = tablaIntermediaEnLimpio.filter(
+      (ti) => ti.categoriaId !== null
+    );
 
-  //     if (
-  //       confirm(
-  //         `¿Deseas emitir tickets para todos los clientes con categoría asignada? (${usersWithCategory.length} clientes)`
-  //       )
-  //     ) {
-  //       showToast(
-  //         `Emitiendo ${usersWithCategory.length} tickets - Funcionalidad pendiente`,
-  //         "info"
-  //       );
-  //     }
-  //   };
+    if (usersWithCategory.length === 0) {
+      showToast("No hay clientes con categoría asignada", "error");
+      return;
+    }
+
+    const action = sendEmails ? "enviar por email" : "descargar";
+    const confirmMessage = `¿Deseas ${action} los tickets de todos los clientes con categoría asignada? (${usersWithCategory.length} clientes)`;
+
+    if (!confirm(confirmMessage)) {
+      return;
+    }
+
+    showToast(
+      `${sendEmails ? "Enviando" : "Generando"} ${
+        usersWithCategory.length
+      } tickets...`,
+      "info"
+    );
+
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (const userTable of usersWithCategory) {
+      try {
+        const result = await handleEmitTicket(userTable.id, sendEmails);
+        if (result) {
+          successCount++;
+        } else {
+          errorCount++;
+        }
+        // Pausa entre envíos
+        await new Promise((resolve) =>
+          setTimeout(resolve, sendEmails ? 2000 : 500)
+        );
+      } catch (error) {
+        console.error(
+          `Error al procesar ticket para usuario ${userTable.id}:`,
+          error
+        );
+        errorCount++;
+      }
+    }
+
+    const action2 = sendEmails ? "enviaron" : "generaron";
+    if (errorCount === 0) {
+      showToast(
+        `Se ${action2} ${successCount} tickets exitosamente`,
+        "success"
+      );
+    } else {
+      showToast(
+        `Se ${action2} ${successCount} tickets. ${errorCount} fallaron.`,
+        errorCount > successCount ? "error" : "warning"
+      );
+    }
+  };
 
   const filteredUsers = users.filter((user) => {
     if (filterCategory === "all") return true;
@@ -360,19 +580,17 @@ export const ClientesSection = () => {
     const userInTable = tablaIntermediaEnLimpio.find((ti) => ti.id === user.id);
 
     if (filterCategory === "sin-categoria") {
-      return userInTable?.categoria === "Sin categoria";
+      return !userInTable?.categoriaId;
     }
 
-    // Buscar el nombre de la categoría seleccionada
-    const selectedCategory = categories.find((c) => c.id === filterCategory);
-    return userInTable?.categoria === selectedCategory?.name;
+    return userInTable?.categoriaId === filterCategory;
   });
 
   const usersWithCategory = tablaIntermediaEnLimpio.filter(
-    (ti) => ti.categoria !== "Sin categoria"
+    (ti) => ti.categoriaId !== null
   );
   const usersWithoutCategory = tablaIntermediaEnLimpio.filter(
-    (ti) => ti.categoria === "Sin categoria"
+    (ti) => ti.categoriaId === null
   );
 
   if (loading) {
@@ -399,30 +617,57 @@ export const ClientesSection = () => {
             Administra las categorías asignadas a cada cliente
           </p>
         </div>
-        <button
-          onClick={() => console.log("Aun no implementada")}
-          disabled={usersWithCategory.length === 0}
-          className={`px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors ${
-            usersWithCategory.length === 0
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700 text-white"
-          }`}
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        <div className="flex gap-3">
+          <button
+            onClick={() => handleEmitAllTickets(false)}
+            disabled={usersWithCategory.length === 0}
+            className={`px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors ${
+              usersWithCategory.length === 0
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700 text-white"
+            }`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          <span>Emitir Todos los Tickets ({usersWithCategory.length})</span>
-        </button>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
+            </svg>
+            <span>Descargar Todos ({usersWithCategory.length})</span>
+          </button>
+
+          <button
+            onClick={() => handleEmitAllTickets(true)}
+            disabled={usersWithCategory.length === 0}
+            className={`px-6 py-3 rounded-lg flex items-center space-x-2 transition-colors ${
+              usersWithCategory.length === 0
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            <span>Enviar Todos por Email ({usersWithCategory.length})</span>
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -540,114 +785,174 @@ export const ClientesSection = () => {
 
       {/* Clientes List */}
       <div className="space-y-4">
-        {filteredUsers.map((user) => (
-          <div
-            key={user.id}
-            className="admin-card hover:shadow-lg transition-all duration-300"
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <span className="text-blue-600 font-semibold text-lg">
-                        {user.name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    <div>
-                      <h3
-                        className="text-xl font-semibold text-gray-800"
-                        style={{ fontSize: "18px" }}
-                      >
-                        {user.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">{user.email}</p>
-                    </div>
-                  </div>
+        {filteredUsers.map((user) => {
+          const userTableData = tablaIntermediaEnLimpio.find(
+            (ti) => ti.id === user.id
+          );
+          const hasCategory =
+            userTableData?.categoriaId !== null &&
+            userTableData?.categoriaId !== undefined;
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    {user.cuit && (
-                      <div className="text-sm">
-                        <span className="text-gray-600">CUIT:</span>
-                        <span className="ml-2 font-mono text-gray-800">
-                          {user.cuit}
+          return (
+            <div
+              key={user.id}
+              className="admin-card hover:shadow-lg transition-all duration-300"
+            >
+              <div className="p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-blue-600 font-semibold text-lg">
+                          {user.name.charAt(0).toUpperCase()}
                         </span>
                       </div>
-                    )}
-                    {user.phone && (
-                      <div className="text-sm">
-                        <span className="text-gray-600">Teléfono:</span>
-                        <span className="ml-2 font-mono text-gray-800">
-                          {user.phone}
-                        </span>
+                      <div>
+                        <h3
+                          className="text-xl font-semibold text-gray-800"
+                          style={{ fontSize: "18px" }}
+                        >
+                          {user.name}
+                        </h3>
+                        <p className="text-sm text-gray-500">{user.email}</p>
                       </div>
-                    )}
-                  </div>
+                    </div>
 
-                  {tablaIntermediaEnLimpio.filter(
-                    (ti) => ti.id === user.id
-                  )[0] ? (
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-sm font-medium text-green-800 mb-1">
-                            Categoría Asignada
-                          </p>
-                          <p className="text-lg font-semibold text-green-900">
-                            {
-                              tablaIntermediaEnLimpio.filter(
-                                (ti) => ti.id === user.id
-                              )[0].categoria
-                            }
-                          </p>
-                          <p className="text-sm text-green-700 mt-1">
-                            {" "}
-                            {categories.filter(
-                              (c) =>
-                                c.name ===
-                                tablaIntermediaEnLimpio.filter(
-                                  (ti) => ti.id === user.id
-                                )[0].categoria
-                            )[0]?.value ?? "N/A"}
-                          </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      {user.cuit && (
+                        <div className="text-sm">
+                          <span className="text-gray-600">CUIT:</span>
+                          <span className="ml-2 font-mono text-gray-800">
+                            {user.cuit}
+                          </span>
+                        </div>
+                      )}
+                      {user.phone && (
+                        <div className="text-sm">
+                          <span className="text-gray-600">Teléfono:</span>
+                          <span className="ml-2 font-mono text-gray-800">
+                            {user.phone}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {hasCategory && userTableData ? (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium text-green-800 mb-1">
+                              Categoría Asignada
+                            </p>
+                            <p className="text-lg font-semibold text-green-900">
+                              {userTableData.categoriaNombre}
+                            </p>
+                            <p className="text-sm text-green-700 mt-1">
+                              $
+                              {categories
+                                .find((c) => c.id === userTableData.categoriaId)
+                                ?.value.toFixed(2) || "N/A"}
+                              /mes
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                      <p className="text-sm font-medium text-orange-800">
-                        Sin categoría asignada
-                      </p>
-                    </div>
-                  )}
-                </div>
+                    ) : (
+                      <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                        <p className="text-sm font-medium text-orange-800">
+                          Sin categoría asignada
+                        </p>
+                      </div>
+                    )}
+                  </div>
 
-                <div className="flex flex-col space-y-2 ml-6">
-                  {tablaIntermediaEnLimpio.find((til) => til.id === user.id)
-                    ?.categoria !== "Sin categoria" ? (
-                    <>
-                      <button
-                        onClick={() => handleEmitTicket(user.id)}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 whitespace-nowrap"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                  <div className="flex flex-col space-y-2 ml-6">
+                    {hasCategory ? (
+                      <>
+                        <button
+                          onClick={() => handleEmitTicket(user.id, false)}
+                          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 whitespace-nowrap"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                        <span>Emitir Ticket</span>
-                      </button>
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          <span>Descargar</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleEmitTicket(user.id, true)}
+                          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 whitespace-nowrap"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span>Enviar Email</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleAssignCategory(user)}
+                          className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center space-x-2 whitespace-nowrap"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                          <span>Modificar</span>
+                        </button>
+
+                        <button
+                          onClick={() => handleRemoveCategory(user.id)}
+                          className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors flex items-center space-x-2 whitespace-nowrap"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                          <span>Quitar</span>
+                        </button>
+                      </>
+                    ) : (
                       <button
                         onClick={() => handleAssignCategory(user)}
-                        className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors flex items-center space-x-2 whitespace-nowrap"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 whitespace-nowrap"
                       >
                         <svg
                           className="w-4 h-4"
@@ -659,57 +964,18 @@ export const ClientesSection = () => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                           />
                         </svg>
-                        <span>Modificar</span>
+                        <span>Asignar Categoría</span>
                       </button>
-                      <button
-                        onClick={() => handleRemoveCategory(user.id)}
-                        className="bg-red-50 text-red-600 px-4 py-2 rounded-lg hover:bg-red-100 transition-colors flex items-center space-x-2 whitespace-nowrap"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
-                          />
-                        </svg>
-                        <span>Quitar</span>
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => handleAssignCategory(user)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 whitespace-nowrap"
-                    >
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                      <span>Asignar Categoría</span>
-                    </button>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {filteredUsers.length === 0 && (

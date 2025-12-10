@@ -3,8 +3,19 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-  role: string;
+  role: "admin" | "user";
   cuit?: string;
-  fechaNacimiento?: Date;
+
+  phone?: string;
+}
+
+export interface userToCreate {
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+  role: "admin" | "user";
+  cuit?: string;
+
   phone?: string;
 }

@@ -45,37 +45,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
-  // Efecto para manejar el body scroll cuando el sidebar está abierto
   useEffect(() => {
     if (isMobileOpen) {
       document.body.classList.add("sidebar-mobile-open");
     } else {
       document.body.classList.remove("sidebar-mobile-open");
     }
-
-    // Cleanup
     return () => {
       document.body.classList.remove("sidebar-mobile-open");
     };
   }, [isMobileOpen]);
 
-  // Manejar clicks del botón hamburguesa
   const toggleSidebar = () => {
     setIsMobileOpen(!isMobileOpen);
   };
 
-  // Cerrar sidebar cuando se selecciona una sección
   const handleSectionClick = (section: string) => {
     setActiveSection(section);
     setIsMobileOpen(false);
   };
 
-  // Cerrar sidebar con overlay
   const closeSidebar = () => {
     setIsMobileOpen(false);
   };
 
-  // Manejar logout
   const handleLogout = async () => {
     setIsLoggingOut(true);
     try {
@@ -91,7 +84,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
     }
   };
 
-  // Manejar tecla ESC
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -256,12 +248,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+      ),
+    },
+    {
+      section: "Usuarios",
+      label: "Usuarios",
+      icon: (
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
           />
         </svg>
       ),
     },
   ];
+
   return (
     <>
       {/* Botón hamburguesa para móvil */}
@@ -300,10 +312,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
       )}
 
       {/* Sidebar */}
-      <div className={`admin-sidebar ${isMobileOpen ? "open" : "closed"}`}>
-        <div className="p-6 h-full flex flex-col">
-          {/* Logo */}
-          <div className="flex items-center space-x-3 mb-8">
+      <div
+        className={`admin-sidebar ${isMobileOpen ? "open" : "closed"}`}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        {/* Logo - Fijo arriba */}
+        <div
+          style={{ flexShrink: 0, padding: "1.5rem", paddingBottom: "1rem" }}
+        >
+          <div className="flex items-center space-x-3 mb-6">
             <Image
               src="/logo_2.png"
               height={40}
@@ -325,7 +347,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
           </div>
 
           {/* User Info */}
-          <div className="mb-6 p-3 bg-gray-100 rounded-lg">
+          <div className="p-3 bg-gray-100 rounded-lg">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
                 {user.name.charAt(0).toUpperCase()}
@@ -341,9 +363,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Menu Items */}
-          <nav className="space-y-2 flex-1">
+        {/* Menu Items - Scrolleable */}
+        <div
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "0 1.5rem",
+            minHeight: 0,
+          }}
+        >
+          <nav className="space-y-2 pb-4">
             {menuItems.map((item) => (
               <SidebarItem
                 key={item.section}
@@ -355,55 +386,61 @@ export const Sidebar: React.FC<SidebarProps> = ({ user }) => {
               />
             ))}
           </nav>
+        </div>
 
-          {/* Logout */}
-          <div className="pt-4 border-t border-gray-200">
-            <button
-              onClick={handleLogout}
-              disabled={isLoggingOut}
-              className="w-full flex items-center space-x-3 p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoggingOut ? (
-                <svg
-                  className="animate-spin w-5 h-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
+        {/* Logout Button - Fijo abajo */}
+        <div
+          style={{
+            flexShrink: 0,
+            padding: "1rem 1.5rem",
+            borderTop: "1px solid #e5e7eb",
+          }}
+        >
+          <button
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="w-full flex items-center space-x-3 p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoggingOut ? (
+              <svg
+                className="animate-spin w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
                   stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
-              )}
-              <span className="font-medium" style={{ fontSize: "14px" }}>
-                {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
-              </span>
-            </button>
-          </div>
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : (
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            )}
+            <span className="font-medium" style={{ fontSize: "14px" }}>
+              {isLoggingOut ? "Cerrando..." : "Cerrar Sesión"}
+            </span>
+          </button>
         </div>
       </div>
     </>
