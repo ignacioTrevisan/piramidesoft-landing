@@ -104,48 +104,56 @@ export const OurJob = () => {
 
           <div className="flex flex-col gap-3 sm:gap-4 text-gray-700 text-balance leading-relaxed w-full">
             <p style={{ fontSize: "14px" }}>
-              Nuestro principal producto siempre fue el{" "}
+              <span className="text-[#2563eb] font-semibold">
+                Gestión comercial inteligente:
+              </span>{" "}
+              software listo para usar y diseñado para tu equipo. Con una
+              trayectoria centrada en el{" "}
               <span className="text-[#2563eb] font-semibold">
                 software de gestión comercial
-              </span>{" "}
-              siendo este el produto que más brindamos ampliamente, tanto en
-              cantidad de tiempo como en el de clientes. Contamos con{" "}
-              <span className="text-[#2563eb] font-semibold">
-                software desarrollado listo para ser instalado y puesto en
-                marcha.
-              </span>{" "}
+              </span>
+              , ofrecemos soluciones robustas y listas para ser implementadas
+              desde el primer momento.
             </p>
 
             <p style={{ fontSize: "14px" }}>
-              Nuestro enfoque al momento de desarrollar software es la{" "}
+              Nuestra filosofía de desarrollo se basa en un pilar fundamental:
+              la{" "}
               <span className="text-[#2563eb] font-semibold">
-                utilidad y facilidad de uso
-              </span>{" "}
-              buscando que el software pueda ser utilizado desde el dia uno
-              hasta por los más ajenos a la tecnologia.{" "}
+                utilidad real y facilidad de uso
+              </span>
+              . Creamos herramientas tan intuitivas que cualquier integrante de
+              tu equipo, incluso quienes no tienen experiencia con la
+              tecnología, podrá utilizarlas desde el{" "}
+              <span className="text-[#2563eb] font-semibold">primer día</span>.
             </p>
 
             <p style={{ fontSize: "14px" }}>
-              Como entendemos que cada negocio tiene requerimientos distintos
-              tambien ofrecemos{" "}
+              Sabemos que cada empresa tiene su propia dinámica; por eso, además
+              de un producto listo, ofrecemos{" "}
               <span className="text-[#2563eb] font-semibold">
-                desarrollo y personalizacion
+                desarrollo y personalización
               </span>{" "}
-              <span>de un software propio para que se adapte a las</span>{" "}
+              de software para que se adapte exactamente a las{" "}
               <span className="text-[#2563eb] font-semibold">
-                necesidades del negocio
-              </span>{" "}
+                necesidades de tu negocio
+              </span>
+              .
             </p>
 
             <p style={{ fontSize: "14px" }}>
-              <span>La</span>{" "}
-              <span className="text-[#2563eb] font-semibold">atención</span>{" "}
-              brindada para el cliente es{" "}
+              Todo esto está respaldado por una{" "}
               <span className="text-[#2563eb] font-semibold">
-                constante e inmediata
+                atención constante e inmediata
               </span>{" "}
-              para que asi puedas trabajar con tranquilidad usando nuestro
-              sistema.{" "}
+              brindada por personas reales. Nuestro soporte humano te permite
+              trabajar con tranquilidad, sabiendo que siempre habrá un
+              especialista disponible para resolver tus dudas y asegurar que tu
+              operación{" "}
+              <span className="text-[#2563eb] font-semibold">
+                nunca se detenga
+              </span>
+              .
             </p>
           </div>
         </div>
@@ -167,7 +175,7 @@ export const OurJob = () => {
           <img
             ref={imgRef}
             className="h-full w-full object-cover rounded-lg shadow-lg"
-            src="/foto_del_lugar.jpg"
+            src="/piramidesoft_lugar.png"
             alt="Nuestras instalaciones"
           />
         </div>
