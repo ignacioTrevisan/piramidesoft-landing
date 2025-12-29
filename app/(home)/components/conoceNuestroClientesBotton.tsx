@@ -273,7 +273,7 @@ export default function ClientLogosSection() {
       <div className="text-center mt-6 sm:mt-8">
         <button
           onClick={handleClientesClick}
-          className="inline-flex items-center gap-2 text-white bg-[#2563EB] px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full hover:bg-red-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base font-medium"
+          className="inline-flex items-center gap-2 text-white bg-[#2563EB] px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-full hover:bg-white hover:text-[#2563EB] white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-sm sm:text-base font-medium"
         >
           <span>Ver todos nuestros clientes</span>
           <svg

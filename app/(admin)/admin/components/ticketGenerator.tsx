@@ -58,7 +58,7 @@ export class TicketGenerator {
         "PNG",
         this.MARGIN_LEFT,
         this.MARGIN_TOP - 5,
-        40,
+        50,
         55
       );
     } catch (error) {
