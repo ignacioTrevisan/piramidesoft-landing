@@ -290,7 +290,7 @@ export const ContactSection = () => {
                     />
                   </svg>
                   <Link
-                    href="tel:++549344745-2943"
+                    href="tel:+5493447452943"
                     className="hover:text-white transition-colors"
                   >
                     {" "}
