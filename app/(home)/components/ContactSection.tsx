@@ -75,7 +75,7 @@ export const ContactSection = () => {
                 Llámanos para una consulta inmediata
               </p>
               <Link
-                href="tel:+543454123456"
+                href="tel:+54 9 3447 45-2943"
                 className="text-white hover:text-blue-200 font-medium transition-colors"
               >
                 +54 9 3447 45-2943
@@ -98,7 +98,7 @@ export const ContactSection = () => {
                 Chatea con nosotros de forma directa
               </p>
               <Link
-                href="https://wa.me/543454123456?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
+                href="https://wa.me/5493447452943?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white hover:text-blue-200 font-medium transition-colors"
@@ -174,7 +174,7 @@ export const ContactSection = () => {
                 </Link>
 
                 <Link
-                  href="https://wa.me/543454123456?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
+                  href="https://wa.me/5493447452943?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-gray-800 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors"
