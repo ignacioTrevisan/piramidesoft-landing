@@ -16,7 +16,7 @@ const MobileNavbarElements = () => {
   const elementos = [
     { titulo: "Inicio", url: "/" },
     { titulo: "Blogs", url: "/blogs" },
-    { titulo: "Productos", url: "/products" },
+    { titulo: "Productos", url: "/productos" },
   ];
 
   return (
