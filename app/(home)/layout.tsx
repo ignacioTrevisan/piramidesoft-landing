@@ -6,9 +6,11 @@ import { VisitorTracker } from "../components/VisitorTracker";
 import { AuthProvider } from "../lib/auth/AuthContext";
 
 export const metadata: Metadata = {
-  title: "Piramide Soft - Soluciones Tecnológicas",
+  title:
+    "Desarrollo de Software, Sistemas y Páginas Web en Entre Ríos | Piramide Soft",
   description:
-    "Desarrollamos soluciones tecnológicas innovadoras para tu negocio",
+    "Empresa de desarrollo de software en Entre Ríos: sistemas de gestión, páginas web, e-commerce, CRM, facturación electrónica y aplicaciones móviles para empresas de Colón, Villaguay, Paraná, Concordia, Concepción del Uruguay y Gualeguaychú. +30 años de experiencia.",
+  alternates: { canonical: "/" },
 };
 
 export default async function HomeLayout({

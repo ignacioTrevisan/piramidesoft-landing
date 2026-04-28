@@ -90,15 +90,28 @@ export const SobreNosotros = () => {
       </div>
       
       {/* Título animado */}
-      <h1 
-        className={`text-4xl md:text-5xl lg:text-6xl text-center mb-10 text-[#2563EB] font-bold px-4 relative z-10 transition-all duration-700 ease-out ${
+      <h2
+        className={`text-4xl md:text-5xl lg:text-6xl text-center mb-6 text-[#2563EB] font-bold px-4 relative z-10 transition-all duration-700 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
         }`}
         style={{ transitionDelay: '300ms' }}
       >
         Nuestro <span className="text-gray-800">Equipo</span>
         <div className="absolute -z-10 inset-0 blur-md bg-gray-100 opacity-50 transform scale-150"></div>
-      </h1>
+      </h2>
+
+      <p
+        className={`text-center text-gray-600 max-w-3xl mx-auto mb-10 px-4 transition-all duration-700 ease-out ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+        }`}
+        style={{ transitionDelay: '450ms' }}
+      >
+        Somos un equipo de desarrolladores y analistas de sistemas con base en{' '}
+        <strong>Colón y Villaguay, Entre Ríos</strong>, dedicado al desarrollo de
+        software a medida, sistemas de gestión, páginas web y aplicaciones
+        móviles para empresas de toda la provincia: Paraná, Concordia,
+        Concepción del Uruguay, Gualeguaychú y más.
+      </p>
       
       {/* Grid de cartas con animación escalonada */}
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12">

@@ -256,20 +256,26 @@ export async function generateMetadata({ params }: Props) {
     };
   }
 
+  const titulo = `${producto.titulo} en Entre Ríos`;
+  const descripcion = `${producto.descripcion} Solución desarrollada por Piramide Soft, empresa de software con sede en Colón y Villaguay, Entre Ríos. Implementación en toda Argentina.`;
+
   return {
-    title: `${producto.titulo} - Piramide Soft`,
-    description: producto.descripcion,
+    title: titulo,
+    description: descripcion,
+    alternates: { canonical: `/productos/${producto.id}` },
     openGraph: {
-      title: producto.titulo,
-      description: producto.descripcion,
-      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : [],
+      title: `${producto.titulo} | Piramide Soft Entre Ríos`,
+      description: descripcion,
+      url: `https://piramidesoft.com/productos/${producto.id}`,
+      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : ["/logo_2.png"],
       type: "website",
+      locale: "es_AR",
     },
     twitter: {
       card: "summary_large_image",
-      title: producto.titulo,
-      description: producto.descripcion,
-      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : [],
+      title: titulo,
+      description: descripcion,
+      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : ["/logo_2.png"],
     },
   };
 }

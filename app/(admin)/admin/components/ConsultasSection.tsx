@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { getConsultas, updateConsultaStatus, getConsultaStats } from "@/app/action/consultas";
 import { Consulta, ConsultaStats } from "@/app/interfaces/consulta";
@@ -13,16 +14,42 @@ interface ConsultaModalProps {
 
 const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta, onStatusUpdate }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (isOpen && modalRef.current) {
+      // Animación NO bloqueante: arranca desde scale 0.95 sin tocar opacity,
+      // así si GSAP no dispara el modal sigue siendo visible.
       gsap.fromTo(
         modalRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }
+        { scale: 0.95 },
+        { scale: 1, duration: 0.2, ease: "power2.out", clearProps: "transform" }
       );
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (isOpen) document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
 
   const handleStatusChange = async (status: 'PENDIENTE' | 'ATENDIDA') => {
     if (consulta) {
@@ -34,21 +61,27 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
     }
   };
 
-  if (!isOpen || !consulta) return null;
+  if (!isOpen || !consulta || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  const modalContent = (
+    <div
+      className="fixed inset-0 bg-black/60 flex items-start sm:items-center justify-center z-[1000] p-4 overflow-y-auto"
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
-        className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto my-auto shadow-2xl"
       >
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-gray-800">
+        {/* Header sticky con cambio de estado siempre visible */}
+        <div className="sticky top-0 bg-white border-b border-gray-200 z-10 rounded-t-xl">
+          <div className="p-4 flex justify-between items-center">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800">
               Detalle de Consulta
             </h2>
             <button
               onClick={onClose}
+              aria-label="Cerrar"
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,44 +89,48 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
               </svg>
             </button>
           </div>
-        </div>
 
-        <div className="p-6 space-y-6">
-          {/* Estado actual */}
-          <div className="flex items-center justify-between">
-            <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-              consulta.status === 'ATENDIDA' 
-                ? "bg-green-100 text-green-800" 
-                : "bg-yellow-100 text-yellow-800"
-            }`}>
-              {consulta.status === 'ATENDIDA' ? 'Atendida' : 'Pendiente'}
-            </span>
-            
-            <div className="flex space-x-2">
+          {/* Barra de estado / acciones SIEMPRE visible (no requiere scroll) */}
+          <div className="px-4 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-gray-50 border-t border-gray-100">
+            <div className="flex items-center gap-2 pt-3 sm:pt-0">
+              <span className="text-sm text-gray-600">Estado actual:</span>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                consulta.status === 'ATENDIDA'
+                  ? "bg-green-100 text-green-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}>
+                {consulta.status === 'ATENDIDA' ? 'Atendida' : 'Pendiente'}
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => handleStatusChange('PENDIENTE')}
                 disabled={consulta.status === 'PENDIENTE'}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   consulta.status === 'PENDIENTE'
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                    : 'bg-yellow-500 text-white hover:bg-yellow-600'
                 }`}
               >
-                Marcar como Pendiente
+                Marcar Pendiente
               </button>
               <button
                 onClick={() => handleStatusChange('ATENDIDA')}
                 disabled={consulta.status === 'ATENDIDA'}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   consulta.status === 'ATENDIDA'
                     ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    : 'bg-green-100 text-green-800 hover:bg-green-200'
+                    : 'bg-green-600 text-white hover:bg-green-700'
                 }`}
               >
-                Marcar como Atendida
+                Marcar Atendida
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="p-6 space-y-6">
 
           {/* Información del cliente */}
           <div className="bg-gray-50 p-4 rounded-lg">
@@ -168,6 +205,8 @@ const ConsultaModal: React.FC<ConsultaModalProps> = ({ isOpen, onClose, consulta
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export const ConsultasSection = () => {
