@@ -2,6 +2,8 @@
 
 
 ./.claude
+
+.claude/
 # dependencies
 /postgres/
 /node_modules
