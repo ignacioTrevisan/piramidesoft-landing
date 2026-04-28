@@ -3,13 +3,25 @@ import { BlogList } from "./blogList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog Tecnológico",
-  description: "Lee nuestros artículos sobre tecnología, desarrollo de software, tendencias digitales y consejos para empresas. Manténete actualizado con las últimas novedades del sector tecnológico.",
-  keywords: ["blog tecnológico", "desarrollo software", "tendencias digitales", "tecnología empresarial", "innovación"],
+  title: "Blog de Tecnología y Software en Entre Ríos",
+  description:
+    "Artículos sobre desarrollo de software, transformación digital, sistemas de gestión, e-commerce y tendencias tecnológicas para empresas de Entre Ríos y Argentina.",
+  keywords: [
+    "blog tecnología Entre Ríos",
+    "desarrollo de software Argentina",
+    "transformación digital pymes",
+    "noticias tecnología Entre Ríos",
+    "tendencias software",
+  ],
+  alternates: { canonical: "/blogs" },
   openGraph: {
-    title: "Blog Tecnológico - Piramide Soft",
-    description: "Artículos sobre tecnología, desarrollo de software y tendencias digitales para empresas.",
+    title: "Blog de Tecnología y Software en Entre Ríos | Piramide Soft",
+    description:
+      "Artículos sobre desarrollo de software, transformación digital y tendencias tecnológicas para empresas de Entre Ríos.",
+    url: "https://piramidesoft.com/blogs",
     images: ["/logo_2.png"],
+    type: "website",
+    locale: "es_AR",
   },
 };
 

@@ -183,14 +183,19 @@ export default function HeroContent() {
 
   return (
     <div className="w-full pt-10 justify-center items-center flex flex-col gap-y-2 md:mb-0">
+      <h1 className="sr-only">
+        Piramide Soft - Desarrollo de Software, Sistemas de Gestión y Páginas
+        Web en Entre Ríos, Argentina
+      </h1>
       <div>
         {/* Título SIN ref, completamente aislado de GSAP */}
-        <h1
+        <p
+          aria-hidden="true"
           style={{ letterSpacing: "0.11em" }}
           className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-7 md:mt-9 text-3xl text-center md:text-left mb-4 text-[#2563EB] claseConFuenteFea"
         >
           PIRAMIDE SOFT
-        </h1>
+        </p>
       </div>
       <div className="w-full flex flex-col items-center">
         <h2
