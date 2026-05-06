@@ -21,7 +21,17 @@ export const AdminLayoutClient: React.FC<AdminLayoutClientProps> = ({
       gsap.fromTo(
         mainRef.current,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          // Importante: limpiar el transform residual.
+          // GSAP deja translate3d(...) aplicado y eso convierte al <main>
+          // en containing block, rompiendo position:fixed de los modales hijos
+          // (Productos, Blogs, Tipos, Categorías, Usuarios, Consultas).
+          clearProps: "transform",
+        }
       );
     }
   }, []);
