@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Clientes de Piramide Soft en Entre Ríos y Argentina",
     description:
       "Empresas de Colón, Villaguay, Paraná, Concordia, Concepción del Uruguay, Gualeguaychú y toda Argentina que confían en nuestro software.",
-    url: "https://piramidesoft.com/clientes",
+    url: "https://piramidesoluciones.com/clientes",
     images: ["/logo_2.png"],
     type: "website",
     locale: "es_AR",

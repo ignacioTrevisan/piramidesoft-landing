@@ -266,7 +266,7 @@ export async function generateMetadata({ params }: Props) {
     openGraph: {
       title: `${producto.titulo} | Piramide Soft Entre Ríos`,
       description: descripcion,
-      url: `https://piramidesoft.com/productos/${producto.id}`,
+      url: `https://piramidesoluciones.com/productos/${producto.id}`,
       images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : ["/logo_2.png"],
       type: "website",
       locale: "es_AR",
