@@ -7,7 +7,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const SITE_URL = "https://piramidesoft.com";
+const SITE_URL = "https://piramidesoluciones.com";
 const SITE_NAME = "Piramide Soft";
 const DEFAULT_TITLE =
   "Piramide Soft | Desarrollo de Software y Sistemas a Medida en Entre Ríos";

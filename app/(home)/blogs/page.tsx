@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Blog de Tecnología y Software en Entre Ríos | Piramide Soft",
     description:
       "Artículos sobre desarrollo de software, transformación digital y tendencias tecnológicas para empresas de Entre Ríos.",
-    url: "https://piramidesoft.com/blogs",
+    url: "https://piramidesoluciones.com/blogs",
     images: ["/logo_2.png"],
     type: "website",
     locale: "es_AR",

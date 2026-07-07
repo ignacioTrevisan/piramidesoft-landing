@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Productos y Servicios de Software en Entre Ríos | Piramide Soft",
     description:
       "Sistemas, páginas web, apps móviles y software a medida para empresas de Entre Ríos. CRM, e-commerce, facturación electrónica AFIP, stock y POS.",
-    url: "https://piramidesoft.com/productos",
+    url: "https://piramidesoluciones.com/productos",
     images: ["/logo_2.png"],
     type: "website",
     locale: "es_AR",
