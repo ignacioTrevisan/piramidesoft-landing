@@ -4,6 +4,24 @@ import { notFound } from "next/navigation";
 import { Products } from "@/app/interfaces/products";
 import { ContactButton } from "@/app/components/ContactButton";
 import { DemoButton } from "@/app/components/DemoButton";
+import { ScannerIncludedCard } from "./ScannerIncludedCard";
+
+// Tipos de producto que incluyen Scanner PiramideSoft (match por substring case-insensitive).
+const TIPOS_CON_SCANNER = [
+  "inventario",
+  "stock",
+  "gestion comercial",
+  "gestión comercial",
+  "facturacion",
+  "facturación",
+  "punto de venta",
+  "pos",
+];
+
+const tipoIncluyeScanner = (tipoTitulo: string): boolean => {
+  const normalizado = tipoTitulo.toLowerCase();
+  return TIPOS_CON_SCANNER.some((keyword) => normalizado.includes(keyword));
+};
 
 interface Props {
   params: Promise<{
@@ -54,10 +72,27 @@ export default async function ProductoDetalle({ params }: Props) {
 
   // Obtener el producto por ID (usando slug como ID)
   const producto = await getProductById(slug);
-  console.log({producto});
   if (!producto) {
     notFound();
   }
+
+  // Buscar el producto "Scanner PiramideSoft" para mostrar la card
+  // "Incluye Scanner" cuando el tipo del producto actual matchea.
+  // Match por titulo con substring "scanner" (case-insensitive) para que
+  // el usuario pueda ajustar el nombre sin romper el link.
+  const allProductsResp = await getProducts();
+  const scannerProduct =
+    allProductsResp.ok && allProductsResp.data
+      ? allProductsResp.data.find(
+          (p) =>
+            p.visible &&
+            p.id !== producto.id &&
+            p.titulo.toLowerCase().includes("scanner")
+        )
+      : null;
+
+  const mostrarScanner =
+    scannerProduct && tipoIncluyeScanner(producto.tipo.titulo);
 
   return (
     <div className="w-full py-8 px-4 max-w-full mt-20">
@@ -129,6 +164,11 @@ export default async function ProductoDetalle({ params }: Props) {
             {/* Información adicional */}
           </div>
         </div>
+
+        {/* Card destacada: producto incluye Scanner PiramideSoft */}
+        {mostrarScanner && scannerProduct && (
+          <ScannerIncludedCard scannerProductId={scannerProduct.id} />
+        )}
 
         {/* Módulos */}
         {producto.modulos && producto.modulos.length > 0 && (
