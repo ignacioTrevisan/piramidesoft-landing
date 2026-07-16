@@ -9,6 +9,7 @@ import { getProducts } from "@/app/action/products/products";
 import { Products as ProductType } from "@/app/interfaces/products";
 import { getTipos } from "@/app/action/tipos/getTipos";
 import { ContactButton } from "@/app/components/ContactButton";
+import { ScannerBanner } from "./ScannerBanner";
 
 // Función para asegurar que todos los productos sean visibles
 const ensureElementsVisible = () => {
@@ -421,6 +422,13 @@ export function Products() {
     setSelectedFilter(filter);
   };
 
+  // Buscar el producto "Scanner PiramideSoft" para el banner destacado.
+  // Match flexible por titulo (case-insensitive), asi el usuario puede
+  // ajustar el titulo sin romper el link.
+  const scannerProduct = products.find((p) =>
+    p.titulo.toLowerCase().includes("scanner")
+  );
+
   if (loading) {
     return (
       <div className="w-full py-16 px-4 md:px-10 mt-16 md:mt-20 max-w-[100vw]">
@@ -470,6 +478,9 @@ export function Products() {
             </p>
           </div>
         </div>
+
+        {/* Banner destacado - Scanner PiramideSoft */}
+        {scannerProduct && <ScannerBanner productId={scannerProduct.id} />}
 
         {/* Filter Section */}
         <div
