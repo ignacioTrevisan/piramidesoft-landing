@@ -213,7 +213,10 @@ const websiteJsonLd = {
   },
 };
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+// Google Analytics 4 - Measurement ID de la propiedad "piramidesoluciones.com"
+// Se puede sobreescribir via env var NEXT_PUBLIC_GA_MEASUREMENT_ID
+// (util para usar propiedades distintas en dev vs prod).
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-ZD1MHQSX2R";
 
 export default function RootLayout({
   children,
