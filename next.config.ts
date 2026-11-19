@@ -3,19 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: "5mb", // Aumenta si es necesario
-    },
-  },
-  api: {
-    bodyParser: {
-      sizeLimit: "5mb",
+      bodySizeLimit: "5mb",
     },
   },
   images: {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Usar unoptimized para evitar problemas en producción con imágenes externas
-    unoptimized: process.env.NODE_ENV === "production",
+    // Optimizacion de imagenes activada en produccion (Vercel la soporta).
+    // Mejora LCP (Core Web Vitals) sirviendo WebP/AVIF y tamaños adaptados.
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -45,7 +41,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "i.imgur.com",
       },
-      // Comodín para cualquier subdominio de cloudinary
       {
         protocol: "https",
         hostname: "**.cloudinary.com",
