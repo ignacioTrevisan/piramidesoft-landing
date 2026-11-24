@@ -10,13 +10,31 @@ export const ContactSection = () => {
 
   return (
     <>
-      <section className="pt-8 pb-8 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section
+        id="contacto"
+        className="relative pt-16 pb-16 bg-gradient-to-br from-[#2563EB] via-[#1e40af] to-[#1e3a8a] text-white overflow-hidden"
+      >
+        {/* Patron decorativo */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 20%, white 1px, transparent 1px), radial-gradient(circle at 80% 80%, white 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        />
+
+        <div className="relative container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="inline-block text-xs font-semibold tracking-widest text-blue-200 uppercase mb-3">
+              Hablemos
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold mb-5">
               ¿Listo para transformar tu negocio?
             </h2>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+            <div className="w-16 h-1 bg-white/50 rounded-full mx-auto mb-5" />
+            <p className="text-base md:text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
               Nuestro equipo de expertos está preparado para ayudarte a
               implementar las mejores soluciones tecnológicas para tu empresa.
               ¡Contáctanos hoy mismo!
@@ -124,7 +142,7 @@ export const ContactSection = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 dark:bg-black text-white py-12">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Logo y descripción */}

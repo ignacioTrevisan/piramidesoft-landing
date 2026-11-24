@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Link from "next/link";
 import TrustedByClients from "../conoceNuestroClientesBotton";
 
 export default function HeroContent() {
@@ -182,32 +183,73 @@ export default function HeroContent() {
   };
 
   return (
-    <div className="w-full pt-10 justify-center items-center flex flex-col gap-y-2 md:mb-0">
+    <div className="w-full pt-6 md:pt-10 justify-center items-center flex flex-col gap-y-2 md:mb-0">
       <h1 className="sr-only">
         Piramide Soft - Desarrollo de Software, Sistemas de Gestión y Páginas
         Web en Entre Ríos, Argentina
       </h1>
+
+      {/* Badge "+30 años" */}
+      <div className="mb-4 flex justify-center">
+        <span className="inline-flex items-center gap-2 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/50 text-[#2563EB] dark:text-blue-300 px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold shadow-sm">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2563EB] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2563EB]" />
+          </span>
+          Más de 30 años en Entre Ríos
+        </span>
+      </div>
+
       <div>
         {/* Título SIN ref, completamente aislado de GSAP */}
         <p
           aria-hidden="true"
           style={{ letterSpacing: "0.11em" }}
-          className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-7 md:mt-9 text-3xl text-center md:text-left mb-4 text-[#2563EB] claseConFuenteFea"
+          className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-4 md:mt-6 text-3xl text-center md:text-left mb-4 text-[#2563EB] dark:text-blue-400 claseConFuenteFea"
         >
           PIRAMIDE SOFT
         </p>
       </div>
+
       <div className="w-full flex flex-col items-center">
         <h2
           ref={subtitleRef}
-          className="w-full text-xl md:text-2xl mb-3
-          text-center text-gray-700 bg-gradient-to-r from-white to-[#2563EB]
-          bg-clip-text text-transparent min-h-[3rem] md:min-h-[4rem]"
+          className="w-full text-xl md:text-2xl mb-3 text-center text-gray-700 dark:text-gray-300 min-h-[3rem] md:min-h-[4rem]"
         >
           {renderTextWithBold(getFormattedDisplayText())}
-          <span className="animate-pulse text-[#2563EB]">|</span>
+          <span className="animate-pulse text-[#2563EB] dark:text-blue-400">|</span>
         </h2>
       </div>
+
+      {/* CTAs principales */}
+      <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 mt-2">
+        <Link
+          href="/productos"
+          className="inline-flex items-center gap-2 bg-[#2563EB] hover:bg-[#1d4ed8] text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group"
+        >
+          Ver nuestros productos
+          <svg
+            className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2.5}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
+        <Link
+          href="#contacto"
+          className="inline-flex items-center gap-2 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 font-semibold px-6 py-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300"
+        >
+          Contactanos
+        </Link>
+      </div>
+
       <div ref={textRef}>
         <TrustedByClients />
       </div>

@@ -3,6 +3,9 @@
 @import "tailwindcss";
 @import "./components/animations/animations.css";
 
+/* Dark mode manual activado por clase .dark (next-themes attribute="class") */
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   box-sizing: border-box;
   max-width: 100vw;

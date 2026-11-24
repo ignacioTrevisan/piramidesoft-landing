@@ -68,67 +68,67 @@ export const SobreNosotros = () => {
   ];
 
   return (
-    <div
+    <section
       id="sobre-nosotros"
       ref={sectionRef}
-      className="flex flex-col w-full h-auto px-4 md:px-8 py-12 overflow-x-hidden"
+      className="relative flex flex-col w-full h-auto px-4 md:px-8 py-16 md:py-20 overflow-x-hidden bg-gradient-to-b from-white to-blue-50/30 dark:from-gray-950 dark:to-blue-950/10"
     >
-      {/* Divisores animados */}
-      <div className="flex justify-between space-x-8 mb-10">
-        <hr 
-          className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
-            isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+      {/* Header con eyebrow */}
+      <div className="text-center max-w-3xl mx-auto mb-12 px-4">
+        <span
+          className={`inline-block text-xs font-semibold tracking-widest text-[#2563EB] dark:text-blue-400 uppercase mb-3 transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}
-          style={{ transformOrigin: 'left' }}
-        />
-        <hr 
-          className={`w-full border-[#2563EB] border-1 transition-all duration-1000 ease-out ${
-            isVisible ? 'opacity-100 scale-x-100' : 'opacity-50 scale-x-0'
+        >
+          Quiénes somos
+        </span>
+
+        <h2
+          className={`text-3xl md:text-4xl lg:text-5xl text-center mb-4 font-bold text-gray-900 dark:text-gray-100 transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
           }`}
-          style={{ transformOrigin: 'right' }}
+          style={{ transitionDelay: '150ms' }}
+        >
+          Nuestro <span className="text-[#2563EB] dark:text-blue-400">Equipo</span>
+        </h2>
+
+        <div
+          className={`w-16 h-1 bg-[#2563EB] dark:bg-blue-400 rounded-full mx-auto mb-5 transition-all duration-700 ease-out origin-center ${
+            isVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+          }`}
+          style={{ transitionDelay: '250ms' }}
         />
+
+        <p
+          className={`text-center text-gray-600 dark:text-gray-400 leading-relaxed transition-all duration-700 ease-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+          }`}
+          style={{ transitionDelay: '350ms' }}
+        >
+          Equipo de desarrolladores y analistas de sistemas con base en{' '}
+          <strong className="text-gray-800 dark:text-gray-200">Colón y Villaguay, Entre Ríos</strong>,
+          dedicado al desarrollo de software a medida, sistemas de gestión,
+          páginas web y aplicaciones móviles para empresas de toda la provincia:
+          Paraná, Concordia, Concepción del Uruguay, Gualeguaychú y más.
+        </p>
       </div>
       
-      {/* Título animado */}
-      <h2
-        className={`text-4xl md:text-5xl lg:text-6xl text-center mb-6 text-[#2563EB] font-bold px-4 relative z-10 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-        }`}
-        style={{ transitionDelay: '300ms' }}
-      >
-        Nuestro <span className="text-gray-800">Equipo</span>
-        <div className="absolute -z-10 inset-0 blur-md bg-gray-100 opacity-50 transform scale-150"></div>
-      </h2>
-
-      <p
-        className={`text-center text-gray-600 max-w-3xl mx-auto mb-10 px-4 transition-all duration-700 ease-out ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
-        }`}
-        style={{ transitionDelay: '450ms' }}
-      >
-        Somos un equipo de desarrolladores y analistas de sistemas con base en{' '}
-        <strong>Colón y Villaguay, Entre Ríos</strong>, dedicado al desarrollo de
-        software a medida, sistemas de gestión, páginas web y aplicaciones
-        móviles para empresas de toda la provincia: Paraná, Concordia,
-        Concepción del Uruguay, Gualeguaychú y más.
-      </p>
-      
-      {/* Grid de cartas con animación escalonada */}
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-10 md:gap-12">
+      {/* Grid de cartas con animación escalonada - items-stretch para altura uniforme */}
+      <div className="max-w-5xl mx-auto grid sm:grid-cols-2 grid-cols-1 gap-6 md:gap-8 items-stretch">
         {nosotros.map((n, index) => (
-          <div 
-            key={n.name} 
-            className={`nosotros-card transition-all duration-600 ease-out ${
+          <div
+            key={n.name}
+            className={`nosotros-card h-full transition-all duration-700 ease-out ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
-            style={{ 
-              transitionDelay: `${600 + (index * 150)}ms` 
+            style={{
+              transitionDelay: `${500 + (index * 100)}ms`
             }}
           >
             <NosotrosCard {...n} />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };

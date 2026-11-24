@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Navbar_elements } from "./navbar_elements";
 import { SessionButton } from "./SessionButton";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -23,7 +24,7 @@ const MobileNavbarElements = () => {
     <div className="flex flex-col gap-3">
       {elementos.map((e) => (
         <Link key={e.titulo} href={e.url}>
-          <div className="cursor-pointer py-1.5 border-b border-gray-100 text-sm text-gray-800 hover:text-gray-600">
+          <div className="cursor-pointer py-1.5 border-b border-gray-100 dark:border-gray-800 text-sm text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400">
             {e.titulo}
           </div>
         </Link>
@@ -155,7 +156,10 @@ export const Navbar = () => {
   }, [isVisible]);
 
   return (
-    <div ref={navbarRef} className="w-full fixed top-0 py-3 px-4 md:px-6 z-50">
+    <div
+      ref={navbarRef}
+      className="w-full fixed top-0 py-3 px-4 md:px-6 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-950/80 border-b border-gray-100 dark:border-gray-800 transition-colors"
+    >
       <div className="w-full flex items-center">
         {/* Logo - Izquierda */}
         <div className="flex-shrink-0">
@@ -183,16 +187,18 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* Session Button - Derecha */}
-        <div className="ml-auto flex-shrink-0">
+        {/* Session Button + Theme Toggle - Derecha */}
+        <div className="ml-auto flex-shrink-0 flex items-center gap-2">
+          <ThemeToggle className="hidden md:flex" />
           <div className="hidden md:block">
             <div ref={buttonRef}>
               <SessionButton />
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="block md:hidden">
+          {/* Mobile: toggle + menu */}
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
             <button
               className="p-1.5"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -218,7 +224,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-md py-3 px-4 mx-2 rounded-lg mt-1">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-md py-3 px-4 mx-2 rounded-lg mt-1 border border-gray-100 dark:border-gray-800">
           <MobileNavbarElements />
           <div className="mt-3 pt-3 border-t border-gray-100">
             <SessionButton isMobile={true} />

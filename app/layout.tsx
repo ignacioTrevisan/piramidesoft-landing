@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -224,7 +225,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-AR">
+    <html lang="es-AR" suppressHydrationWarning>
       <head>
         <link rel="canonical" href={SITE_URL} />
         <meta name="theme-color" content="#2563EB" />
@@ -237,8 +238,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} antialiased overflow-x-hidden`}>
-        {children}
+      <body
+        className={`${inter.variable} antialiased overflow-x-hidden bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors`}
+      >
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
       {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </html>
