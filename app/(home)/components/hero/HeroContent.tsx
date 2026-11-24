@@ -106,7 +106,7 @@ export default function HeroContent() {
             scrollTrigger: {
               trigger: element,
               start: "top bottom-=50",
-              toggleActions: "play none none reverse",
+              once: true, // dispara una sola vez, sin pestañear al scrollear arriba/abajo
             },
             color: "#2563EB",
             fontWeight: "bold",

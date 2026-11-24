@@ -80,7 +80,7 @@ const ProductsPreview = () => {
             scrollTrigger: {
               trigger: fatherContainer.current,
               start: "top 70%",
-              toggleActions: "play none none reverse",
+              once: true, // dispara una vez; evita pestañeo al scrollear
             },
           });
 
