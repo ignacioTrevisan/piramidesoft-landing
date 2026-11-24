@@ -19,12 +19,19 @@
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Navbar glass mejorada para mejor contraste */
-.navbar-glass {
+/* Navbar glass - scope por tema */
+html:not(.dark) .navbar-glass {
   background: rgba(255, 255, 255, 0.95) !important;
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(229, 231, 235, 0.8);
   color: #1F2937 !important;
+}
+
+html.dark .navbar-glass {
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(55, 65, 81, 0.6);
+  color: #f3f4f6;
 }
 
 .blob-animation {
@@ -137,33 +144,33 @@
   }
 }
 
-/* Asegurar contraste en elementos animados */
-.nosotros-card {
+/* Overrides SOLO en light mode - antes anulaban dark mode */
+html:not(.dark) .nosotros-card {
   background-color: #ffffff !important;
   color: #1F2937 !important;
   border: 1px solid #E5E7EB;
 }
 
-.nosotros-card:hover {
+html:not(.dark) .nosotros-card:hover {
   background-color: #ffffff !important;
   color: #1F2937 !important;
 }
 
-.nosotros-card h1 {
+html:not(.dark) .nosotros-card h1 {
   color: #2563EB !important;
 }
 
-.mobile-menu {
+html:not(.dark) .mobile-menu {
   background-color: #ffffff !important;
   color: #1F2937 !important;
   border: 1px solid #E5E7EB !important;
 }
 
-.mobile-menu a {
+html:not(.dark) .mobile-menu a {
   color: #374151 !important;
 }
 
-.mobile-menu a:hover {
+html:not(.dark) .mobile-menu a:hover {
   color: #1F2937 !important;
 }
 
