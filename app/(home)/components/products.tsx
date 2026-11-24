@@ -72,7 +72,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         scrollTrigger: {
           trigger: cardRef.current,
           start: "top bottom-=100",
-          toggleActions: "play none none reverse",
+          once: true, // dispara una vez; evita pestañeo al scrollear arriba/abajo
         },
       }
     );
@@ -419,8 +419,7 @@ export function Products() {
             scrollTrigger: {
               trigger: customSolutionRef.current,
               start: "top bottom-=100",
-              end: "bottom top",
-              toggleActions: "play none none reverse",
+              once: true, // dispara una vez; sin pestañeo al scrollear
             },
           }
         );
