@@ -103,17 +103,24 @@ const ProductCard = ({ product }: ProductCardProps) => {
     };
   }, [isCardMounted]);
 
+  const tienePrecio = product.precioAhora > 0;
+
   return (
-    <Link href={`/productos/${product.id}`} legacyBehavior={false}>
-      <div
+    <Link
+      href={`/productos/${product.id}`}
+      legacyBehavior={false}
+      className="h-full block"
+    >
+      <article
         ref={cardRef}
-        className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 card-hover border border-gray-100 group"
+        className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200/70 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 hover:-translate-y-1 transition-all duration-300 card-hover group"
         style={{
           opacity: 1,
           transform: "translateY(0)",
         }}
       >
-        <div className="relative h-48 md:h-56 overflow-hidden">
+        {/* Imagen - altura fija, siempre igual */}
+        <div className="relative h-48 md:h-52 overflow-hidden bg-gray-50 flex-shrink-0">
           {product.imagenes &&
           product.imagenes.length > 0 &&
           product.imagenes[0] ? (
@@ -121,11 +128,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
               src={product.imagenes[0]}
               alt={product.titulo}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+            <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
               <svg
                 className="w-16 h-16 text-gray-400"
                 fill="none"
@@ -135,69 +142,104 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
+                  strokeWidth={1.5}
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
             </div>
           )}
-          <div className="absolute top-3 right-3 bg-[#2563EB] text-white px-3 py-1 rounded-full text-xs font-medium">
-            {product.tipo.titulo}
+          {/* Overlay sutil */}
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            aria-hidden="true"
+          />
+          {/* Chip del tipo - estilo mas sutil */}
+          <div className="absolute top-3 left-3">
+            <span className="inline-flex items-center bg-white/95 backdrop-blur-sm text-[#2563EB] px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+              {product.tipo.titulo}
+            </span>
           </div>
         </div>
-        <div className="p-5">
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+
+        {/* Contenido - flex-1 para rellenar y empujar CTA abajo */}
+        <div className="flex-1 flex flex-col p-5">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2 group-hover:text-[#2563EB] transition-colors line-clamp-2 min-h-[3.5rem]">
             {product.titulo}
           </h3>
-          <p className="text-gray-600 mb-4 line-clamp-3">
+
+          <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
             {product.descripcion}
           </p>
 
-          {/* Precio */}
-          <div className="mb-4">
-            {product.precioAntes && (
-              <span className="text-sm text-gray-500 line-through mr-2">
-                ${product.precioAntes.toLocaleString()}
-              </span>
-            )}
-            <span className="text-lg font-bold text-[#2563EB]">
-              {product.precioAhora > 0 &&
-                `$${product.precioAhora.toLocaleString()}`}
+          {/* Modulos como chips - compacto y visual */}
+          {product.modulos.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {product.modulos.slice(0, 3).map((modulo, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center gap-1 bg-blue-50 text-[#1e40af] px-2.5 py-1 rounded-md text-xs font-medium border border-blue-100"
+                >
+                  <svg
+                    className="w-3 h-3 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2.5}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span className="truncate max-w-[9rem]">{modulo.titulo}</span>
+                </span>
+              ))}
+              {product.modulos.length > 3 && (
+                <span className="inline-flex items-center bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md text-xs font-medium">
+                  +{product.modulos.length - 3} más
+                </span>
+              )}
+            </div>
+          )}
+
+          {/* Footer - precio + CTA, siempre pegado abajo */}
+          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+            <div className="flex flex-col">
+              {product.precioAntes && product.precioAntes > 0 && (
+                <span className="text-xs text-gray-400 line-through leading-none">
+                  ${product.precioAntes.toLocaleString()}
+                </span>
+              )}
+              {tienePrecio ? (
+                <span className="text-lg font-bold text-[#2563EB] leading-tight">
+                  ${product.precioAhora.toLocaleString()}
+                </span>
+              ) : (
+                <span className="text-sm font-semibold text-gray-700 leading-tight">
+                  Consultar
+                </span>
+              )}
+            </div>
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB] group-hover:gap-2 transition-all">
+              Ver detalle
+              <svg
+                className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
             </span>
           </div>
-
-          {/* Características de los módulos */}
-          <div className="space-y-2">
-            {product.modulos.slice(0, 3).map((modulo, index) => (
-              <div key={index} className="flex items-start">
-                <svg
-                  className="w-5 h-5 text-[#2563EB] mt-0.5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  ></path>
-                </svg>
-                <span className="ml-2 text-gray-700 text-sm">
-                  {modulo.titulo}
-                </span>
-              </div>
-            ))}
-            {product.modulos.length > 3 && (
-              <div className="text-sm text-gray-500 ml-7">
-                +{product.modulos.length - 3} módulo
-                {product.modulos.length - 3 !== 1 ? "s" : ""} más
-              </div>
-            )}
-          </div>
         </div>
-      </div>
+      </article>
     </Link>
   );
 };
@@ -453,28 +495,31 @@ export function Products() {
     <div className="w-full py-16 px-4 md:px-10 mt-16 md:mt-20 max-w-[100vw]">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-14">
+          <span className="inline-block text-xs font-semibold tracking-widest text-[#2563EB] uppercase mb-3">
+            Catálogo
+          </span>
           <h1
             ref={titleRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-[#2563EB]"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900"
           >
-            Nuestros Productos
+            Nuestros <span className="text-[#2563EB]">Productos</span>
           </h1>
+          <div className="w-16 h-1 bg-[#2563EB] rounded-full mx-auto mb-5" />
           <p
             ref={subtitleRef}
-            className="text-xl md:text-2xl mb-6 text-gray-700"
+            className="text-lg md:text-xl text-gray-700 mb-4"
           >
             Soluciones pre-desarrolladas para impulsar tu negocio
           </p>
           <div
             ref={descriptionRef}
-            className="max-w-3xl mx-auto text-gray-600 text-lg"
+            className="max-w-2xl mx-auto text-gray-500 text-base"
           >
             <p>
-              Ofrecemos productos pre-desarrollados para clientes específicos
-              que pueden adaptarse a tu negocio, permitiéndote ahorrar costos y
-              tiempo de implementación. Cada producto puede personalizarse para
-              ajustarse perfectamente a tus necesidades.
+              Ofrecemos productos pre-desarrollados que podés adaptar a tu
+              negocio, ahorrando costos y tiempo de implementación. Cada
+              producto puede personalizarse según tus necesidades.
             </p>
           </div>
         </div>
@@ -521,10 +566,10 @@ export function Products() {
           </div>
 
           {/* Results counter */}
-          <div className="text-center text-gray-600">
-            <span className="text-sm">
+          <div className="text-center text-gray-500">
+            <span className="text-xs tracking-wide">
               {selectedFilter === "Todos"
-                ? `Mostrando ${filteredProducts.length} productos`
+                ? `${filteredProducts.length} productos disponibles`
                 : `${filteredProducts.length} producto${
                     filteredProducts.length !== 1 ? "s" : ""
                   } de tipo "${selectedFilter}"`}
@@ -532,11 +577,11 @@ export function Products() {
           </div>
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid - items-stretch garantiza que todas las cards tengan el mismo alto */}
         {filteredProducts.length > 0 ? (
           <div
             ref={productsGridRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 items-stretch"
           >
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
