@@ -15,16 +15,30 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div
+    <article
       ref={cardRef}
-      className="nosotros-card w-full flex flex-col h-full bg-white rounded-xl mt-3 p-8 shadow-md relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl group"
+      className="nosotros-card w-full h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl p-6 md:p-8 border border-gray-200/70 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 dark:hover:border-blue-500/30 relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 group"
     >
-      {/* Background accent con animación */}
-      <div className="absolute top-0 right-0 h-16 w-1/4 bg-blue-50 rotate-45 transform origin-top-right -translate-y-6 translate-x-2 transition-all duration-300 group-hover:bg-blue-100"></div>
+      {/* Barra decorativa superior - gradient */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#2563EB] via-blue-400 to-[#2563EB] opacity-80 group-hover:opacity-100 transition-opacity"
+      />
+
+      {/* Patron decorativo esquina */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 right-0 w-32 h-32 opacity-5 dark:opacity-10"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 70% 30%, #2563EB 1px, transparent 1px)",
+          backgroundSize: "12px 12px",
+        }}
+      />
 
       <div className="flex-grow flex flex-col relative z-10">
-        {/* Imagen con efectos de carga */}
-        <div className="relative mx-auto mb-4 transition-all duration-300">
+        {/* Imagen - redonda con glow sutil */}
+        <div className="relative mx-auto mb-5">
           <div
             className={`transition-all duration-500 ${
               imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-95"
@@ -32,58 +46,49 @@ export const NosotrosCard = ({ name, text, image, Roles }: Props) => {
           >
             <Image
               src={image}
-              alt={`${name} image`}
-              width={160}
-              height={160}
-              className="rounded-full object-cover border-2 border-gray-200 mx-auto transition-all duration-300 group-hover:border-blue-300 group-hover:scale-105"
+              alt={`Foto de ${name}`}
+              width={140}
+              height={140}
+              className="rounded-full object-cover ring-4 ring-blue-100 dark:ring-blue-900/40 mx-auto transition-all duration-300 group-hover:ring-[#2563EB]/40 dark:group-hover:ring-blue-500/40 group-hover:scale-105"
               onLoad={() => setImageLoaded(true)}
             />
           </div>
-          {/* Glow effect */}
-          <div className="absolute -inset-0.5 rounded-full blur-sm bg-gradient-to-r from-blue-200 to-indigo-200 opacity-30 -z-10 transition-opacity duration-300 group-hover:opacity-50"></div>
-
-          {/* Loading placeholder */}
+          {/* Glow */}
+          <div
+            aria-hidden="true"
+            className="absolute -inset-1 rounded-full blur-md bg-gradient-to-r from-blue-200 to-indigo-200 dark:from-blue-900/50 dark:to-indigo-900/50 opacity-40 -z-10 transition-opacity duration-300 group-hover:opacity-60"
+          />
+          {/* Placeholder mientras carga */}
           {!imageLoaded && (
             <div
-              className="absolute inset-0 bg-gray-200 rounded-full animate-pulse mx-auto"
-              style={{ width: 160, height: 160 }}
-            ></div>
+              className="absolute inset-0 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse mx-auto"
+              style={{ width: 140, height: 140 }}
+            />
           )}
         </div>
 
-        {/* Nombre con animación de aparición */}
-        <h1 className="text-2xl md:text-3xl text-center font-bold text-[#2563EB] transition-colors duration-300 group-hover:text-[#1E40AF]">
+        {/* Nombre */}
+        <h3 className="text-xl md:text-2xl text-center font-bold text-gray-900 dark:text-gray-100 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors duration-300">
           {name}
-        </h1>
+        </h3>
 
         {/* Descripción */}
-        <p className="text-center text-gray-600 text-base mt-3 mb-5 transition-colors duration-300 group-hover:text-gray-700">
+        <p className="text-center text-gray-600 dark:text-gray-400 text-sm md:text-base mt-3 mb-5 leading-relaxed">
           {text}
         </p>
 
-        {/* Roles con animación individual */}
-        <div className="flex flex-wrap justify-center gap-1 mt-2 mb-4">
+        {/* Roles - chips */}
+        <div className="flex flex-wrap justify-center gap-1.5 mt-auto">
           {Roles.map((role, index) => (
             <span
               key={index}
-              className="bg-blue-50 text-[#2563EB] text-sm px-3 py-1 rounded-md transition-all duration-300 hover:bg-blue-100 hover:scale-105"
-              style={{
-                animationDelay: `${index * 100}ms`,
-              }}
+              className="bg-blue-50 dark:bg-blue-950/40 text-[#2563EB] dark:text-blue-300 text-xs px-2.5 py-1 rounded-md font-medium border border-blue-100 dark:border-blue-900/50 transition-all duration-300 hover:bg-blue-100 dark:hover:bg-blue-900/50"
             >
               {role}
             </span>
           ))}
         </div>
       </div>
-
-      {/* <div className="mt-auto pt-3">
-        <button className="bg-[#2563EB] hover:bg-[#1E40AF] text-white py-2 px-4 rounded-lg w-full transition-all duration-300 text-base font-medium hover:scale-105 hover:shadow-lg active:scale-95 relative overflow-hidden group/btn">
-         
-          <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-10 transition-opacity duration-300"></div>
-          <span className="relative z-10">Ver perfil</span>
-        </button>
-      </div> */}
-    </div>
+    </article>
   );
 };
