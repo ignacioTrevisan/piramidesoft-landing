@@ -39,70 +39,9 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isCardMounted, setIsCardMounted] = useState(false);
-
-  useEffect(() => {
-    setIsCardMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!cardRef.current || !isCardMounted) return;
-
-    // Limpiar cualquier animación previa
-    gsap.set(cardRef.current, { clearProps: "all" });
-
-    // Asegurarse de que ScrollTrigger está registrado
-    if (typeof window !== "undefined") {
-      gsap.registerPlugin(ScrollTrigger);
-    }
-
-    // Crear la animación con un pequeño retraso para asegurar que todos los elementos estén en el DOM
-    const animation = gsap.fromTo(
-      cardRef.current,
-      {
-        y: 50,
-        opacity: 0,
-      },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        delay: 0.1,
-        scrollTrigger: {
-          trigger: cardRef.current,
-          start: "top bottom-=100",
-          once: true, // dispara una vez; evita pestañeo al scrollear arriba/abajo
-        },
-      }
-    );
-
-    // Forzar un refresh de ScrollTrigger
-    ScrollTrigger.refresh();
-
-    // Como respaldo, asegurar que las tarjetas sean visibles después de 500ms
-    const timer = setTimeout(() => {
-      if (cardRef.current) {
-        cardRef.current.style.opacity = "1";
-        cardRef.current.style.transform = "translateY(0)";
-      }
-      // También intentar hacer visibles todas las tarjetas
-      ensureElementsVisible();
-    }, 500);
-
-    // Limpiar ScrollTrigger al desmontar
-    return () => {
-      animation.kill();
-      clearTimeout(timer);
-      // Solo matar ScrollTriggers específicos de esta tarjeta
-      ScrollTrigger.getAll().forEach((st) => {
-        if (st.vars.trigger === cardRef.current) {
-          st.kill();
-        }
-      });
-    };
-  }, [isCardMounted]);
-
+  // Sin animacion GSAP por card: antes causaba pestañeo al re-disparar
+  // ScrollTriggers individuales al scrollear. La aparicion del grid se
+  // maneja a nivel del contenedor padre con una sola timeline.
   const tienePrecio = product.precioAhora > 0;
 
   return (
@@ -112,12 +51,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       className="h-full block"
     >
       <article
-        ref={cardRef}
-        className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200/70 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 hover:-translate-y-1 transition-all duration-300 card-hover group"
-        style={{
-          opacity: 1,
-          transform: "translateY(0)",
-        }}
+        className="h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200/70 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 dark:hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300 group"
       >
         {/* Imagen - altura fija, siempre igual */}
         <div className="relative h-48 md:h-52 overflow-hidden bg-gray-50 flex-shrink-0">
@@ -155,7 +89,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           />
           {/* Chip del tipo - estilo mas sutil */}
           <div className="absolute top-3 left-3">
-            <span className="inline-flex items-center bg-white/95 backdrop-blur-sm text-[#2563EB] px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+            <span className="inline-flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-[#2563EB] dark:text-blue-300 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
               {product.tipo.titulo}
             </span>
           </div>
@@ -163,11 +97,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Contenido - flex-1 para rellenar y empujar CTA abajo */}
         <div className="flex-1 flex flex-col p-5">
-          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2 group-hover:text-[#2563EB] transition-colors line-clamp-2 min-h-[3.5rem]">
+          <h3 className="text-lg md:text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[3.5rem]">
             {product.titulo}
           </h3>
 
-          <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
             {product.descripcion}
           </p>
 
@@ -177,7 +111,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {product.modulos.slice(0, 3).map((modulo, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center gap-1 bg-blue-50 text-[#1e40af] px-2.5 py-1 rounded-md text-xs font-medium border border-blue-100"
+                  className="inline-flex items-center gap-1 bg-blue-50 dark:bg-blue-950/40 text-[#1e40af] dark:text-blue-300 px-2.5 py-1 rounded-md text-xs font-medium border border-blue-100 dark:border-blue-900/50"
                 >
                   <svg
                     className="w-3 h-3 flex-shrink-0"
@@ -196,7 +130,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 </span>
               ))}
               {product.modulos.length > 3 && (
-                <span className="inline-flex items-center bg-gray-100 text-gray-600 px-2.5 py-1 rounded-md text-xs font-medium">
+                <span className="inline-flex items-center bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 px-2.5 py-1 rounded-md text-xs font-medium">
                   +{product.modulos.length - 3} más
                 </span>
               )}
@@ -204,24 +138,24 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
 
           {/* Footer - precio + CTA, siempre pegado abajo */}
-          <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+          <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between gap-3">
             <div className="flex flex-col">
               {product.precioAntes && product.precioAntes > 0 && (
-                <span className="text-xs text-gray-400 line-through leading-none">
+                <span className="text-xs text-gray-400 dark:text-gray-500 line-through leading-none">
                   ${product.precioAntes.toLocaleString()}
                 </span>
               )}
               {tienePrecio ? (
-                <span className="text-lg font-bold text-[#2563EB] leading-tight">
+                <span className="text-lg font-bold text-[#2563EB] dark:text-blue-400 leading-tight">
                   ${product.precioAhora.toLocaleString()}
                 </span>
               ) : (
-                <span className="text-sm font-semibold text-gray-700 leading-tight">
+                <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 leading-tight">
                   Consultar
                 </span>
               )}
             </div>
-            <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB] group-hover:gap-2 transition-all">
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#2563EB] dark:text-blue-400 group-hover:gap-2 transition-all">
               Ver detalle
               <svg
                 className="w-4 h-4 transition-transform group-hover:translate-x-0.5"
@@ -495,25 +429,25 @@ export function Products() {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-14">
-          <span className="inline-block text-xs font-semibold tracking-widest text-[#2563EB] uppercase mb-3">
+          <span className="inline-block text-xs font-semibold tracking-widest text-[#2563EB] dark:text-blue-400 uppercase mb-3">
             Catálogo
           </span>
           <h1
             ref={titleRef}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gray-900 dark:text-gray-100"
           >
-            Nuestros <span className="text-[#2563EB]">Productos</span>
+            Nuestros <span className="text-[#2563EB] dark:text-blue-400">Productos</span>
           </h1>
-          <div className="w-16 h-1 bg-[#2563EB] rounded-full mx-auto mb-5" />
+          <div className="w-16 h-1 bg-[#2563EB] dark:bg-blue-400 rounded-full mx-auto mb-5" />
           <p
             ref={subtitleRef}
-            className="text-lg md:text-xl text-gray-700 mb-4"
+            className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-4"
           >
             Soluciones pre-desarrolladas para impulsar tu negocio
           </p>
           <div
             ref={descriptionRef}
-            className="max-w-2xl mx-auto text-gray-500 text-base"
+            className="max-w-2xl mx-auto text-gray-500 dark:text-gray-400 text-base"
           >
             <p>
               Ofrecemos productos pre-desarrollados que podés adaptar a tu
@@ -542,7 +476,7 @@ export function Products() {
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                 selectedFilter === "Todos"
                   ? "bg-[#2563EB] text-white shadow-md transform scale-105"
-                  : "bg-white text-gray-600 border border-gray-200 hover:border-[#2563EB] hover:text-[#2563EB] hover:shadow-sm"
+                  : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-[#2563EB] dark:hover:border-blue-500 hover:text-[#2563EB] dark:hover:text-blue-400 hover:shadow-sm"
               }`}
             >
               Todos
@@ -556,7 +490,7 @@ export function Products() {
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedFilter === tipo.titulo
                     ? "bg-[#2563EB] text-white shadow-md transform scale-105"
-                    : "bg-white text-gray-600 border border-gray-200 hover:border-[#2563EB] hover:text-[#2563EB] hover:shadow-sm"
+                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-[#2563EB] dark:hover:border-blue-500 hover:text-[#2563EB] dark:hover:text-blue-400 hover:shadow-sm"
                 }`}
               >
                 {tipo.titulo}
@@ -565,7 +499,7 @@ export function Products() {
           </div>
 
           {/* Results counter */}
-          <div className="text-center text-gray-500">
+          <div className="text-center text-gray-500 dark:text-gray-400">
             <span className="text-xs tracking-wide">
               {selectedFilter === "Todos"
                 ? `${filteredProducts.length} productos disponibles`
@@ -603,12 +537,12 @@ export function Products() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
               {selectedFilter === "Todos"
                 ? "Productos en preparación"
                 : `No hay productos de tipo "${selectedFilter}"`}
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               {selectedFilter === "Todos"
                 ? "Estamos finalizando nuestro catálogo de productos. ¡Pronto estará disponible!"
                 : "Prueba seleccionando otro tipo de producto o 'Todos' para ver todos los productos disponibles."}
@@ -619,7 +553,7 @@ export function Products() {
         {/* Custom Solutions Section */}
         <div
           ref={customSolutionRef}
-          className="bg-white rounded-xl p-6 md:p-10 shadow-md border border-gray-100"
+          className="bg-white dark:bg-gray-900 rounded-xl p-6 md:p-10 shadow-md border border-gray-100 dark:border-gray-800"
           style={{
             opacity: 0,
             transform: "translateY(50px)",
@@ -627,18 +561,18 @@ export function Products() {
         >
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-2/3 mb-6 md:mb-0 md:pr-10">
-              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800">
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
                 ¿Necesitas una solución a medida?
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
                 Además de nuestros productos pre-desarrollados, seguimos
                 ofreciendo el desarrollo de soluciones completamente
                 personalizadas. Nuestro equipo diseñará y construirá el sistema
                 que se adapte perfectamente a los requerimientos específicos de
                 tu negocio.
               </p>
-              <div className="bg-gray-50 border-l-4 border-[#2563EB] p-4 mb-6">
-                <p className="text-gray-700">
+              <div className="bg-gray-50 dark:bg-gray-800/50 border-l-4 border-[#2563EB] p-4 mb-6">
+                <p className="text-gray-700 dark:text-gray-300">
                   <span className="font-medium">Importante:</span> Nuestros
                   productos pre-desarrollados te permiten ahorrar costos y
                   acelerar la implementación, mientras que una solución a medida

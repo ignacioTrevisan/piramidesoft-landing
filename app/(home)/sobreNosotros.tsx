@@ -118,7 +118,7 @@ export const SobreNosotros = () => {
         {nosotros.map((n, index) => (
           <div
             key={n.name}
-            className={`nosotros-card h-full transition-all duration-700 ease-out ${
+            className={`h-full transition-all duration-700 ease-out ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{
