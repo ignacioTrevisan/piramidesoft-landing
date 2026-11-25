@@ -1,11 +1,13 @@
 "use client";
 import { useState, useRef } from "react";
 import { uploadToCloudinary, validateImageFile, validateVideoFile } from "@/app/lib/cloudinary";
+import { isVideoUrl, isEmbedVideoUrl } from "@/app/lib/mediaUtils";
 
 interface MediaUploaderProps {
   onUpload: (url: string) => void;
   currentUrl?: string;
-  type: 'image' | 'video';
+  // 'media' acepta imagen o video indistintamente (detecta por mime type)
+  type: 'image' | 'video' | 'media';
   label: string;
   accept?: string;
   multiple?: boolean;
@@ -34,40 +36,37 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
     // Validaciones básicas para URL
     try {
       new URL(urlInput);
-      
-      if (type === 'video') {
-        // Permitir URLs de YouTube, Vimeo, y videos directos
-        const isValidVideoUrl = 
-          urlInput.includes('youtube.com') ||
-          urlInput.includes('youtu.be') ||
-          urlInput.includes('vimeo.com') ||
-          urlInput.includes('drive.google.com') ||
-          urlInput.match(/\.(mp4|webm|ogg|mov|avi)(\?|$)/i) ||
-          urlInput.includes('cloudinary.com');
-          
-        if (!isValidVideoUrl) {
-          setError('Por favor ingresa una URL válida de video (YouTube, Vimeo, o archivo directo)');
-          return;
-        }
-      } else {
-        // Para imágenes, verificar que sea una URL de imagen
-        const isValidImageUrl = 
-          urlInput.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i) ||
-          urlInput.includes('cloudinary.com') ||
-          urlInput.includes('drive.google.com') ||
-          urlInput.includes('imgur.com') ||
-          urlInput.includes('unsplash.com');
-          
-        if (!isValidImageUrl) {
-          setError('Por favor ingresa una URL válida de imagen (JPG, PNG, WebP, etc.)');
-          return;
-        }
+
+      const isVideoLink =
+        urlInput.includes('youtube.com') ||
+        urlInput.includes('youtu.be') ||
+        urlInput.includes('vimeo.com') ||
+        !!urlInput.match(/\.(mp4|webm|ogg|mov|avi|m4v|mkv)(\?|$)/i) ||
+        (urlInput.includes('cloudinary.com') && urlInput.includes('/video/'));
+
+      const isImageLink =
+        !!urlInput.match(/\.(jpg|jpeg|png|gif|webp|svg|avif)(\?|$)/i) ||
+        (urlInput.includes('cloudinary.com') && !urlInput.includes('/video/')) ||
+        urlInput.includes('imgur.com') ||
+        urlInput.includes('unsplash.com') ||
+        urlInput.includes('drive.google.com');
+
+      if (type === 'video' && !isVideoLink) {
+        setError('Por favor ingresa una URL válida de video (YouTube, Vimeo, o archivo directo)');
+        return;
       }
-      
+      if (type === 'image' && !isImageLink) {
+        setError('Por favor ingresa una URL válida de imagen (JPG, PNG, WebP, etc.)');
+        return;
+      }
+      if (type === 'media' && !isVideoLink && !isImageLink) {
+        setError('Ingresa una URL válida de imagen o video');
+        return;
+      }
+
       onUpload(urlInput);
       setUrlInput('');
       setError(null);
-      
     } catch {
       setError('Por favor ingresa una URL válida');
     }
@@ -84,8 +83,14 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
     try {
       const file = files[0];
 
-      // Validar archivo según el tipo
-      if (type === 'image') {
+      // Determinar si estamos tratando con video o imagen (el modo 'media'
+      // decide automaticamente segun el mime type del archivo).
+      const isVideoFile = file.type.startsWith('video/');
+      const effectiveType: 'image' | 'video' =
+        type === 'media' ? (isVideoFile ? 'video' : 'image') : type;
+
+      // Validar archivo según el tipo efectivo
+      if (effectiveType === 'image') {
         await validateImageFile(file);
       } else {
         validateVideoFile(file);
@@ -102,7 +107,7 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
         });
       }, 200);
 
-      const result = await uploadToCloudinary(file, type);
+      const result = await uploadToCloudinary(file, effectiveType);
       
       clearInterval(progressInterval);
       setUploadProgress(100);
@@ -194,8 +199,10 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
                   }
                 }}
                 placeholder={
-                  type === 'video' 
+                  type === 'video'
                     ? "https://www.youtube.com/watch?v=... o URL directa de video"
+                    : type === 'media'
+                    ? "URL de imagen o video (YouTube, .mp4, .jpg, etc.)"
                     : "https://ejemplo.com/imagen.jpg"
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -219,8 +226,17 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
                 <ul className="list-disc list-inside space-y-1">
                   <li>YouTube: youtube.com/watch?v=... o youtu.be/...</li>
                   <li>Vimeo: vimeo.com/...</li>
-                  <li>Google Drive: drive.google.com/...</li>
                   <li>Videos directos: .mp4, .webm, .ogg</li>
+                  <li>Cloudinary: res.cloudinary.com/...</li>
+                </ul>
+              </div>
+            ) : type === 'media' ? (
+              <div>
+                <p className="font-medium mb-1">Imagen o video:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>Imagenes: .jpg, .png, .webp, .gif</li>
+                  <li>Videos: .mp4, .webm, .mov (hasta 100MB)</li>
+                  <li>YouTube / Vimeo (URL directa)</li>
                   <li>Cloudinary: res.cloudinary.com/...</li>
                 </ul>
               </div>
@@ -275,7 +291,7 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
                 </svg>
               </div>
               <p className="text-sm text-gray-600 mb-2">
-                Arrastra tu {type} aquí o haz clic para seleccionar
+                Arrastra tu {type === 'media' ? 'imagen o video' : type} aquí o haz clic para seleccionar
               </p>
               <button
                 type="button"
@@ -292,12 +308,32 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
         </div>
       )}
 
-      {/* Preview actual */}
+      {/* Preview actual - detecta por URL real si es video o imagen, asi funciona
+          correctamente en modo 'media' donde cada slot puede ser cualquier cosa */}
       {currentUrl && !uploading && (
         <div className="mt-4">
           <p className="text-sm text-gray-600 mb-2">Archivo actual:</p>
           <div className="relative inline-block">
-            {type === 'image' ? (
+            {isEmbedVideoUrl(currentUrl) ? (
+              <div className="w-32 h-24 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                <div className="text-center">
+                  <svg className="w-8 h-8 text-red-600 mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                  <p className="text-xs text-gray-600">YouTube/Vimeo</p>
+                </div>
+              </div>
+            ) : isVideoUrl(currentUrl) ? (
+              <video
+                src={currentUrl}
+                muted
+                playsInline
+                controls
+                preload="metadata"
+                className="w-32 h-24 object-cover rounded-lg border border-gray-200 bg-black"
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={currentUrl}
                 alt="Preview"
@@ -306,24 +342,6 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
                   (e.target as HTMLImageElement).src = "/placeholder-image.jpg";
                 }}
               />
-            ) : (
-              <div className="w-32 h-24 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
-                {currentUrl.includes('youtube.com') || currentUrl.includes('youtu.be') ? (
-                  <div className="text-center">
-                    <svg className="w-8 h-8 text-red-600 mx-auto mb-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    <p className="text-xs text-gray-600">YouTube</p>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <svg className="w-8 h-8 text-gray-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                    <p className="text-xs text-gray-600">Video</p>
-                  </div>
-                )}
-              </div>
             )}
           </div>
         </div>
@@ -333,7 +351,14 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
         ref={fileInputRef}
         type="file"
         onChange={handleFileSelect}
-        accept={accept || (type === 'image' ? 'image/*' : 'video/*')}
+        accept={
+          accept ||
+          (type === 'image'
+            ? 'image/*'
+            : type === 'video'
+            ? 'video/*'
+            : 'image/*,video/*')
+        }
         multiple={multiple}
         className="hidden"
       />
@@ -343,14 +368,19 @@ export const MediaUploader: React.FC<MediaUploaderProps> = ({
         <div className="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg space-y-1">
           {type === 'image' ? (
             <>
-              <p>• <strong>Subida a Cloudinary:</strong> JPG, PNG, WebP (máx. 10MB)</p>
-              <p>• <strong>Recomendación:</strong> Relación de aspecto 1:2 a 2:1 (responsive)</p>
+              <p>• <strong>Imagenes:</strong> JPG, PNG, WebP (máx. 10MB)</p>
               <p>• <strong>Optimización:</strong> Automática al subir</p>
+            </>
+          ) : type === 'video' ? (
+            <>
+              <p>• <strong>Videos:</strong> MP4, WebM, OGG (máx. 100MB)</p>
+              <p>• <strong>Tip:</strong> Para YouTube usa URL directa</p>
             </>
           ) : (
             <>
-              <p>• <strong>Subida a Cloudinary:</strong> MP4, WebM, OGG (máx. 100MB)</p>
-              <p>• <strong>Recomendación:</strong> Para YouTube usa URL directa</p>
+              <p>• <strong>Imagenes:</strong> JPG, PNG, WebP (máx. 10MB)</p>
+              <p>• <strong>Videos:</strong> MP4, WebM, MOV (máx. 100MB)</p>
+              <p>• Se detecta automaticamente segun el archivo</p>
             </>
           )}
         </div>
