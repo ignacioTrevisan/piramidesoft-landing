@@ -94,22 +94,22 @@ export const OurJob = () => {
           }`}
         >
           <div className="flex flex-col gap-2">
-            <span className="text-[#2563eb] font-semibold text-base sm:text-lg">
+            <span className="text-[#2563eb] dark:text-blue-400 font-semibold text-base sm:text-lg">
               El software como servicio
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">
-              Sobre nuestros <span className="text-[#2563eb]">Servicios</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100">
+              Sobre nuestros <span className="text-[#2563eb] dark:text-blue-400">Servicios</span>
             </h2>
           </div>
 
-          <div className="flex flex-col gap-3 sm:gap-4 text-gray-700 text-balance leading-relaxed w-full">
+          <div className="flex flex-col gap-3 sm:gap-4 text-gray-700 dark:text-gray-300 text-balance leading-relaxed w-full">
             <p style={{ fontSize: "14px" }}>
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 Gestión comercial inteligente:
               </span>{" "}
               software listo para usar y diseñado para tu equipo. Con una
               trayectoria centrada en el{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 software de gestión comercial
               </span>
               , ofrecemos soluciones robustas y listas para ser implementadas
@@ -119,23 +119,23 @@ export const OurJob = () => {
             <p style={{ fontSize: "14px" }}>
               Nuestra filosofía de desarrollo se basa en un pilar fundamental:
               la{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 utilidad real y facilidad de uso
               </span>
               . Creamos herramientas tan intuitivas que cualquier integrante de
               tu equipo, incluso quienes no tienen experiencia con la
               tecnología, podrá utilizarlas desde el{" "}
-              <span className="text-[#2563eb] font-semibold">primer día</span>.
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">primer día</span>.
             </p>
 
             <p style={{ fontSize: "14px" }}>
               Sabemos que cada empresa tiene su propia dinámica; por eso, además
               de un producto listo, ofrecemos{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 desarrollo y personalización
               </span>{" "}
               de software para que se adapte exactamente a las{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 necesidades de tu negocio
               </span>
               .
@@ -143,14 +143,14 @@ export const OurJob = () => {
 
             <p style={{ fontSize: "14px" }}>
               Todo esto está respaldado por una{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 atención constante e inmediata
               </span>{" "}
               brindada por personas reales. Nuestro soporte humano te permite
               trabajar con tranquilidad, sabiendo que siempre habrá un
               especialista disponible para resolver tus dudas y asegurar que tu
               operación{" "}
-              <span className="text-[#2563eb] font-semibold">
+              <span className="text-[#2563eb] dark:text-blue-400 font-semibold">
                 nunca se detenga
               </span>
               .
@@ -190,10 +190,10 @@ export const OurJob = () => {
         >
           {/* Breve descripción */}
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
-              Nuestra <span className="text-[#2563eb]">trayectoria </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+              Nuestra <span className="text-[#2563eb] dark:text-blue-400">trayectoria </span>
             </h2>
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed">
               Durante todos estos años hemos crecido y no solo en clientes, sino
               en conocimientos y experiencias
             </p>
@@ -203,62 +203,62 @@ export const OurJob = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Subtítulo 1 */}
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb]">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb] dark:text-blue-400">
                 Clientes
               </h3>
               <p
-                className="text-gray-600 text-sm leading-relaxed"
+                className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
                 style={{ fontSize: "16px" }}
               >
                 Contamos con más de{" "}
-                <span className="font-bold text-[#2563eb]">400</span> clientes
+                <span className="font-bold text-[#2563eb] dark:text-blue-400">400</span> clientes
                 al rededor de toda la argentina.
               </p>
             </div>
 
             {/* Subtítulo 2 */}
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg font-semibold text-[#2563eb]">
+              <h3 className="text-lg font-semibold text-[#2563eb] dark:text-blue-400">
                 Años en el rubro
               </h3>
               <p
-                className="text-gray-600 text-sm leading-relaxed"
+                className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
                 style={{ fontSize: "16px" }}
               >
                 Contamos con más de{" "}
-                <span className="font-bold text-[#2563eb]">30 </span> años
+                <span className="font-bold text-[#2563eb] dark:text-blue-400">30 </span> años
                 trabajando en el desarrollo de software.
               </p>
             </div>
 
             {/* Subtítulo 3 */}
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb]">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb] dark:text-blue-400">
                 Sistemas disponibles
               </h3>
               <p
-                className="text-gray-600 text-sm leading-relaxed"
+                className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
                 style={{ fontSize: "16px" }}
               >
                 Contamos con más de{" "}
-                <span className="font-bold text-[#2563eb]">35 {""}</span>{" "}
+                <span className="font-bold text-[#2563eb] dark:text-blue-400">35 {""}</span>{" "}
                 sistemas funcionando y listos para ser instalados
               </p>
             </div>
 
             {/* Subtítulo 4 */}
             <div className="flex flex-col gap-2">
-              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb]">
+              <h3 className="text-lg sm:text-xl font-semibold text-[#2563eb] dark:text-blue-400">
                 Ramas de servicios
               </h3>
               <p
-                className="text-gray-600 text-sm leading-relaxed"
+                className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed"
                 style={{ fontSize: "16px" }}
               >
                 Actualmente manejamos{" "}
-                <span className="font-bold text-[#2563eb]"> 3</span> ramas en
+                <span className="font-bold text-[#2563eb] dark:text-blue-400"> 3</span> ramas en
                 desarrollo de software{" "}
-                <span className="font-bold text-[#2563eb]">
+                <span className="font-bold text-[#2563eb] dark:text-blue-400">
                   Web, Android, Escritorio {""}
                 </span>{" "}
               </p>

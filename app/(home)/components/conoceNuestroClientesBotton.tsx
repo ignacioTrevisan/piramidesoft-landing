@@ -216,7 +216,7 @@ export default function ClientLogosSection() {
           alt={client.name}
           width={40}
           height={40}
-          className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-200 bg-white p-1 object-cover"
+          className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-100 p-1 object-cover"
           loading="lazy"
         />
       </div>
@@ -227,7 +227,7 @@ export default function ClientLogosSection() {
     <section className="w-full py-8 sm:py-12 md:py-16 overflow-hidden pb-5">
       {/* Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Nuestros Clientes
         </h2>
       </div>
@@ -266,7 +266,7 @@ export default function ClientLogosSection() {
 
       {/* Indicador adicional en móvil */}
       <div className="text-center mt-6 sm:mt-8 md:hidden">
-        <p className="text-xs text-gray-500">Desliza para ver más clientes</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">Desliza para ver más clientes</p>
       </div>
 
       {/* Botón Ver Más - Debajo de los logos */}
