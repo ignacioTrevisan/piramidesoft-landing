@@ -183,7 +183,7 @@ export default function HeroContent() {
   };
 
   return (
-    <div className="w-full pt-6 md:pt-10 justify-center items-center flex flex-col gap-y-2 md:mb-0">
+    <div className="w-full justify-center items-center flex flex-col gap-y-2">
       <h1 className="sr-only">
         Piramide Soft - Desarrollo de Software, Sistemas de Gestión y Páginas
         Web en Entre Ríos, Argentina
@@ -205,7 +205,7 @@ export default function HeroContent() {
         <p
           aria-hidden="true"
           style={{ letterSpacing: "0.11em" }}
-          className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl lg:mt-4 md:mt-6 text-3xl text-center md:text-left mb-4 text-[#2563EB] dark:text-blue-400 claseConFuenteFea"
+          className="xl:text-8xl lg:text-6xl md:text-5xl sm:text-5xl text-3xl text-center md:text-left mb-4 text-[#2563EB] dark:text-blue-400 claseConFuenteFea"
         >
           PIRAMIDE SOFT
         </p>
