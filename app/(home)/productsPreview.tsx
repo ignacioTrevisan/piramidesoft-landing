@@ -105,9 +105,9 @@ const ProductsPreview = () => {
 
   if (loading) {
     return (
-      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative">
+      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] dark:bg-gray-950 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB] dark:text-blue-400">
             Nuestros Productos
           </h2>
           <div className="flex justify-center items-center h-64">
@@ -120,9 +120,9 @@ const ProductsPreview = () => {
 
   if (products.length === 0) {
     return (
-      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative">
+      <div className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] dark:bg-gray-950 relative">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB] dark:text-blue-400">
             Nuestros Productos
           </h2>
           <div className="text-center py-12">
@@ -143,11 +143,11 @@ const ProductsPreview = () => {
 
   return (
     <div
-      className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] relative"
+      className="fatherContainer pt-8 pb-0 bg-[#f2f2f2] dark:bg-gray-950 relative"
       ref={fatherContainer}
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB]">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 text-[#2563EB] dark:text-blue-400">
           Nuestros Productos
         </h2>
 
@@ -162,7 +162,7 @@ const ProductsPreview = () => {
                 ref={(el) => {
                   cardRefs.current[index] = el;
                 }}
-                className="h-full flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-200/70 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 hover:-translate-y-1 transition-all duration-300 group"
+                className="h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200/70 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 dark:hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300 group"
               >
                 {/* Imagen - altura fija, siempre igual */}
                 <div className="relative h-40 bg-gray-50 flex-shrink-0 overflow-hidden">
@@ -195,7 +195,7 @@ const ProductsPreview = () => {
                   )}
                   {/* Chip del tipo */}
                   <div className="absolute top-3 left-3">
-                    <span className="inline-flex items-center bg-white/95 backdrop-blur-sm text-[#2563EB] px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+                    <span className="inline-flex items-center bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm text-[#2563EB] dark:text-blue-300 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
                       {product.tipo.titulo}
                     </span>
                   </div>
@@ -203,20 +203,20 @@ const ProductsPreview = () => {
 
                 {/* Contenido - flex-1 para rellenar y empujar CTA abajo */}
                 <div className="flex-1 flex flex-col p-5">
-                  <h3 className="text-lg font-bold mb-2 text-gray-800 group-hover:text-[#2563EB] transition-colors line-clamp-2 min-h-[3.5rem]">
+                  <h3 className="text-lg font-bold mb-2 text-gray-800 dark:text-gray-100 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors line-clamp-2 min-h-[3.5rem]">
                     {product.titulo}
                   </h3>
 
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3 min-h-[3.75rem]">
                     {product.descripcion}
                   </p>
 
                   {/* Info de módulos y precio - fila compacta */}
-                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100">
+                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-100 dark:border-gray-800">
                     {product.modulos && product.modulos.length > 0 ? (
-                      <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                      <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
                         <svg
-                          className="w-3.5 h-3.5 text-[#2563EB]"
+                          className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -236,16 +236,16 @@ const ProductsPreview = () => {
                     )}
                     <div className="text-right">
                       {product.precioAntes && product.precioAntes > 0 && (
-                        <span className="block text-xs text-gray-400 line-through leading-none">
+                        <span className="block text-xs text-gray-400 dark:text-gray-500 line-through leading-none">
                           ${product.precioAntes.toLocaleString()}
                         </span>
                       )}
                       {tienePrecio ? (
-                        <span className="text-base font-bold text-[#2563EB]">
+                        <span className="text-base font-bold text-[#2563EB] dark:text-blue-400">
                           ${product.precioAhora.toLocaleString()}
                         </span>
                       ) : (
-                        <span className="text-sm font-semibold text-gray-600">
+                        <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
                           Consultar
                         </span>
                       )}
@@ -279,12 +279,12 @@ const ProductsPreview = () => {
         </div>
 
         <div className="mt-10 mb-8 text-center">
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Explora nuestra gama completa de productos
           </p>
           <Link
             href="/productos"
-            className="inline-block bg-transparent border-2 border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-white font-bold py-3 px-6 rounded-lg transition-all"
+            className="inline-block bg-transparent border-2 border-[#2563EB] dark:border-blue-400 text-[#2563EB] dark:text-blue-400 hover:bg-[#2563EB] dark:hover:bg-blue-500 hover:text-white dark:hover:text-white font-bold py-3 px-6 rounded-lg transition-all"
           >
             Ver todos los productos
           </Link>
