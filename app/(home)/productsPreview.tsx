@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { getProducts } from "@/app/action/products/products";
 import { Products } from "@/app/interfaces/products";
 import Image from "next/image";
+import { isVideoUrl, isEmbedVideoUrl } from "@/app/lib/mediaUtils";
 
 const ProductsPreview = () => {
   const fatherContainer = useRef(null);
@@ -164,18 +165,45 @@ const ProductsPreview = () => {
                 }}
                 className="h-full flex flex-col bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-200/70 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-[#2563EB]/30 dark:hover:border-blue-500/30 hover:-translate-y-1 transition-all duration-300 group"
               >
-                {/* Imagen - altura fija, siempre igual */}
-                <div className="relative h-40 bg-gray-50 flex-shrink-0 overflow-hidden">
+                {/* Imagen o video - altura fija, siempre igual */}
+                <div className="relative h-40 bg-gray-50 dark:bg-gray-800 flex-shrink-0 overflow-hidden">
                   {product.imagenes &&
                   product.imagenes.length > 0 &&
                   product.imagenes[0] ? (
-                    <Image
-                      src={product.imagenes[0]}
-                      alt={`${product.titulo} imagen`}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
-                    />
+                    (() => {
+                      const primer = product.imagenes[0];
+                      if (isEmbedVideoUrl(primer)) {
+                        return (
+                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black">
+                            <svg className="w-10 h-10 text-white/90" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        );
+                      }
+                      if (isVideoUrl(primer)) {
+                        return (
+                          <video
+                            src={primer}
+                            muted
+                            loop
+                            playsInline
+                            autoPlay
+                            preload="metadata"
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        );
+                      }
+                      return (
+                        <Image
+                          src={primer}
+                          alt={`${product.titulo} imagen`}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                        />
+                      );
+                    })()
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                       <svg

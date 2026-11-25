@@ -465,11 +465,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
             </div>
           </div>
 
-          {/* Imágenes con Cloudinary */}
+          {/* Imágenes y videos con Cloudinary */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-4">
-              Imágenes del Producto
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Imágenes y videos del Producto
             </label>
+            <p className="text-xs text-gray-500 mb-4">
+              Podés mezclar imágenes y videos en la galería. Videos verticales
+              (9:16) u horizontales (16:9) se adaptan automáticamente.
+            </p>
             <div className="space-y-4">
               {formData.imagenes.map((imagen, index) => (
                 <div
@@ -478,7 +482,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                 >
                   <div className="flex justify-between items-center mb-3">
                     <h4 className="font-medium text-gray-700">
-                      Imagen {index + 1}
+                      Media {index + 1}
                     </h4>
                     <button
                       type="button"
@@ -490,7 +494,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     </button>
                   </div>
                   <MediaUploader
-                    type="image"
+                    type="media"
                     label=""
                     currentUrl={imagen}
                     onUpload={(url) => updateImagen(index, url)}
@@ -515,7 +519,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                <span>Agregar Nueva Imagen</span>
+                <span>Agregar Imagen o Video</span>
               </button>
             </div>
           </div>
