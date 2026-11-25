@@ -4,7 +4,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative w-full flex overflow-hidden flex-col md:flex-row justify-around h-auto md:h-screen items-center px-4 py-8 md:py-0 md:px-10 mt-16 md:mt-20 max-w-[100vw]"
+      className="relative w-full flex overflow-hidden flex-col md:flex-row justify-center items-center px-4 pt-20 md:pt-24 pb-8 md:px-10 min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] max-w-[100vw]"
     >
       {/* Fondo decorativo - gradient radial sutil + patron */}
       <div
