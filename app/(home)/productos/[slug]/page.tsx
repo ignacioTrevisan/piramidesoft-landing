@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ImagesSelected } from "./imagesSelected";
 import { getProducts } from "@/app/action/products/products";
 import { notFound } from "next/navigation";
@@ -5,6 +6,9 @@ import { Products } from "@/app/interfaces/products";
 import { ContactButton } from "@/app/components/ContactButton";
 import { DemoButton } from "@/app/components/DemoButton";
 import { ScannerIncludedCard } from "./ScannerIncludedCard";
+import { isVideoUrl, isEmbedVideoUrl } from "@/app/lib/mediaUtils";
+
+const SITE_URL = "https://piramidesoluciones.com";
 
 // Tipos de producto que incluyen Scanner PiramideSoft (match por substring case-insensitive).
 const TIPOS_CON_SCANNER = [
@@ -94,9 +98,126 @@ export default async function ProductoDetalle({ params }: Props) {
   const mostrarScanner =
     scannerProduct && tipoIncluyeScanner(producto.tipo.titulo);
 
+  // Construir URLs canonical y de media principal
+  const productUrl = `${SITE_URL}/productos/${producto.id}`;
+  const productImages = (producto.imagenes ?? [])
+    .filter((m) => m && !isVideoUrl(m) && !isEmbedVideoUrl(m))
+    .slice(0, 5);
+  // Fallback: si solo hay videos, usamos el logo
+  const ogImages = productImages.length > 0 ? productImages : [`${SITE_URL}/logo_2.png`];
+  const productVideos = (producto.imagenes ?? []).filter(
+    (m) => m && (isVideoUrl(m) || isEmbedVideoUrl(m))
+  );
+
+  // JSON-LD Product Schema - permite rich snippets (precio, disponibilidad)
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${productUrl}#product`,
+    name: producto.titulo,
+    description: producto.descripcion,
+    image: ogImages,
+    category: producto.tipo.titulo,
+    brand: {
+      "@type": "Brand",
+      name: "Piramide Soft",
+    },
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "ARS",
+      price: producto.precioAhora > 0 ? producto.precioAhora : undefined,
+      priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1))
+        .toISOString()
+        .split("T")[0],
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: "Piramide Soft",
+        url: SITE_URL,
+      },
+    },
+    ...(productVideos.length > 0 && {
+      video: productVideos.map((v) => ({
+        "@type": "VideoObject",
+        name: `Video demostrativo de ${producto.titulo}`,
+        description: producto.descripcion,
+        thumbnailUrl: productImages[0] || `${SITE_URL}/logo_2.png`,
+        uploadDate: producto.createdAt,
+        contentUrl: v,
+      })),
+    }),
+  };
+
+  // JSON-LD Breadcrumb Schema - muestra la ruta en Google
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Productos",
+        item: `${SITE_URL}/productos`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: producto.titulo,
+        item: productUrl,
+      },
+    ],
+  };
+
   return (
     <div className="w-full py-8 px-4 max-w-full mt-20">
+      {/* Structured data para rich snippets en Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <div className="max-w-6xl mx-auto">
+        {/* Breadcrumbs visibles */}
+        <nav aria-label="Breadcrumb" className="mb-6 text-sm">
+          <ol className="flex items-center gap-2 flex-wrap text-gray-500 dark:text-gray-400">
+            <li>
+              <Link
+                href="/"
+                className="hover:text-[#2563EB] dark:hover:text-blue-400 transition-colors"
+              >
+                Inicio
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <Link
+                href="/productos"
+                className="hover:text-[#2563EB] dark:hover:text-blue-400 transition-colors"
+              >
+                Productos
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li
+              className="text-gray-800 dark:text-gray-200 font-medium truncate max-w-[14rem] sm:max-w-none"
+              aria-current="page"
+            >
+              {producto.titulo}
+            </li>
+          </ol>
+        </nav>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
           {/* Galería de Imágenes */}
           <div className="md:order-1 order-2 ">
@@ -307,7 +428,8 @@ export async function generateMetadata({ params }: Props) {
       title: `${producto.titulo} | Piramide Soft Entre Ríos`,
       description: descripcion,
       url: `https://piramidesoluciones.com/productos/${producto.id}`,
-      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : ["/logo_2.png"],
+      // Imagen OG generada dinamicamente por opengraph-image.tsx
+      // (card con titulo, tipo y precio del producto)
       type: "website",
       locale: "es_AR",
     },
@@ -315,7 +437,6 @@ export async function generateMetadata({ params }: Props) {
       card: "summary_large_image",
       title: titulo,
       description: descripcion,
-      images: producto.imagenes.length > 0 ? [producto.imagenes[0]] : ["/logo_2.png"],
     },
   };
 }
